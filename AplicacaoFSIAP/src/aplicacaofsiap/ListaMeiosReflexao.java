@@ -60,7 +60,7 @@ public class ListaMeiosReflexao implements Serializable{
      * @return true se adicionar false em caso contrario
      */
     private boolean adicionaMeio(MeioReflexao meio) {
-        if (validaMeio(meio)) {
+        if (!validaMeio(meio)) {
             return listaMeios.add(meio);
         }
         return false;

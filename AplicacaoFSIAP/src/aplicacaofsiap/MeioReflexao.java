@@ -75,8 +75,19 @@ public class MeioReflexao implements Serializable{
         
         return nome.equals(outroMeio.nome);
     }
-    
+    /**
+     * valida se meio pode ser inserido correctamente
+     * @return 
+     */
     public boolean valida(){
         return !(nome == null || nome.isEmpty() || indice < 0);
+    }
+    /**
+     * metodo para imprimir os atributos dos meio reflexao
+     * @return 
+     */
+    @Override
+    public String toString(){
+        return "Meio: "+ nome + " -> Indice Refracção: " + indice;
     }
 }

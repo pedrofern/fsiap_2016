@@ -5,6 +5,8 @@
  */
 package aplicacaofsiap;
 
+import controller.CarregarFicheiroController;
+
 /**
  *
  * @author 
@@ -16,6 +18,13 @@ public class AplicacaoFSIAP {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Simulacao simulacao = new Simulacao();
+        CarregarFicheiroController teste = new CarregarFicheiroController(simulacao);
+        teste.carregaMeios();
+        for(int i=0; i < simulacao.getListaMeios().tamanho(); i++){
+            System.out.println(simulacao.getListaMeios().obterMeioReflexao(i).toString());
+        }
+        
     }
     
 }

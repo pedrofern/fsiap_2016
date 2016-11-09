@@ -21,8 +21,8 @@ public class Simulacao implements Serializable{
         ppr = new PolarizacaoPorReflexao();
     }
     
-    public PolarizacaoPorReflexao getPolarizacaoPorReflexao(){
-        return ppr.getPolarizacaoPorReflexao();
+    public ListaMeiosReflexao getListaMeios(){
+        return ppr.getListaMeios();
     }
     
     

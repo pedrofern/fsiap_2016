@@ -20,13 +20,13 @@ public class PolarizacaoPorReflexao implements Serializable{
         listaMeiosReflexao = new ListaMeiosReflexao();
     }
     
-    public PolarizacaoPorReflexao getPolarizacaoPorReflexao(){
-// ************** alterar se necessário *************************
-        return this;
-    }
+//    public PolarizacaoPorReflexao getPolarizacaoPorReflexao(){
+//// ************** alterar se necessário *************************
+//        return this;
+//    }
     
     public ListaMeiosReflexao getListaMeios(){
-        return listaMeiosReflexao;
+        return this.listaMeiosReflexao;
     }
     
 }
