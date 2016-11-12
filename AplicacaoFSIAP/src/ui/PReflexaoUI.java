@@ -30,7 +30,7 @@ import javax.swing.border.TitledBorder;
  *
  * @author Pedro Fernandes
  */
-public class PReflexaoUI extends JFrame{
+public class PReflexaoUI extends JDialog{
     
     /**
      * Guarda a janela anterior
@@ -85,7 +85,7 @@ public class PReflexaoUI extends JFrame{
      * @param framePai janela anterior
      */
     public PReflexaoUI(DefinirPolarizaoUI framePai){
-        super("LIGHT GO -> Polarização por Reflexão");
+        super(framePai, "LIGHT GO -> Polarização por Reflexão");
         
         this.framePai = framePai;
 //        listaMeios = getlista meios();

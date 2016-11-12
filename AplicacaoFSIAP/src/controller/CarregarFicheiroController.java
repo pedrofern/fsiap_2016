@@ -27,16 +27,16 @@ public class CarregarFicheiroController {
     
     private ListaMeiosReflexao lm;
     
-    private static final String FICHEIRO_MEIOS = "src/ficheiros/meioReflexao.txt";
+//    private static final String FICHEIRO_MEIOS = "src/ficheiros/meioReflexao.txt";
     
     public CarregarFicheiroController(Simulacao s){
         simulacao=s;
         lm=simulacao.getListaMeios();
     }
     
-    public boolean carregaMeios(){
+    public boolean carregaMeios(String ficheiro){
         try {
-            Scanner fInput = new Scanner(new File(FICHEIRO_MEIOS));
+            Scanner fInput = new Scanner(new File(ficheiro));
             while (fInput.hasNextLine()) {
                 String str = fInput.nextLine();
                 if (!str.isEmpty()) {

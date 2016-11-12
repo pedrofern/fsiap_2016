@@ -45,21 +45,23 @@ public class DefinirPolarizaoUI extends JFrame{
      */
     private static final int JANELA_ALTURA_MINIMO = 450;      
     /**
-     * Representa o botão entrar (na aplicação)
+     * Representa o botão absorcao
      */
     private JButton botaoAbsorcao;
     /**
-     * Representa o botão entrar (na aplicação)
+     * Representa o botão reflexao
      */
     private JButton botaoReflexao;
     /**
-     * Representa o botão entrar (na aplicação)
+     * Representa o botão carrega
      */
-    private JButton botaoSair;
+    private JButton botaoCarrega;
     /**
      * Identifica a janela principal
      */
     private DefinirPolarizaoUI framePai;
+    private PReflexaoUI prui;
+    private CarregarFicheiroUI cfui;
     
     private Simulacao s;
     
@@ -109,6 +111,7 @@ public class DefinirPolarizaoUI extends JFrame{
                 MARGEM_ESQUERDA, MARGEM_INFERIOR, MARGEM_DIREITA));
         p.add(criarBotaoAbsorcao());
         p.add(criarBotaoReflexao());
+        p.add(criarBotaoCarregaFich());
         p.add(criarBotaoSair());
 
         this.getRootPane().setDefaultButton(botaoAbsorcao);
@@ -120,35 +123,52 @@ public class DefinirPolarizaoUI extends JFrame{
      * @return botão absorcao
      */
     private JButton criarBotaoAbsorcao() {
-        JButton botao = new JButton("Absorção");
-        botao.setMnemonic(KeyEvent.VK_A);
-        botao.setToolTipText("Simula uma Polarização por Absorção");
-        botao.addActionListener(new ActionListener() {
+        botaoAbsorcao = new JButton("Absorção");
+        botaoAbsorcao.setMnemonic(KeyEvent.VK_A);
+        botaoAbsorcao.setToolTipText("Simula uma Polarização por Absorção");
+        botaoAbsorcao.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 absorcao();
             }
         });
 
-        return botao;
+        return botaoAbsorcao;
+    }
+    /**
+     * cria botão carrega
+     * @return botão carrega
+     */
+    private JButton criarBotaoCarregaFich() {
+        botaoAbsorcao = new JButton("Carregar Ficheiro");
+        botaoAbsorcao.setMnemonic(KeyEvent.VK_C);
+        botaoAbsorcao.setToolTipText("Carrega os Meios de Reflexao através ficheiro txt");
+        botaoAbsorcao.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carregaFicheiro();
+            }
+        });
+
+        return botaoAbsorcao;
     }
     /**
      * cria botão reflexao
      * @return botão reflexao
      */
     private JButton criarBotaoReflexao() {
-        JButton botao = new JButton("Reflexão");
-        botao.setMnemonic(KeyEvent.VK_R);
-        botao.setToolTipText("Simula uma Polarização por Reflexão");
-
-        botao.addActionListener(new ActionListener() {
+        botaoReflexao = new JButton("Reflexão");
+        botaoReflexao.setMnemonic(KeyEvent.VK_R);
+        botaoReflexao.setToolTipText("Simula uma Polarização por Reflexão");
+                
+        botaoReflexao.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 reflexao();
             }
         });
 
-        return botao;
+        return botaoReflexao;
     }
     /**
      * cria botão Sair
@@ -203,12 +223,30 @@ public class DefinirPolarizaoUI extends JFrame{
     private JMenu criarMenuMenu() {
         JMenu menu = new JMenu("Menu");
         menu.setMnemonic(KeyEvent.VK_M);
-
+        
+        menu.add(criarItemCarregarFicheiroMateriais());
+        menu.addSeparator();
         menu.add(criarItemAbsorcao());
         menu.add(criarItemReflexao());
+        menu.addSeparator();
         menu.add(criarItemSair());
 
         return menu;
+    }
+    /**
+     * cria MenuItem Sair
+     * @return MenuItem Sair
+     */
+    private JMenuItem criarItemCarregarFicheiroMateriais() {
+        JMenuItem item = new JMenuItem("Carregar Materiais", KeyEvent.VK_C);
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.ALT_MASK));
+        item.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carregaFicheiro();
+            }
+        });
+        return item;
     }
     /**
      * cria menu Opções na barra menu
@@ -349,7 +387,13 @@ public class DefinirPolarizaoUI extends JFrame{
      * Método para abrir PolarizacaoPorReflexao 
      */
     private void reflexao() {
-        PReflexaoUI prui = new PReflexaoUI(DefinirPolarizaoUI.this);
+        prui = new PReflexaoUI(DefinirPolarizaoUI.this);
+    }
+    /**
+     * Método para abrir PolarizacaoPorReflexao 
+     */
+    private void carregaFicheiro() {
+        cfui = new CarregarFicheiroUI(DefinirPolarizaoUI.this, s);
     }
     /**
      * Método para guardar a informação em ficheiro e fechar a aplicação
