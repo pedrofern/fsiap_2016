@@ -17,6 +17,7 @@ public class Simulacao implements Serializable{
     
     PolarizacaoPorReflexao ppr;
     
+    
     public Simulacao(){
         ppr = new PolarizacaoPorReflexao();
     }
@@ -26,6 +27,15 @@ public class Simulacao implements Serializable{
     }
 
     public ListaPReflexao getListaPReflexao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public ListaEstatistica getListaEstatistica(){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    public boolean gerarImagem(PolarizacaoPorReflexao pr) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

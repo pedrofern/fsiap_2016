@@ -6,10 +6,9 @@
 package aplicacaofsiap;
 
 /**
- * Classe para guardar os resultados obtidos nas simulações de polarização para fins de estatística
+ *
  * @author Diana Silva
  */
-public class ListaPReflexao {
-
+public class FeixeDeLuzResultante {
     
 }

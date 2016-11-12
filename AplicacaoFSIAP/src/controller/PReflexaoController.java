@@ -30,24 +30,24 @@ public class PReflexaoController {
         return s.getListaMeios();
     }
     
-    public boolean setMeioReflexao1(MeioReflexao meio){
-        return pr.setMeioReflexao1(meio);
+    public boolean setMeioReflexao1(MeioReflexao meio1){
+        return pr.setMeioReflexao1(meio1);
     }
     
-    public boolean setMeioReflexao2(MeioReflexao meio){
-        return pr.setMeioReflexao2(meio);
+    public boolean setMeioReflexao2(MeioReflexao meio2){
+        return pr.setMeioReflexao2(meio2);
     }
     
     public boolean setAngulo(double angulo){
         return pr.setAngulo(angulo);
     }
     
-    public ListaPReflexao getListaPReflexao(){
-        return s.getListaPReflexao();
+    public boolean gerarResultado(PolarizacaoPorReflexao pr){
+        return s.gerarImagem(pr);
     }
     
-    public boolean registaPolarizacao(){
-        return s.getListaPReflexao().registaPolarizacao();
+    public boolean addEstatisticaALista(PolarizacaoPorReflexao pr){
+        return s.getListaEstatistica().addPolarizacaEstatistica(pr);
     }
             
 }
