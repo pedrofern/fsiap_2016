@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -80,6 +82,13 @@ public class DefinirPolarizaoUI extends JFrame{
         setLocationRelativeTo(null);
         pack();
         setVisible(true);
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                terminar();
+            }
+        });
     }
     
     /**
@@ -285,10 +294,15 @@ public class DefinirPolarizaoUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(DefinirPolarizaoUI.this,
-                    "@Copyright\nFSIAP 2015/2016\n\n"
-                            + "Aplicação sobre:\n"
-                            + "- Polarização Absorção\n"
-                            + "- Polarização Reflexão\n",
+                    "@Copyright\nFSIAP 2015/2016\n"
+                        + "\nAplicação sobre:\n"
+                        + "- Polarização Absorção\n"
+                        + "- Polarização Reflexão\n"
+                        + "\nTurma: 2DJ - Grupo 4:\n"
+                        + "1151088 - Diana Silva\n" 
+                        + "1150693 - Gonçalo Silva\n" 
+                        + "1140808 - Hélder Silva\n" 
+                        + "1060503 - Pedro Fernandes\n",                            
                     "Acerca",
                     JOptionPane.INFORMATION_MESSAGE);
             }
@@ -300,7 +314,7 @@ public class DefinirPolarizaoUI extends JFrame{
      * @return MenuItem absorcao
      */
     private JMenuItem criarItemAbsorcao() {
-        JMenuItem item = new JMenuItem("Polarização Absorção", KeyEvent.VK_A);
+        JMenuItem item = new JMenuItem("Absorção", KeyEvent.VK_A);
         item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.ALT_MASK));
         item.addActionListener(new ActionListener() {
             @Override
@@ -315,7 +329,7 @@ public class DefinirPolarizaoUI extends JFrame{
      * @return MenuItem absorcao
      */
     private JMenuItem criarItemReflexao() {
-        JMenuItem item = new JMenuItem("Polarização Reflexão", KeyEvent.VK_R);
+        JMenuItem item = new JMenuItem("Reflexão", KeyEvent.VK_R);
         item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.ALT_MASK));
         item.addActionListener(new ActionListener() {
             @Override
@@ -335,14 +349,14 @@ public class DefinirPolarizaoUI extends JFrame{
      * Método para abrir PolarizacaoPorReflexao 
      */
     private void reflexao() {
-        //implementar
+        PReflexaoUI prui = new PReflexaoUI(DefinirPolarizaoUI.this);
     }
     /**
      * Método para guardar a informação em ficheiro e fechar a aplicação
      */
-    private void terminar() {
+    private void terminar() {        
         // implementar para guardar informacao em ficheiro
-        dispose();
+        dispose(); 
     }
     
 }
