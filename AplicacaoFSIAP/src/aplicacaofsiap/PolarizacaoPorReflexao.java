@@ -6,6 +6,7 @@
 package aplicacaofsiap;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Classe que permite gerir e guardar informações relativas à simulação da 
@@ -65,6 +66,22 @@ public class PolarizacaoPorReflexao implements Serializable{
     }
     
     /**
+     * Retorna o ângulo da reflexão
+     * @return ângulo da reflexão
+     */
+    public double getFeixe1(){
+        return resultado1.getAnguloResultante();
+    }
+    
+    /**
+     * Retorna o ângulo de Brewster
+     * @return ângulo de Brewster
+     */
+    public double getFeixe2(){
+        return resultado2.getAnguloResultante();
+    }
+    
+    /**
      * Altera o meio de origem do feixe de luz
      * @param meio1 meio para o qual se pretende alterar
      * @return true se alterou, caso contrário false
@@ -116,9 +133,9 @@ public class PolarizacaoPorReflexao implements Serializable{
      * @return true se criou os dois feixes de luz resultantes, caso contrário false
      */
     public boolean gerarResultado(){
-        resultado1.calcularAnguloReflexaoBrewster();
+        resultado1.calcularAnguloReflexaoBrewster(feixeLuzIncidente.getAnguloDeIncidencia());
 
-        resultado2.calcularAnguloRefracaoBrewster();
+        resultado2.calcularAnguloRefracaoBrewster(meio1.getIndiceRefracao(), meio2.getIndiceRefracao());
         
         return resultado1.getAnguloResultante()!=-1000 && resultado2.getAnguloResultante()!=-1000;
     }
@@ -136,5 +153,23 @@ public class PolarizacaoPorReflexao implements Serializable{
         return meio1.equals(outraPolarizacao.getMeioPolarizacao1()) && meio2.equals(outraPolarizacao.getMeioPolarizacao2())
                 && feixeLuzIncidente.equals(outraPolarizacao.getFeixeDeLuzIncidente());
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.feixeLuzIncidente);
+        hash = 89 * hash + Objects.hashCode(this.meio1);
+        hash = 89 * hash + Objects.hashCode(this.meio2);
+        return hash;
+    }
+     
+     /**
+      * Devolve a descrição textual da polarização por reflexão
+      * @return descrição textual da polarização por reflexão
+      */
+    @Override
+     public String toString(){
+         return "Polarização por reflexão: " + "\tmeio1: " + meio1 + "\tmeio2: " + meio2 + "\tângulo de incidência: " + feixeLuzIncidente.getAnguloDeIncidencia();
+     }
     
 }

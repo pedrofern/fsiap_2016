@@ -72,7 +72,9 @@ public class PReflexaoController {
      * @return true se gerou resultado, false se não gerou
      */
     public boolean gerarResultado(PolarizacaoPorReflexao pr){
-        return s.gerarImagem(pr);
+        //s.gerarImagem(pr);
+        return pr.gerarResultado();
+                
     }
     
     /**

@@ -88,6 +88,6 @@ public class MeioReflexao implements Serializable{
      */
     @Override
     public String toString(){
-        return "Meio: "+ nome + " -> Indice Refracção: " + indice;
+        return "Meio: "+ nome;
     }
 }

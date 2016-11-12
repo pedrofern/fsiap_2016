@@ -43,13 +43,24 @@ public class FeixeDeLuzResultante {
         this.anguloResultante = anguloResultante;
     }  
     
-
-    public void calcularAnguloReflexaoBrewster() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * Calcula o ângulo do feixe de reflexão
+     * @param anguloIncidencia ângulo do feixe de luz de incidência
+     */
+    public void calcularAnguloReflexaoBrewster(double anguloIncidencia) {
+        anguloResultante=anguloIncidencia;
     }
 
-    public void calcularAnguloRefracaoBrewster() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * 
+     * @param n1 índice de refração do meio externo
+     * @param n2 índice de refração do meio a incidir
+     */
+    public void calcularAnguloRefracaoBrewster(double n1, double n2) {
+       //converter o ãngulo de graus para radianos (n2/n1)
+       double angulo=Math.toRadians(n2/n1);
+       double resultadoRadianos= Math.atan(angulo);
+       anguloResultante=Math.toDegrees(resultadoRadianos);
     }
 
     

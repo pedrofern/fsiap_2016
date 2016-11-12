@@ -7,6 +7,9 @@ package ui;
 
 import aplicacaofsiap.ListaMeiosReflexao;
 import aplicacaofsiap.MeioReflexao;
+import aplicacaofsiap.PolarizacaoPorReflexao;
+import aplicacaofsiap.Simulacao;
+import controller.PReflexaoController;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -19,11 +22,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -39,11 +41,7 @@ public class PReflexaoUI extends JDialog{
     /**
      * Guarda a largura mínima da janela em píxeis.
      */
-    private static final int JANELA_LARGURA_MINIMO = 900;
-    /**
-     * Guarda a altura mínima da janela em píxeis.
-     */
-    private static final int JANELA_ALTURA_MINIMO = 550; 
+    private static final int JANELA_LARGURA_MINIMO = 900, JANELA_ALTURA_MINIMO = 550; 
     /**
      * Guarda a dimensão de uma label por omissão
      */
@@ -52,44 +50,48 @@ public class PReflexaoUI extends JDialog{
     /**
      * Guarda o angulo1
      */
-    private JTextField angTxt1;
-    /**
-     * Guarda o angulo2
-     */
-    private JTextField angTxt2;
+    private JTextField angTxt1, angTxt2, angTxt3;
     /**
      * Guarda o botao nova simulacao
      */
-    private JButton novaSimulacao;
-    /**
-     * Guarda o botao simular
-     */
-    private JButton simular;
+    private JButton novaSimulacao,simular;
     /**
      * Guarda lista com materiais numa combobox
      */
-    private JComboBox comboMateriais1;
-    /**
-     * Guarda lista com materiais numa combobox
-     */
-    private JComboBox comboMateriais2;
+    private JComboBox comboMateriais1, comboMateriais2;
     /**
      * Guarda lista dos materiais
      */
     private ListaMeiosReflexao listaMeios;
     
+    /**
+     * Guarda a simulação recebida por parâmetro
+     */
+    private Simulacao s;
     
+    /**
+     * O controller da Polarização por Reflexão
+     */
+    private PReflexaoController controller;
+    
+    /**
+     * A polarização por reflexão que iremos simular
+     */
+    private PolarizacaoPorReflexao pr;
     /**
      * Constroi uma janela para simular polarizao por reflexao
      * recebendo a janela anterior como parametro
      * @param framePai janela anterior
      */
-    public PReflexaoUI(DefinirPolarizaoUI framePai){
+    public PReflexaoUI(DefinirPolarizaoUI framePai, Simulacao s, PolarizacaoPorReflexao pr){
         super(framePai, "LIGHT GO -> Polarização por Reflexão");
         
         this.framePai = framePai;
-//        listaMeios = getlista meios();
-listaMeios =new ListaMeiosReflexao();
+        this.s=s;
+        this.pr=pr;
+        this.controller=new PReflexaoController(s, pr);
+             
+        listaMeios =controller.getListaMeios();
         
         criarComponentes();
         
@@ -118,9 +120,7 @@ listaMeios =new ListaMeiosReflexao();
         JPanel p = new JPanel();
         
         p.setBorder(new TitledBorder("Escolher materiais e angulo entrada:"));
-        
-        
-        
+
         p.add(criarPainelMateriaisAngulo(),BorderLayout.CENTER);
         p.add(criarPainelBotaoUnico(criarBotaoSimular()),BorderLayout.SOUTH);
         simular.setEnabled(true);
@@ -174,16 +174,16 @@ listaMeios =new ListaMeiosReflexao();
         
         p.setBorder(new TitledBorder("Ângulos:"));
         
-        angTxt1 = new JTextField(10);
         angTxt2 = new JTextField(10);
-        angTxt1.setEditable(false);
+        angTxt3 = new JTextField(10);
         angTxt2.setEditable(false);
+        angTxt3.setEditable(false);
         
         String label1="Ângulo 1 (º Graus):";
         String label2="Ângulo 2 (º Graus):";
         
-        p.add(criarPainelLabelTextfield(label1, angTxt1));
-        p.add(criarPainelLabelTextfield(label2, angTxt2));
+        p.add(criarPainelLabelTextfield(label1, angTxt2));
+        p.add(criarPainelLabelTextfield(label2, angTxt3));
         
         return p;
         
@@ -270,7 +270,20 @@ listaMeios =new ListaMeiosReflexao();
         simular.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //implementar
+ 
+                MeioReflexao meio1=(MeioReflexao)comboMateriais1.getSelectedItem();
+                MeioReflexao meio2=(MeioReflexao)comboMateriais2.getSelectedItem();
+                controller.setMeioReflexao1(meio1);
+                controller.setMeioReflexao2(meio2);
+                controller.setAngulo(Double.parseDouble(angTxt1.getText()));
+                
+                if(controller.gerarResultado(pr)==true){
+                    angTxt2.setText(Double.toString(pr.getFeixe1()));
+                    angTxt3.setText(Double.toString(pr.getFeixe2()));     
+                }
+                else{
+                    JOptionPane.showMessageDialog(rootPane, "Não foi possível gerar os resultados.", "Inane error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 

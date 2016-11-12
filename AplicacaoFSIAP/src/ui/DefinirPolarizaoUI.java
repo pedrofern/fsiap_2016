@@ -5,6 +5,7 @@
  */
 package ui;
 
+import aplicacaofsiap.PolarizacaoPorReflexao;
 import aplicacaofsiap.Simulacao;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -387,7 +388,8 @@ public class DefinirPolarizaoUI extends JFrame{
      * Método para abrir PolarizacaoPorReflexao 
      */
     private void reflexao() {
-        prui = new PReflexaoUI(DefinirPolarizaoUI.this);
+        PolarizacaoPorReflexao pr=new PolarizacaoPorReflexao();
+        prui = new PReflexaoUI(DefinirPolarizaoUI.this, s,pr);
     }
     /**
      * Método para abrir PolarizacaoPorReflexao 
