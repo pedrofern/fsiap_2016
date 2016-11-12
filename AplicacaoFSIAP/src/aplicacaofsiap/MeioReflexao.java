@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * Classe que identifica cada meio reflexao
  * 
- * @author Pedro Fernandes
+ * @author Pedro Fernandesz
  */
 public class MeioReflexao implements Serializable{
     
@@ -43,7 +43,7 @@ public class MeioReflexao implements Serializable{
     public void setNome(String nome) {
         this.nome = nome;
     }
-
+    
     /**
      * @return the indice refracao
      */

@@ -7,8 +7,8 @@ package aplicacaofsiap;
 
 /**
  *
- * @author Diana Silva
+ * @author NANA
  */
-class ListaPReflexao {
+class ListaPAbsorcao {
     
 }

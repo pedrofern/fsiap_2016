@@ -60,7 +60,7 @@ public class ListaMeiosReflexao implements Serializable{
      * @return true se adicionar false em caso contrario
      */
     private boolean adicionaMeio(MeioReflexao meio) {
-        if (!validaMeio(meio)) {
+        if (validaMeio(meio)) {
             return listaMeios.add(meio);
         }
         return false;
@@ -71,7 +71,7 @@ public class ListaMeiosReflexao implements Serializable{
      * @return false se existir na lista, true se nao existir
      */
     private boolean validaMeio(MeioReflexao meio){
-        return listaMeios.contains(meio);
+        return !listaMeios.contains(meio);
     }
     
     public boolean registaMeio(MeioReflexao m){
