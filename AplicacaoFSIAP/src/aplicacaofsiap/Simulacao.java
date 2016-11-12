@@ -24,6 +24,10 @@ public class Simulacao implements Serializable{
     public ListaMeiosReflexao getListaMeios(){
         return ppr.getListaMeios();
     }
+
+    public ListaPReflexao getListaPReflexao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 }
