@@ -47,8 +47,12 @@ public class FeixeDeLuzResultante {
      * Calcula o ângulo do feixe de reflexão
      * @param anguloIncidencia ângulo do feixe de luz de incidência
      */
-    public void calcularAnguloReflexaoBrewster(double anguloIncidencia) {
-        anguloResultante=anguloIncidencia;
+    public void calcularAnguloReflexaoBrewster(double anguloIncidencia, MeioReflexao meio1, MeioReflexao meio2) {
+        //se forem 2 materiais diferentes
+        if(!meio1.equals(meio2))
+                anguloResultante=anguloIncidencia;
+        else
+            anguloResultante=anguloIncidencia+90;
     }
 
     /**
@@ -57,10 +61,17 @@ public class FeixeDeLuzResultante {
      * @param n2 índice de refração do meio a incidir
      */
     public void calcularAnguloRefracaoBrewster(double n1, double n2) {
-       //converter o ãngulo de graus para radianos (n2/n1)
-       double angulo=Math.toRadians(n2/n1);
-       double resultadoRadianos= Math.atan(angulo);
-       anguloResultante=Math.toDegrees(resultadoRadianos);
+       //quando incidimos a reflexão no ar, não há polarização
+       if(n1!=n2 && n2!=1){
+           //angulo brewster=arctg(n2/n1)
+            double brewster=Math.atan(n2/n1);
+            //converter o ãngulo de graus para radianos (n2/n1)
+            anguloResultante=Math.toDegrees(brewster);
+
+       //se os 2 materiais forem iguais não há polarização 
+       }else
+           anguloResultante=0;
+       
     }
 
     

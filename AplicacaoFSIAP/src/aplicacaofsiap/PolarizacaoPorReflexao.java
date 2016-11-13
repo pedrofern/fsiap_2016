@@ -133,7 +133,7 @@ public class PolarizacaoPorReflexao implements Serializable{
      * @return true se criou os dois feixes de luz resultantes, caso contrário false
      */
     public boolean gerarResultado(){
-        resultado1.calcularAnguloReflexaoBrewster(feixeLuzIncidente.getAnguloDeIncidencia());
+        resultado1.calcularAnguloReflexaoBrewster(feixeLuzIncidente.getAnguloDeIncidencia(), meio1, meio2);
 
         resultado2.calcularAnguloRefracaoBrewster(meio1.getIndiceRefracao(), meio2.getIndiceRefracao());
         
