@@ -50,7 +50,7 @@ public class PReflexaoUI extends JDialog{
     /**
      * Guarda o angulo1
      */
-    private JTextField angTxt1, angTxt2, angTxt3;
+    private JTextField angTxt1, angTxt2, angTxt3, angTxt4;
     /**
      * Guarda o botao nova simulacao
      */
@@ -176,14 +176,18 @@ public class PReflexaoUI extends JDialog{
         
         angTxt2 = new JTextField(10);
         angTxt3 = new JTextField(10);
+        angTxt4= new JTextField(10);
         angTxt2.setEditable(false);
         angTxt3.setEditable(false);
+        angTxt4.setEditable(false);
         
-        String label1="Ângulo 1 (º Graus):";
-        String label2="Ângulo 2 (º Graus):";
+        String label1="Ângulo Reflexão (º Graus):";
+        String label2="Ângulo Refração (º Graus):";
+        String label3="Ângulo Brewster (º Graus):";
         
         p.add(criarPainelLabelTextfield(label1, angTxt2));
         p.add(criarPainelLabelTextfield(label2, angTxt3));
+        p.add(criarPainelLabelTextfield(label3, angTxt4));
         
         return p;
         
@@ -278,8 +282,9 @@ public class PReflexaoUI extends JDialog{
                 controller.setAngulo(Double.parseDouble(angTxt1.getText()));
                 
                 if(controller.gerarResultado(pr)==true){
-                    angTxt2.setText(Double.toString(pr.getFeixe1()));
-                    angTxt3.setText(Double.toString(pr.getFeixe2()));     
+                    angTxt2.setText(String.format("%.2f", pr.getFeixe1()));
+                    angTxt3.setText(String.format("%.2f", pr.getFeixe2())); 
+                    angTxt4.setText(String.format("%.2f", pr.getAnguloBrewster()));
                 }
                 else{
                     JOptionPane.showMessageDialog(rootPane, "Não foi possível gerar os resultados.", "Inane error", JOptionPane.ERROR_MESSAGE);

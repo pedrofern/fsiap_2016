@@ -25,9 +25,14 @@ public class PolarizacaoPorReflexao implements Serializable{
      */
     private MeioReflexao meio1,meio2;
     /**
-     * os feixes luz de resultantes (resultante da reflexão, luz polarizada)
+     * os feixes luz de resultantes (resultante da reflexão e da refração)
      */
-    private FeixeDeLuzResultante resultado1, resultado2;
+    private FeixeDeLuzResultante feixeReflexao, feixeRefracao;
+    
+    /**
+     * ângulo de Brewster
+    */
+    private double anguloBrewster;
     
     /**
      * Constrói uma instância de PolarizacaoPorReflexao, criando os atributos
@@ -37,8 +42,9 @@ public class PolarizacaoPorReflexao implements Serializable{
         meio1=new MeioReflexao();
         meio2=new MeioReflexao();
         feixeLuzIncidente=new FeixeDeLuzIncidente();
-        resultado1=new FeixeDeLuzResultante();
-        resultado2=new FeixeDeLuzResultante();
+        feixeReflexao=new FeixeDeLuzResultante();
+        feixeRefracao=new FeixeDeLuzResultante();
+        anguloBrewster=0;
     }
     
     /**
@@ -70,15 +76,23 @@ public class PolarizacaoPorReflexao implements Serializable{
      * @return ângulo da reflexão
      */
     public double getFeixe1(){
-        return resultado1.getAnguloResultante();
+        return feixeReflexao.getAnguloResultante();
+    }
+    
+    /**
+     * Retorna o ângulo do feixe de refração
+     * @return ângulo do feixe de refração
+     */
+    public double getFeixe2(){
+        return feixeRefracao.getAnguloResultante();
     }
     
     /**
      * Retorna o ângulo de Brewster
-     * @return ângulo de Brewster
+     * @return ãngulo de Brewster
      */
-    public double getFeixe2(){
-        return resultado2.getAnguloResultante();
+    public double getAnguloBrewster(){
+        return anguloBrewster;
     }
     
     /**
@@ -133,11 +147,13 @@ public class PolarizacaoPorReflexao implements Serializable{
      * @return true se criou os dois feixes de luz resultantes, caso contrário false
      */
     public boolean gerarResultado(){
-        resultado1.calcularAnguloReflexaoBrewster(feixeLuzIncidente.getAnguloDeIncidencia(), meio1, meio2);
+        feixeReflexao.calcularAnguloReflexaoBrewster(feixeLuzIncidente.getAnguloDeIncidencia(), meio1, meio2);
 
-        resultado2.calcularAnguloRefracaoBrewster(meio1.getIndiceRefracao(), meio2.getIndiceRefracao());
+        anguloBrewster=feixeRefracao.calcularAnguloRefracaoBrewster(meio1.getIndiceRefracao(), meio2.getIndiceRefracao());
         
-        return resultado1.getAnguloResultante()!=-1000 && resultado2.getAnguloResultante()!=-1000;
+        feixeRefracao.calcularAnguloRefracao(meio1.getIndiceRefracao(), meio2.getIndiceRefracao(), feixeLuzIncidente.getAnguloDeIncidencia());
+        
+        return feixeReflexao.getAnguloResultante()!=-1000 && feixeRefracao.getAnguloResultante()!=-1000;
     }
     
     @Override

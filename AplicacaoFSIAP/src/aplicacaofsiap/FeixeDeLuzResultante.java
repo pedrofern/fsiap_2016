@@ -60,19 +60,32 @@ public class FeixeDeLuzResultante {
      * @param n1 índice de refração do meio externo
      * @param n2 índice de refração do meio a incidir
      */
-    public void calcularAnguloRefracaoBrewster(double n1, double n2) {
+    public double calcularAnguloRefracaoBrewster(double n1, double n2) {
        //quando incidimos a reflexão no ar, não há polarização
        if(n1!=n2 && n2!=1){
            //angulo brewster=arctg(n2/n1)
             double brewster=Math.atan(n2/n1);
             //converter o ãngulo de graus para radianos (n2/n1)
-            anguloResultante=Math.toDegrees(brewster);
-
+            anguloResultante=Math.toDegrees(brewster);         
+            
        //se os 2 materiais forem iguais não há polarização 
+       }else
+           anguloResultante=0;
+       return anguloResultante;
+       
+    }
+
+    public void calcularAnguloRefracao(double n1, double n2, double angReflexao) {
+       //quando incidimos a reflexão no ar, não há refração
+       if(n1!=n2 && n2!=1){
+           //n1senOreflexao=n2sen0refracao   logo 0refracao= (n1.sen0reflexao)/n2              
+          //quando é superior a 60 Agua-Vidro da erro
+                anguloResultante=n1*Math.toDegrees((Math.asin(Math.toRadians(angReflexao))))/n2; 
+        
+       //se os 2 materiais forem iguais não há refração
        }else
            anguloResultante=0;
        
     }
 
-    
 }
