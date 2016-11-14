@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aplicacaofsiap;
+package aplicacaofsiap.Absorcao;
+
+import aplicacaofsiap.Absorcao.Lente;
 
 /**
  *
  * @author Helder
  */
-public class Analisador extends Lente{
-
-    public Analisador(double angulo_emGraus) {
+public class Polarizador extends Lente{
+        
+    public Polarizador(double angulo_emGraus) {
         super(angulo_emGraus);
     }
-    
-    
-    
 }
