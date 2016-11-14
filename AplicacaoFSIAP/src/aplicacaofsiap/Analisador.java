@@ -9,6 +9,12 @@ package aplicacaofsiap;
  *
  * @author Helder
  */
-public class Analisador {
+public class Analisador extends Lente{
+
+    public Analisador(double angulo_emGraus) {
+        super(angulo_emGraus);
+    }
+    
+    
     
 }

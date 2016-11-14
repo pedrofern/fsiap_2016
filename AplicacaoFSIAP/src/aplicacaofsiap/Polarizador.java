@@ -9,6 +9,9 @@ package aplicacaofsiap;
  *
  * @author Helder
  */
-public class Polarizador {
-    
+public class Polarizador extends Lente{
+        
+    public Polarizador(double angulo_emGraus) {
+        super(angulo_emGraus);
+    }
 }
