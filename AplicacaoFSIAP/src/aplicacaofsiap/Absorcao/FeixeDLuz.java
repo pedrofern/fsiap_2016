@@ -29,10 +29,17 @@ public abstract class FeixeDLuz {
     }
 
     public FeixeDLuz(double intensidade, double angulo) {
+        this.tipo = TipoDLuz.NAO_POLARIZADA;
         this.intensidade = intensidade;
         this.angulo = angulo;
     }
-    
+
+    public FeixeDLuz() {
+        this.tipo = TipoDLuz.NAO_POLARIZADA;
+        this.intensidade = 0;
+        this.angulo = 0;
+    }
+        
      public TipoDLuz getTipo() {
         return tipo;
     }

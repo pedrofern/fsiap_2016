@@ -14,6 +14,10 @@ public class FeixeIncidente extends FeixeDLuz{
     public FeixeIncidente(TipoDLuz tipo, double intensidade, double angulo) {
         super(tipo, intensidade, angulo);
     }
+        
+    public FeixeIncidente() {
+        super(TipoDLuz.NAO_POLARIZADA,0,0);
+    }
 
     @Override
     public String toString() {
