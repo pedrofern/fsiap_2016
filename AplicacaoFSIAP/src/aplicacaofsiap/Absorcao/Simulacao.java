@@ -48,15 +48,32 @@ public class Simulacao {
     public double obterIntensidadeDFeixeAposPolarizador() {
         return this.getPolarizacao().getF_incidente().getIntensidade() / 2;
     }
-
-    /*
+    
      public double obterAnguloEntrePolarizadorEAnalisador(){
-     TODO
+         double angulo = 0;
+          //metodo incompleto, terminar  
+         if(this.getTipoDPolarizacao()==TipoDPolarizacao.ABSORCAO){
+             PolarizacaoPorAbsorcao polar_Absor = (PolarizacaoPorAbsorcao)this.getPolarizacao();
+             angulo = polar_Absor.getAnalisador().getAngulo_emGraus();
+         }
+         return angulo;
      }
-     */
+     
     public double obterIntensidadeDFeixeResultante_AposAnalisador(double anguloEntreLentes) {
         return this.obterIntensidadeDFeixeAposPolarizador()
                 * Math.pow(Math.cos(Math.toRadians(anguloEntreLentes)), 2);
+    }
+    
+    public String realizarPolarizAbsor_obterResultados(){        
+        String resultados = " Intensidade Feixe Incidente: " +
+                this.getPolarizacao().getF_incidente().getIntensidade() +
+                "\n Intensidade Feixe Intermédio: " +
+                this.obterIntensidadeDFeixeAposPolarizador() +
+                "\n Ângulo entre lentes: " +
+                this.obterAnguloEntrePolarizadorEAnalisador() +                
+                "º\n Intensidade Feixe Resultante: " +
+                this.obterIntensidadeDFeixeResultante_AposAnalisador(this.obterAnguloEntrePolarizadorEAnalisador());
+        return resultados;
     }
 
 }

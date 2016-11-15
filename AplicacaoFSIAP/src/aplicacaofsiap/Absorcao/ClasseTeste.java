@@ -18,13 +18,13 @@ public class ClasseTeste {
         Scanner ler = new Scanner(System.in);
         //Selecionar tipo de simulação/polarização pretendida
         Simulacao s = new Simulacao(TipoDPolarizacao.ABSORCAO);
-        System.out.println("Intensidade do feixe de luz incidente: ");        
+        System.out.print("Introduza os seguintes dados:\n-intensidade do feixe de luz incidente: ");        
         double intensidade = ler.nextDouble();        
         FeixeIncidente f_inc = new FeixeIncidente(FeixeDLuz.TipoDLuz.NAO_POLARIZADA, intensidade, 0);
         
         Polarizador polarizador = new Polarizador(0);
         
-        System.out.println("Angulo do analisador com o polarizador: ");        
+        System.out.print("-angulo do analisador com o polarizador: ");        
         double angulo = ler.nextDouble();        
         Analisador analisador = new Analisador(angulo);
         
@@ -35,10 +35,9 @@ public class ClasseTeste {
         
         s.setPolarizacao(pol_por_abs);
         
-        System.out.println("Resultados: ");
-        double intensidadeFinal = s.obterIntensidadeDFeixeResultante_AposAnalisador(angulo);
-        System.out.println("Intensidade Final do Feixe:" + intensidadeFinal);
-        
+        System.out.println("\nResultados: ");
+
+        System.out.println(""+ s.realizarPolarizAbsor_obterResultados());
         //System.out.printf("%.1f" + Math.round(Math.pow(Math.cos(Math.toRadians(angulo)), 2))/1.0);
         
         System.out.println("Fim do Teste");
