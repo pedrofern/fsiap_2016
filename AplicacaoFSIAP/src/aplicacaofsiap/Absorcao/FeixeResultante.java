@@ -12,9 +12,13 @@ package aplicacaofsiap.Absorcao;
 public class FeixeResultante extends FeixeDLuz{
 
     public FeixeResultante(TipoDLuz tipo, double intensidade, double angulo) {
-        super(tipo, intensidade, angulo);
+        super(TipoDLuz.POLARIZADA, intensidade, angulo);
     }
 
+    public FeixeResultante() {
+        super(TipoDLuz.POLARIZADA, 0, 0);
+    }
+    
     @Override
     public String toString() {
         return "FeixeResultante{" + '}';

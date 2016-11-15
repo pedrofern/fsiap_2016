@@ -19,7 +19,7 @@ public class PolarizacaoPorAbsorcao extends Polarizacao {
     
     private FeixeResultante feixe_resultante;
 
-    public PolarizacaoPorAbsorcao(Polarizador polarizador, Analisador analisador, FeixeResultante feixe_resultante, FeixeIncidente f_incidente) {
+    public PolarizacaoPorAbsorcao(FeixeIncidente f_incidente, Polarizador polarizador, Analisador analisador, FeixeResultante feixe_resultante) {
         super(f_incidente);
         this.polarizador = polarizador;
         this.analisador = analisador;
