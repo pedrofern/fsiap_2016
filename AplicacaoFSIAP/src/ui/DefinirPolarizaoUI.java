@@ -62,6 +62,7 @@ public class DefinirPolarizaoUI extends JFrame{
      */
     private DefinirPolarizaoUI framePai;
     private PReflexaoUI prui;
+    private PAbsorcaoUI paui;
     private CarregarFicheiroUI cfui;
     
     private Simulacao s;
@@ -382,7 +383,7 @@ public class DefinirPolarizaoUI extends JFrame{
      * Método para abrir PolarizacaoPorAbsorcao
      */
     private void absorcao() {
-        //implementar
+        paui = new PAbsorcaoUI(DefinirPolarizaoUI.this, s);
     }
     /**
      * Método para abrir PolarizacaoPorReflexao 
