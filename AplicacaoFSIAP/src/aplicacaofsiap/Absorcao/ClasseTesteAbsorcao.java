@@ -11,7 +11,7 @@ import java.util.Scanner;
  *
  * @author Helder
  */
-public class ClasseTeste {
+public class ClasseTesteAbsorcao {
     
 
     public static void main(String[] args) {
