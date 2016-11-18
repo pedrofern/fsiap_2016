@@ -5,6 +5,8 @@
  */
 package aplicacaofsiap.Absorcao;
 
+import aplicacaofsiap.PolarizacaoPorReflexao;
+
 /**
  *
  * @author Helder
@@ -12,13 +14,16 @@ package aplicacaofsiap.Absorcao;
 public class Simulacao {
 
     private TipoDPolarizacao tipoDPolarizacao;
-
     private Polarizacao polarizacao;
+    private PolarizacaoPorAbsorcao polarizacaoPorAbsorcao;
+    private PolarizacaoPorReflexao polarizacaoPorReflexao;
 
     public Simulacao(TipoDPolarizacao tipoDPolarizacao) {
         this.tipoDPolarizacao = tipoDPolarizacao;
         if (this.tipoDPolarizacao == TipoDPolarizacao.ABSORCAO) {
-            this.polarizacao = new PolarizacaoPorAbsorcao();
+            PolarizacaoPorReflexao p = new PolarizacaoPorReflexao();
+            this.polarizacaoPorReflexao = (PolarizacaoPorReflexao) p;
+            this.polarizacaoPorAbsorcao = new PolarizacaoPorAbsorcao();
         } else if (this.tipoDPolarizacao == TipoDPolarizacao.REFLEXAO) {
             // this.polarizacao = new PolarizacaoPorREFLEXAO();
         }
@@ -32,48 +37,25 @@ public class Simulacao {
         this.tipoDPolarizacao = tipoDPolarizacao;
     }
 
-    public Polarizacao getPolarizacao() {
-        return polarizacao;
+    public PolarizacaoPorAbsorcao getPolarizacaoPorAbsorcao() {
+        return polarizacaoPorAbsorcao;
     }
 
-    public void setPolarizacao(Polarizacao polarizacao) {
-        this.polarizacao = polarizacao;
+    public void setPolarizacaoPorAbsorcao(PolarizacaoPorAbsorcao polarizacaoPorAbsorcao) {
+        this.polarizacaoPorAbsorcao = polarizacaoPorAbsorcao;
+    }
+
+    public PolarizacaoPorReflexao getPolarizacaoPorReflexao() {
+        return polarizacaoPorReflexao;
+    }
+
+    public void setPolarizacaoPorReflexao(PolarizacaoPorReflexao polarizacaoPorReflexao) {
+        this.polarizacaoPorReflexao = polarizacaoPorReflexao;
     }
 
     @Override
     public String toString() {
         return "Simulacao{" + "tipoDPolarizacao=" + tipoDPolarizacao + '}';
-    }
-
-    public double obterIntensidadeDFeixeAposPolarizador() {
-        return this.getPolarizacao().getF_incidente().getIntensidade() / 2;
-    }
-    
-     public double obterAnguloEntrePolarizadorEAnalisador(){
-         double angulo = 0;
-          //metodo incompleto, terminar  
-         if(this.getTipoDPolarizacao()==TipoDPolarizacao.ABSORCAO){
-             PolarizacaoPorAbsorcao polar_Absor = (PolarizacaoPorAbsorcao)this.getPolarizacao();
-             angulo = polar_Absor.getAnalisador().getAngulo_emGraus();
-         }
-         return angulo;
-     }
-     
-    public double obterIntensidadeDFeixeResultante_AposAnalisador(double anguloEntreLentes) {
-        return this.obterIntensidadeDFeixeAposPolarizador()
-                * Math.pow(Math.cos(Math.toRadians(anguloEntreLentes)), 2);
-    }
-    
-    public String realizarPolarizAbsor_obterResultados(){        
-        String resultados = " Intensidade Feixe Incidente: " +
-                this.getPolarizacao().getF_incidente().getIntensidade() +
-                "\n Intensidade Feixe Intermédio: " +
-                this.obterIntensidadeDFeixeAposPolarizador() +
-                "\n Ângulo entre lentes: " +
-                this.obterAnguloEntrePolarizadorEAnalisador() +                
-                "º\n Intensidade Feixe Resultante: " +
-                this.obterIntensidadeDFeixeResultante_AposAnalisador(this.obterAnguloEntrePolarizadorEAnalisador());
-        return resultados;
     }
 
 }

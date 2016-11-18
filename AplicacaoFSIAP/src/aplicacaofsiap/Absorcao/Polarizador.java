@@ -5,15 +5,17 @@
  */
 package aplicacaofsiap.Absorcao;
 
-import aplicacaofsiap.Absorcao.Lente;
-
 /**
  *
  * @author Helder
  */
 public class Polarizador extends Lente{
-        
+
     public Polarizador(double angulo_emGraus) {
         super(angulo_emGraus);
+    }
+        
+    public Polarizador() {
+        super();
     }
 }

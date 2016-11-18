@@ -33,11 +33,11 @@ public class ClasseTesteAbsorcao {
         PolarizacaoPorAbsorcao pol_por_abs = new PolarizacaoPorAbsorcao(f_inc,
                 polarizador, analisador, new FeixeResultante());
         
-        s.setPolarizacao(pol_por_abs);
+        //s.setPolarizacao(pol_por_abs);
         
         System.out.println("\nResultados: ");
 
-        System.out.println(""+ s.realizarPolarizAbsor_obterResultados());
+        System.out.println(""+ pol_por_abs.realizarPolarizAbsor_obterResultados());
         //System.out.printf("%.1f" + Math.round(Math.pow(Math.cos(Math.toRadians(angulo)), 2))/1.0);
         
         System.out.println("Fim do Teste");

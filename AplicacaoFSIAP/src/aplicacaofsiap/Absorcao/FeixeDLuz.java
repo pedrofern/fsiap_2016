@@ -10,7 +10,7 @@ package aplicacaofsiap.Absorcao;
  * @author Helder
  */
 public abstract class FeixeDLuz {    
-      
+
     /**
      * Tipos de luz
      */
@@ -53,8 +53,13 @@ public abstract class FeixeDLuz {
     }
 
     public void setIntensidade(double intensidade) {
-        this.intensidade = intensidade;
+        if(validaIntensidade(intensidade))
+            this.intensidade = intensidade;
     }
+    
+    public static boolean validaIntensidade(double intensidade) {
+        return intensidade >= 0;
+    }      
 
     public double getAngulo() {
         return angulo;

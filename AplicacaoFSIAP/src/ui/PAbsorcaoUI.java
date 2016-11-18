@@ -5,8 +5,9 @@
  */
 package ui;
 
-import aplicacaofsiap.MeioReflexao;
-import aplicacaofsiap.Simulacao;
+import aplicacaofsiap.Absorcao.*;
+import controller.PolarAbsorcaoController;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -24,7 +25,7 @@ import javax.swing.border.TitledBorder;
 
 /**
  *
- * @author Pedro Fernandes
+ * @author Pedro Fernandes e Helder Silva
  */
 public class PAbsorcaoUI extends JDialog {
 
@@ -32,10 +33,12 @@ public class PAbsorcaoUI extends JDialog {
      * Guarda a janela anterior
      */
     private DefinirPolarizaoUI framePai;
+
     /**
      * Guarda a largura mínima da janela em píxeis.
      */
     private static final int JANELA_LARGURA_MINIMO = 900, JANELA_ALTURA_MINIMO = 350;
+
     /**
      * Guarda a dimensão de uma label por omissão
      */
@@ -45,14 +48,21 @@ public class PAbsorcaoUI extends JDialog {
      * Guarda os angulos e intensidades
      */
     private JTextField intTxt1, intTxt2, intTxt3, angTxt1, angTxt2;
+
     /**
-     * Guarda a simulação recebida por parâmetro
+     * Guarda a simulação
      */
-    private Simulacao s;
+    private Simulacao simulacao;
+
     /**
      * Guarda os botoes
      */
     private JButton novaSimulacao, simular, voltar, guardar;
+
+    /**
+     * A instancia do controller de polarizacao por absorcao
+     */
+    private PolarAbsorcaoController controll;
 
     /**
      * Constroi uma janela para simular polarizao por absorção recebendo a
@@ -60,11 +70,11 @@ public class PAbsorcaoUI extends JDialog {
      *
      * @param framePai janela anterior
      */
-    public PAbsorcaoUI(DefinirPolarizaoUI framePai, Simulacao s) {
+    public PAbsorcaoUI(DefinirPolarizaoUI framePai) {
         super(framePai, "LIGHT GO -> Polarização por Absorção");
 
         this.framePai = framePai;
-        this.s = s;
+        this.controll = new PolarAbsorcaoController(this);
 
         criarComponentes();
 
@@ -223,89 +233,108 @@ public class PAbsorcaoUI extends JDialog {
         simular.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                double int_feix_incid = 0;
-                double ang_polarizador = 0;
+//                double int_feix_incid = 0;
+//                double ang_polarizador = 0;
 
-                if (intTxt1.getText().isEmpty()) { //se nenhum valor tiver sido inserido
-                    popUpMensagemDErro("Insira um valor para a intensidade do feixe incidente!");
+//                if (intTxt1.getText().isEmpty()) { //se nenhum valor tiver sido inserido
+//                    popUpMensagemDErro("Insira um valor para a intensidade do feixe incidente!");
+                //se intensidade não for valor válido surge mensagem informativa de ajuda
+                
+                if (!controll.setIntensidade_FeixeIncid(intTxt1.getText())) {
                     intTxt1.requestFocus();
+                }
+                if (!controll.setAngulo_Polarizador(angTxt1.getText())) {
+                    angTxt1.requestFocus();
+                }
+                if (!controll.setAngulo_Polarizador(angTxt1.getText())) {
+                    angTxt1.requestFocus();
+                }
+                
+               if(controll.setDadosParaSimularPolarizacao(intTxt1.getText(),
+                       angTxt1.getText(), angTxt2.getText())){
+                   controll.calcularResultadosDPolarizacao();
+               }
+               
+               //falta código para dados aparecem na interface
 
-                } else {  //foi inserido valor
-                    try {
-                        int_feix_incid = Double.parseDouble(intTxt1.getText());
-//                    } catch (NumberFormatException ex) { //se não foi introduzido um número
-//                        popUpMensagemDErro("A intensidade do feixe incidente deve ser um valor!");
+            }
+
+            
+//                else {  //foi inserido valor
+//                    try {
+//                    int_feix_incid = Double.parseDouble(intTxt1.getText());
+////                    } catch (NumberFormatException ex) { //se não foi introduzido um número
+////                        popUpMensagemDErro("A intensidade do feixe incidente deve ser um valor!");
+////                        intTxt1.requestFocus();
+////                    }
+//                    //valor inserido é numérico
+//                    if (int_feix_incid < 0) {
+//                        popUpMensagemDErro("A intensidade do feixe incidente deve ser um valor positivo!");
 //                        intTxt1.requestFocus();
-//                    }
-                        //valor inserido é numérico
-                        if (int_feix_incid < 0) {
-                            popUpMensagemDErro("A intensidade do feixe incidente deve ser um valor positivo!");
-                            intTxt1.requestFocus();
-                        } else { //se valor de intensidade está correto vai validar ang_polarizador
-
-//---------------------validar angulo do polarizador--------------                       
-                            if (angTxt1.getText().isEmpty()) { //se nenhum valor tiver sido inserido
-                                popUpMensagemDErro("Insira um valor para o ângulo do polarizador.");
-                                angTxt1.requestFocus();
-
-                            } else {  //foi inserido valor
-                                try {
-                                    ang_polarizador = Double.parseDouble(angTxt1.getText());
-//                                } catch (NumberFormatException ex) { //se não foi introduzido um número
-//                                    popUpMensagemDErro("O ângulo do polarizador deve ser um valor!");
-//                                    angTxt1.requestFocus();
-//                                }
-                                    //valor inserido é numérico
-                                    if (ang_polarizador < 0 || ang_polarizador > 360) {
-                                        popUpMensagemDErro("O ângulo do polarizador deve ser um valor no intervalo [0-360].");
-                                        angTxt1.requestFocus();
-
-                                    } else { //se valor de intensidade está correto vai validar ang_polarizador
+//                    } else { //se valor de intensidade está correto vai validar ang_polarizador
 //
 ////---------------------validar angulo do polarizador--------------                       
-//                            if (angTxt1.getText().isEmpty()) { //se nenhum valor tiver sido inserido
-//                                popUpMensagemDErro("Insira um valor para o ângulo do polarizador.");
-//                                angTxt1.requestFocus();
+//                        if (angTxt1.getText().isEmpty()) { //se nenhum valor tiver sido inserido
+//                            popUpMensagemDErro("Insira um valor para o ângulo do polarizador.");
+//                            angTxt1.requestFocus();
 //
-//                            } else {  //foi inserido valor
-//                                try {
-//                                    ang_polarizador = Double.parseDouble(angTxt1.getText());
+//                        } else {  //foi inserido valor
+//                            try {
+//                                ang_polarizador = Double.parseDouble(angTxt1.getText());
 ////                                } catch (NumberFormatException ex) { //se não foi introduzido um número
 ////                                    popUpMensagemDErro("O ângulo do polarizador deve ser um valor!");
 ////                                    angTxt1.requestFocus();
 ////                                }
-//                                    //valor inserido é numérico
-//                                    if (ang_polarizador < 0 || ang_polarizador > 360) {
-//                                        popUpMensagemDErro("O ângulo do polarizador deve ser um valor no intervalo [0-360].");
-//                                        angTxt1.requestFocus();
-
-                                    }
-
-                                } catch (NumberFormatException ex) { //se não foi introduzido um número
-                                    popUpMensagemDErro("O ângulo do polarizador deve ser um valor!");
-                                    angTxt1.requestFocus();
-                                }
-                            }
-
-                        } //fecho ult if intensidade
-
-                    } catch (NumberFormatException ex) { //se não foi introduzido um número
-                        popUpMensagemDErro("A intensidade do feixe incidente deve ser um valor!");
-                        intTxt1.requestFocus();
-                    }
-                } //fecho else
-            }
-        });
-
-        return simular;
+//                                //valor inserido é numérico
+//                                if (ang_polarizador < 0 || ang_polarizador > 360) {
+//                                    popUpMensagemDErro("O ângulo do polarizador deve ser um valor no intervalo [0-360].");
+//                                    angTxt1.requestFocus();
+//
+//                                } else { //se valor de intensidade está correto vai validar ang_polarizador
+////
+//////---------------------validar angulo do polarizador--------------                       
+////                            if (angTxt1.getText().isEmpty()) { //se nenhum valor tiver sido inserido
+////                                popUpMensagemDErro("Insira um valor para o ângulo do polarizador.");
+////                                angTxt1.requestFocus();
+////
+////                            } else {  //foi inserido valor
+////                                try {
+////                                    ang_polarizador = Double.parseDouble(angTxt1.getText());
+//////                                } catch (NumberFormatException ex) { //se não foi introduzido um número
+//////                                    popUpMensagemDErro("O ângulo do polarizador deve ser um valor!");
+//////                                    angTxt1.requestFocus();
+//////                                }
+////                                    //valor inserido é numérico
+////                                    if (ang_polarizador < 0 || ang_polarizador > 360) {
+////                                        popUpMensagemDErro("O ângulo do polarizador deve ser um valor no intervalo [0-360].");
+////                                        angTxt1.requestFocus();
+//
+//                                }
+//
+//                            } catch (NumberFormatException ex) { //se não foi introduzido um número
+//                                popUpMensagemDErro("O ângulo do polarizador deve ser um valor!");
+//                                angTxt1.requestFocus();
+//                            }
+//                        }
+//
+//                    } //fecho ult if intensidade
+//
+//                } catch (NumberFormatException ex) { //se não foi introduzido um número
+//                    popUpMensagemDErro("A intensidade do feixe incidente deve ser um valor!");
+//                    intTxt1.requestFocus();
+//                }
+//            } //fecho else
     }
+    );
 
-    private void popUpMensagemDErro(String msg) {
-        JOptionPane.showMessageDialog(framePai,
-                msg, "Dados da Simulação", JOptionPane.WARNING_MESSAGE);
-    }
+    return simular ;
+}
 
-    private void validar_DadosDCampo(String fieldName, String nome_campo_a_validar) {
+//    private void popUpMensagemDErro(String msg) {
+//        JOptionPane.showMessageDialog(framePai,
+//                msg, "Dados da Simulação", JOptionPane.WARNING_MESSAGE);
+//    }
+private void validar_DadosDCampo(String fieldName, String nome_campo_a_validar) {
 
     }
 
@@ -320,7 +349,7 @@ public class PAbsorcaoUI extends JDialog {
         novaSimulacao.setToolTipText("Nova Simulacao - polarizacao por absorção");
         novaSimulacao.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) {
                 intTxt1.setText("");
                 intTxt2.setText("");
                 intTxt3.setText("");
@@ -342,7 +371,7 @@ public class PAbsorcaoUI extends JDialog {
         voltar.setToolTipText("Cancela a simulacao e volta ao menu anterior");
         voltar.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
@@ -360,7 +389,7 @@ public class PAbsorcaoUI extends JDialog {
         guardar.setToolTipText("Guardar a simulacao");
         guardar.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) {
                 //implementar
             }
         });
