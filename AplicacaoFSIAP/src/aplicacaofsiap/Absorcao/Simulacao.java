@@ -21,8 +21,6 @@ public class Simulacao {
     public Simulacao(TipoDPolarizacao tipoDPolarizacao) {
         this.tipoDPolarizacao = tipoDPolarizacao;
         if (this.tipoDPolarizacao == TipoDPolarizacao.ABSORCAO) {
-            PolarizacaoPorReflexao p = new PolarizacaoPorReflexao();
-            this.polarizacaoPorReflexao = (PolarizacaoPorReflexao) p;
             this.polarizacaoPorAbsorcao = new PolarizacaoPorAbsorcao();
         } else if (this.tipoDPolarizacao == TipoDPolarizacao.REFLEXAO) {
             // this.polarizacao = new PolarizacaoPorREFLEXAO();

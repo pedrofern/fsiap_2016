@@ -11,17 +11,19 @@ package aplicacaofsiap.Absorcao;
  */
 public class PolarizacaoPorAbsorcao extends Polarizacao {
 
-    private TipoDPolarizacao tipoDPolarizacao = TipoDPolarizacao.ABSORCAO;
+    private static final TipoDPolarizacao tipoDPolarizacao = TipoDPolarizacao.ABSORCAO;
 
     private Polarizador polarizador;
 
     private Analisador analisador;
 
-    private FeixeResultante feixe_resultante;
+    private FeixeResultante feixe_intermedio, feixe_resultante;
 
-    public PolarizacaoPorAbsorcao(FeixeIncidente f_incidente, Polarizador polarizador, Analisador analisador, FeixeResultante feixe_resultante) {
+    public PolarizacaoPorAbsorcao(FeixeIncidente f_incidente, Polarizador polarizador,
+            FeixeResultante f_intermedio, Analisador analisador, FeixeResultante feixe_resultante) {
         super(f_incidente);
         this.polarizador = polarizador;
+        this.feixe_intermedio = f_intermedio;
         this.analisador = analisador;
         this.feixe_resultante = feixe_resultante;
     }
@@ -29,14 +31,13 @@ public class PolarizacaoPorAbsorcao extends Polarizacao {
     public PolarizacaoPorAbsorcao() {
         super();
         this.polarizador = new Polarizador();
+        this.feixe_intermedio = new FeixeResultante();
+        this.analisador = new Analisador();
+        this.feixe_resultante = new FeixeResultante();
     }
 
     public TipoDPolarizacao getTipoDPolarizacao() {
         return tipoDPolarizacao;
-    }
-
-    public void setTipoDPolarizacao(TipoDPolarizacao tipoDPolarizacao) {
-        this.tipoDPolarizacao = tipoDPolarizacao;
     }
 
     public Polarizador getPolarizador() {
@@ -63,45 +64,58 @@ public class PolarizacaoPorAbsorcao extends Polarizacao {
         this.feixe_resultante = feixe_resultante;
     }
 
+    public FeixeResultante getFeixe_intermedio() {
+        return feixe_intermedio;
+    }
+
+    public void setFeixe_intermedio(FeixeResultante feixe_intermedio) {
+        this.feixe_intermedio = feixe_intermedio;
+    }
+
     @Override
     public String toString() {
-        return "tipoDPolarizacao=" + tipoDPolarizacao + ", polarizador=" + polarizador + ", analisador=" + analisador + ", feixe_resultante=" + feixe_resultante + '}';
-    }
-
-    public double obterIntensidadeDFeixeAposPolarizador() {
-        return this.getF_incidente().getIntensidade() / 2;
-    }
-
-    public double obterAnguloEntrePolarizadorEAnalisador() {
-        double angulo = 0;
-        //metodo incompleto, terminar  
-        if (this.getTipoDPolarizacao() == TipoDPolarizacao.ABSORCAO) {
-            angulo = this.analisador.getAngulo_emGraus();
-        }
-        return angulo;
-    }
-
-    public double obterIntensidadeDFeixeResultante_AposAnalisador(double anguloEntreLentes) {
-        return this.obterIntensidadeDFeixeAposPolarizador()
-                * Math.pow(Math.cos(Math.toRadians(anguloEntreLentes)), 2);
-    }
-
-    public String realizarPolarizAbsor_obterResultados() {
-        String resultados = " Intensidade Feixe Incidente: "
-                + this.getF_incidente().getIntensidade()
-                + "\n Intensidade Feixe Intermédio: "
-                + this.obterIntensidadeDFeixeAposPolarizador()
-                + "\n Ângulo entre lentes: "
-                + this.obterAnguloEntrePolarizadorEAnalisador()
-                + "º\n Intensidade Feixe Resultante: "
-                + this.obterIntensidadeDFeixeResultante_AposAnalisador(this.obterAnguloEntrePolarizadorEAnalisador());
-        return resultados;
+        return "PolarizacaoPorAbsorcao{" + "polarizador=" + polarizador
+                + ", feixe_intermedio=" + feixe_intermedio + ", analisador="
+                + analisador + ", feixe_resultante=" + feixe_resultante + '}';
     }
 
     public void realizarPolarizacao_PObterResultados() {
-        this.feixe_resultante.setIntensidade(
-                this.obterIntensidadeDFeixeResultante_AposAnalisador(
-                        this.obterAnguloEntrePolarizadorEAnalisador()));
+        calcularIntensidadeDFeixeIntermedio();
+
+        calcularIntensidadeDFeixeResultante(
+                this.obterAnguloEntrePolarizadorEAnalisador());
     }
-   
+
+    public double calcularIntensidadeDFeixeIntermedio() {
+        this.feixe_intermedio.setIntensidade(
+                Math.round((this.getF_incidente().getIntensidade() / 2)
+                        * 1000) / 1000.000);
+        return this.feixe_intermedio.getIntensidade();
+    }
+
+    public double obterAnguloEntrePolarizadorEAnalisador() {
+        return Math.abs(this.getAnalisador().getAngulo_emGraus()
+                - this.getPolarizador().getAngulo_emGraus() );
+    }
+
+    public double calcularIntensidadeDFeixeResultante(double anguloEntreLentes) {
+        this.feixe_resultante.setIntensidade(Math.round((this.calcularIntensidadeDFeixeIntermedio()
+                * Math.pow(Math.cos(Math.toRadians(anguloEntreLentes)), 2))
+                * 1000) / 1000.000);
+        return this.feixe_resultante.getIntensidade();
+    }
+
+    public String resultadosDPolarizacaoToString() {
+        String resultados = " Intensidade Feixe Incidente: "
+                + this.getF_incidente().getIntensidade()
+                + "\n Intensidade Feixe Intermédio: "
+                + this.calcularIntensidadeDFeixeIntermedio()
+                + "\n Ângulo entre lentes: "
+                + this.obterAnguloEntrePolarizadorEAnalisador()
+                + "º\n Intensidade Feixe Resultante: "
+                + this.calcularIntensidadeDFeixeResultante(
+                        this.obterAnguloEntrePolarizadorEAnalisador());
+        return resultados;
+    }
+
 }

@@ -15,6 +15,8 @@ public class Analisador extends Lente{
         super(angulo_emGraus);
     }
     
-    
+    public Analisador(){
+        super();
+    }    
     
 }

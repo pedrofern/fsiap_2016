@@ -29,14 +29,24 @@ public class PolarAbsorcaoController {
                 && setAngulo_Polarizador(ang_pol)
                 && setAngulo_Analisador(ang_analis);
     }
-    
-    public void calcularResultadosDPolarizacao(){
+
+    public void calcularResultadosDPolarizacao() {
         this.simulacao.getPolarizacaoPorAbsorcao().realizarPolarizacao_PObterResultados();
+    }
+
+    public String obterIntensidadeDFeixeResultante() {
+        return "" + this.simulacao.getPolarizacaoPorAbsorcao().getFeixe_resultante().getIntensidade();
+    }
+
+    public String obterIntensidadeDFeixeIntermedio() {
+        return "" + this.simulacao.getPolarizacaoPorAbsorcao().
+                getFeixe_intermedio().getIntensidade();
     }
 
     public boolean setIntensidade_FeixeIncid(String value) {
         if (intensidade_FeixeIncid_E_Valida(value)) {
             this.simulacao.getPolarizacaoPorAbsorcao().getF_incidente().setIntensidade(Double.parseDouble(value));
+            return true;
         }
         return false;
     }
@@ -44,15 +54,17 @@ public class PolarAbsorcaoController {
     public boolean setAngulo_Polarizador(String value) {
         if (anguloDLente_E_Valido(value, "polarizador")) {
             this.simulacao.getPolarizacaoPorAbsorcao().getPolarizador().setAngulo_emGraus(Double.parseDouble(value));
+            return true;
         }
-        return anguloDLente_E_Valido(value, "polarizador");
+        return false;
     }
 
     public boolean setAngulo_Analisador(String value) {
         if (anguloDLente_E_Valido(value, "analisador")) {
             this.simulacao.getPolarizacaoPorAbsorcao().getAnalisador().setAngulo_emGraus(Double.parseDouble(value));
+            return true;
         }
-        return anguloDLente_E_Valido(value, "analisador");
+        return false;
     }
 
     private boolean intensidade_FeixeIncid_E_Valida(String value) {
@@ -102,4 +114,5 @@ public class PolarAbsorcaoController {
         JOptionPane.showMessageDialog(ui,
                 msg, "Dados da Simulação", JOptionPane.WARNING_MESSAGE);
     }
+
 }

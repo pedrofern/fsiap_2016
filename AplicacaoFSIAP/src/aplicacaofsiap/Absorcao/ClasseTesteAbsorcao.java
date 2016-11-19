@@ -28,18 +28,18 @@ public class ClasseTesteAbsorcao {
         double angulo = ler.nextDouble();        
         Analisador analisador = new Analisador(angulo);
         
+        FeixeResultante f_int = new FeixeResultante();
+          
         FeixeResultante feixe_resultante = new FeixeResultante();
                
         PolarizacaoPorAbsorcao pol_por_abs = new PolarizacaoPorAbsorcao(f_inc,
-                polarizador, analisador, new FeixeResultante());
-        
-        //s.setPolarizacao(pol_por_abs);
-        
+                polarizador, f_int, analisador, feixe_resultante);
+       
         System.out.println("\nResultados: ");
 
-        System.out.println(""+ pol_por_abs.realizarPolarizAbsor_obterResultados());
-        //System.out.printf("%.1f" + Math.round(Math.pow(Math.cos(Math.toRadians(angulo)), 2))/1.0);
-        
+        System.out.println(""+ pol_por_abs.resultadosDPolarizacaoToString());
+
         System.out.println("Fim do Teste");
+                
     }
 }

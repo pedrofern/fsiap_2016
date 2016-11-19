@@ -9,14 +9,18 @@ package aplicacaofsiap.Absorcao;
  *
  * @author Helder
  */
-public class FeixeIncidente extends FeixeDLuz{
-     
+public class FeixeIncidente extends FeixeDLuz {
+
     public FeixeIncidente(TipoDLuz tipo, double intensidade, double angulo) {
         super(tipo, intensidade, angulo);
     }
-        
+
     public FeixeIncidente() {
-        super(TipoDLuz.NAO_POLARIZADA,0,0);
+        super(TipoDLuz.NAO_POLARIZADA, 0, 0);
+    }
+
+    public FeixeIncidente(double intensidade) {
+        super(TipoDLuz.NAO_POLARIZADA, intensidade, 0);
     }
 
     @Override
@@ -24,5 +28,4 @@ public class FeixeIncidente extends FeixeDLuz{
         return "FeixeIncidente{" + '}';
     }
 
-    
 }

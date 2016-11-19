@@ -34,7 +34,7 @@ public abstract class Lente {
     }
 
     public static boolean validaAngulo_emGraus(double angulo_emGraus) {
-        return (angulo_emGraus >= 0 || angulo_emGraus <= 360);
+        return ( (angulo_emGraus >= 0) && (angulo_emGraus <= 360) );
     }
 
     @Override

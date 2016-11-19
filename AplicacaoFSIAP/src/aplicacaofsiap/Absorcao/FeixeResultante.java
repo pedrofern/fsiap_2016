@@ -9,19 +9,23 @@ package aplicacaofsiap.Absorcao;
  *
  * @author Helder
  */
-public class FeixeResultante extends FeixeDLuz{
+public class FeixeResultante extends FeixeDLuz {
 
-    public FeixeResultante(TipoDLuz tipo, double intensidade, double angulo) {
+    public FeixeResultante(double intensidade, double angulo) {
         super(TipoDLuz.POLARIZADA, intensidade, angulo);
     }
 
     public FeixeResultante() {
         super(TipoDLuz.POLARIZADA, 0, 0);
     }
-    
+
+    public FeixeResultante(double intensidade) {
+        super(TipoDLuz.POLARIZADA, intensidade, 0);
+    }
+
     @Override
     public String toString() {
         return "FeixeResultante{" + '}';
     }
-    
+
 }
