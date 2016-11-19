@@ -5,6 +5,7 @@
  */
 package aplicacaofsiap;
 
+import aplicacaofsiap.Reflexao.PolarizacaoPorReflexao;
 import java.util.ArrayList;
 
 /**
@@ -12,14 +13,14 @@ import java.util.ArrayList;
  * relativa às polarizações simuladas. 
  * @author Diana Silva
  */
-public class ListaEstatistica {
+public class Estatistica {
 
     private ArrayList<PolarizacaoPorReflexao> listaEstatistica;
     
      /**
      * Construtor relativo à lista de estatísticas
      */
-    public ListaEstatistica(){
+    public Estatistica(){
         listaEstatistica = new ArrayList<>();
     }
     

@@ -5,6 +5,11 @@
  */
 package aplicacaofsiap.Absorcao;
 
+import aplicacaofsiap.Polarizacao;
+import aplicacaofsiap.TipoDPolarizacao;
+import aplicacaofsiap.FeixeDLuzIncidente;
+import aplicacaofsiap.FeixeDLuzResultante;
+
 /**
  *
  * @author Helder
@@ -17,10 +22,10 @@ public class PolarizacaoPorAbsorcao extends Polarizacao {
 
     private Analisador analisador;
 
-    private FeixeResultante feixe_intermedio, feixe_resultante;
+    private FeixeDLuzResultante feixe_intermedio, feixe_resultante;
 
-    public PolarizacaoPorAbsorcao(FeixeIncidente f_incidente, Polarizador polarizador,
-            FeixeResultante f_intermedio, Analisador analisador, FeixeResultante feixe_resultante) {
+    public PolarizacaoPorAbsorcao(FeixeDLuzIncidente f_incidente, Polarizador polarizador,
+            FeixeDLuzResultante f_intermedio, Analisador analisador, FeixeDLuzResultante feixe_resultante) {
         super(f_incidente);
         this.polarizador = polarizador;
         this.feixe_intermedio = f_intermedio;
@@ -31,9 +36,9 @@ public class PolarizacaoPorAbsorcao extends Polarizacao {
     public PolarizacaoPorAbsorcao() {
         super();
         this.polarizador = new Polarizador();
-        this.feixe_intermedio = new FeixeResultante();
+        this.feixe_intermedio = new FeixeDLuzResultante();
         this.analisador = new Analisador();
-        this.feixe_resultante = new FeixeResultante();
+        this.feixe_resultante = new FeixeDLuzResultante();
     }
 
     public TipoDPolarizacao getTipoDPolarizacao() {
@@ -56,19 +61,19 @@ public class PolarizacaoPorAbsorcao extends Polarizacao {
         this.analisador = analisador;
     }
 
-    public FeixeResultante getFeixe_resultante() {
+    public FeixeDLuzResultante getFeixe_resultante() {
         return feixe_resultante;
     }
 
-    public void setFeixe_resultante(FeixeResultante feixe_resultante) {
+    public void setFeixe_resultante(FeixeDLuzResultante feixe_resultante) {
         this.feixe_resultante = feixe_resultante;
     }
 
-    public FeixeResultante getFeixe_intermedio() {
+    public FeixeDLuzResultante getFeixe_intermedio() {
         return feixe_intermedio;
     }
 
-    public void setFeixe_intermedio(FeixeResultante feixe_intermedio) {
+    public void setFeixe_intermedio(FeixeDLuzResultante feixe_intermedio) {
         this.feixe_intermedio = feixe_intermedio;
     }
 

@@ -5,6 +5,9 @@
  */
 package controller;
 
+import aplicacaofsiap.TipoDPolarizacao;
+import aplicacaofsiap.Simulacao;
+import aplicacaofsiap.FeixeDLuz;
 import javax.swing.JOptionPane;
 import aplicacaofsiap.Absorcao.*;
 import ui.PAbsorcaoUI;

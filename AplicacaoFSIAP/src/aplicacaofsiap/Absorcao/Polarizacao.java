@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aplicacaofsiap.Absorcao;
+package aplicacaofsiap;
+
+import aplicacaofsiap.FeixeDLuzIncidente;
 
 /**
  *
@@ -11,21 +13,21 @@ package aplicacaofsiap.Absorcao;
  */
 public abstract class Polarizacao {
 
-    private FeixeIncidente f_incidente;
+    private FeixeDLuzIncidente f_incidente;
 
-    public Polarizacao(FeixeIncidente f_incidente) {
+    public Polarizacao(FeixeDLuzIncidente f_incidente) {
         this.f_incidente = f_incidente;
     }
 
     public Polarizacao() {
-        this.f_incidente = new FeixeIncidente();
+        this.f_incidente = new FeixeDLuzIncidente();
     }
 
-    public FeixeIncidente getF_incidente() {
+    public FeixeDLuzIncidente getF_incidente() {
         return f_incidente;
     }
 
-    public void setF_incidente(FeixeIncidente f_incidente) {
+    public void setF_incidente(FeixeDLuzIncidente f_incidente) {
         this.f_incidente = f_incidente;
     }
 

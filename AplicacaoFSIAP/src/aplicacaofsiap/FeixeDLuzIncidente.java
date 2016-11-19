@@ -3,23 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aplicacaofsiap.Absorcao;
+package aplicacaofsiap;
 
 /**
  *
  * @author Helder
  */
-public class FeixeIncidente extends FeixeDLuz {
+public class FeixeDLuzIncidente extends FeixeDLuz {
 
-    public FeixeIncidente(TipoDLuz tipo, double intensidade, double angulo) {
+    public FeixeDLuzIncidente(TipoDLuz tipo, double intensidade, double angulo) {
         super(tipo, intensidade, angulo);
     }
 
-    public FeixeIncidente() {
+    public FeixeDLuzIncidente() {
         super(TipoDLuz.NAO_POLARIZADA, 0, 0);
     }
 
-    public FeixeIncidente(double intensidade) {
+    public FeixeDLuzIncidente(double intensidade) {
         super(TipoDLuz.NAO_POLARIZADA, intensidade, 0);
     }
 

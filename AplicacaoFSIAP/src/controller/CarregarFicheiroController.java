@@ -5,10 +5,10 @@
  */
 package controller;
 
-import aplicacaofsiap.ListaMeiosReflexao;
-import aplicacaofsiap.MeioReflexao;
-import aplicacaofsiap.PolarizacaoPorReflexao;
-import aplicacaofsiap.Simulacao;
+import aplicacaofsiap.Reflexao.ListaMeiosReflexao;
+import aplicacaofsiap.Reflexao.MeioReflexao;
+import aplicacaofsiap.Reflexao.PolarizacaoPorReflexao;
+import aplicacaofsiap.LightGo;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -21,7 +21,7 @@ import java.util.Scanner;
  */
 public class CarregarFicheiroController {
     
-    private Simulacao simulacao;
+    private LightGo simulacao;
     
     private PolarizacaoPorReflexao ppr;
     
@@ -29,7 +29,7 @@ public class CarregarFicheiroController {
     
 //    private static final String FICHEIRO_MEIOS = "src/ficheiros/meioReflexao.txt";
     
-    public CarregarFicheiroController(Simulacao s){
+    public CarregarFicheiroController(LightGo s){
         simulacao=s;
         lm=simulacao.getListaMeios();
     }

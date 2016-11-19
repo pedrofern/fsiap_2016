@@ -5,8 +5,10 @@
  */
 package ui;
 
-import aplicacaofsiap.PolarizacaoPorReflexao;
+import aplicacaofsiap.Reflexao.PolarizacaoPorReflexao;
+import aplicacaofsiap.LightGo;
 import aplicacaofsiap.Simulacao;
+import aplicacaofsiap.TipoDPolarizacao;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -65,11 +67,11 @@ public class DefinirPolarizaoUI extends JFrame{
     private PAbsorcaoUI paui;
     private CarregarFicheiroUI cfui;
     
-    private Simulacao s;
+    private LightGo lg;
     
-    public DefinirPolarizaoUI(Simulacao s){
+    public DefinirPolarizaoUI(LightGo lg){
         super("LIGHT GO");
-        this.s=s;
+        this.lg=lg;
         framePai = DefinirPolarizaoUI.this;
         
         JPanel botoes = criarBotoes();
@@ -389,14 +391,21 @@ public class DefinirPolarizaoUI extends JFrame{
      * Método para abrir PolarizacaoPorReflexao 
      */
     private void reflexao() {
-        PolarizacaoPorReflexao pr=new PolarizacaoPorReflexao();
-        prui = new PReflexaoUI(DefinirPolarizaoUI.this, s,pr);
+        if(lg.getListaMeios().getListaMeios().size()<2){
+            JOptionPane.showMessageDialog(rootPane, "Não há meios de reflexão no sistema. Insira por favor.", "Erro", JOptionPane.ERROR_MESSAGE);
+               
+        }else{
+            Simulacao s=new Simulacao(TipoDPolarizacao.REFLEXAO);
+            prui = new PReflexaoUI(this,lg,s);
+        }
+
+        
     }
     /**
      * Método para abrir PolarizacaoPorReflexao 
      */
     private void carregaFicheiro() {
-        cfui = new CarregarFicheiroUI(DefinirPolarizaoUI.this, s);
+        cfui = new CarregarFicheiroUI(DefinirPolarizaoUI.this, lg);
     }
     /**
      * Método para guardar a informação em ficheiro e fechar a aplicação

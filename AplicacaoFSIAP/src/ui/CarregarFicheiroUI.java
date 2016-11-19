@@ -5,7 +5,7 @@
  */
 package ui;
 
-import aplicacaofsiap.Simulacao;
+import aplicacaofsiap.LightGo;
 import controller.CarregarFicheiroController;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -24,11 +24,11 @@ import javax.swing.filechooser.FileFilter;
 public class CarregarFicheiroUI extends JDialog{
     
     private CarregarFicheiroController cfc;
-    private Simulacao s;
+    private LightGo s;
     private JFrame framePai;
     private JFileChooser fileChooser;
 
-    public CarregarFicheiroUI(JFrame framePai, Simulacao s) {
+    public CarregarFicheiroUI(JFrame framePai, LightGo s) {
         super(framePai,"LIGHT GO -> Carregar Ficheiro Meios Reflexão");
         
         this.framePai=framePai;

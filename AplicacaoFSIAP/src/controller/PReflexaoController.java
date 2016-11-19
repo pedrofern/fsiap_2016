@@ -5,10 +5,10 @@
  */
 package controller;
 
-import aplicacaofsiap.ListaMeiosReflexao;
-import aplicacaofsiap.Simulacao;
-import aplicacaofsiap.PolarizacaoPorReflexao;
-import aplicacaofsiap.MeioReflexao;
+import aplicacaofsiap.Reflexao.ListaMeiosReflexao;
+import aplicacaofsiap.LightGo;
+import aplicacaofsiap.Reflexao.PolarizacaoPorReflexao;
+import aplicacaofsiap.Reflexao.MeioReflexao;
 
 /**
  * Classe que coordena as operações relacionadas com a simulação da Polarização por Reflexão (Brewster)
@@ -17,26 +17,26 @@ import aplicacaofsiap.MeioReflexao;
 public class PReflexaoController {
     
     
-    private static Simulacao s;
+    private static LightGo lg;
     private static PolarizacaoPorReflexao pr;
     
     /**
      *  Constrói uma instância do controller com a simulacao e polarizacao reflexao passados 
      * como parâmetros
-     * @param simulacao simula experiências de polarização
+     * @param lg os dados da aplicação
      * @param polarizacaoReflexao a polarização a simular
      */
-    public PReflexaoController(Simulacao simulacao, PolarizacaoPorReflexao polarizacaoReflexao){
-        s=simulacao;
+    public PReflexaoController(LightGo lg, PolarizacaoPorReflexao polarizacaoReflexao){
+        this.lg=lg;
         pr=polarizacaoReflexao;
     }
     
     /**
-     * Devolve a lista de meios/materiais guardados na Simulacao
+     * Devolve a lista de meios/materiais guardados na LightGo
      * @return lista de meios/materiais de reflexão
      */
     public ListaMeiosReflexao getListaMeios(){
-        return s.getListaMeios();
+        return lg.getListaMeios();
     }
     
     /**
@@ -63,7 +63,7 @@ public class PReflexaoController {
      * @return true se alterou, false se não alterou
      */
     public boolean setAngulo(double angulo){
-        return pr.setAngulo(angulo);
+        return pr.getFeixeDeLuzIncidente().setAnguloValidacao(angulo);
     }
     
     /**
@@ -78,12 +78,24 @@ public class PReflexaoController {
     }
     
     /**
-     * Adiciona os resultados obtidos na simualação à ListaEstatistica para fins de estatística
+     * Adiciona os resultados obtidos na simualação à Estatistica para fins de estatística
      * @param pr polarização por reflexão simulada
      * @return true se adicionou resultado à lista, caso contrário false
      */
     public boolean addEstatisticaALista(PolarizacaoPorReflexao pr){
-        return s.getListaEstatistica().addPolarizacaEstatistica(pr);
+        return lg.getEstatistica().addPolarizacaEstatistica(pr);
+    }
+    
+    public double  getFeixeReflexao() {
+        return pr.getFeixeReflexao();
+    }
+
+    public double getFeixeRefracao() {
+        return pr.getFeixeRefracao();
+    }
+    
+    public double getAnguloBrewster() {
+        return pr.getAnguloBrewster();
     }
             
 }

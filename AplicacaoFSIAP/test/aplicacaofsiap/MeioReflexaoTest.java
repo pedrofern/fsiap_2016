@@ -5,6 +5,7 @@
  */
 package aplicacaofsiap;
 
+import aplicacaofsiap.Reflexao.MeioReflexao;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

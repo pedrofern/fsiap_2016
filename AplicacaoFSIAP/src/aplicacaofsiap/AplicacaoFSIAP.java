@@ -19,10 +19,10 @@ public class AplicacaoFSIAP {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        Simulacao s= new Simulacao();
+        LightGo s= new LightGo();
         
         DefinirPolarizaoUI definir = new DefinirPolarizaoUI(s);
-//        Simulacao simulacao = new Simulacao();
+//        LightGo simulacao = new LightGo();
 //        CarregarFicheiroController teste = new CarregarFicheiroController(simulacao);
 //        teste.carregaMeios();
 //        for(int i=0; i < simulacao.getListaMeios().tamanho(); i++){

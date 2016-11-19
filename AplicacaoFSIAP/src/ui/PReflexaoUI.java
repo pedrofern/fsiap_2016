@@ -5,9 +5,10 @@
  */
 package ui;
 
-import aplicacaofsiap.ListaMeiosReflexao;
-import aplicacaofsiap.MeioReflexao;
-import aplicacaofsiap.PolarizacaoPorReflexao;
+import aplicacaofsiap.Reflexao.ListaMeiosReflexao;
+import aplicacaofsiap.Reflexao.MeioReflexao;
+import aplicacaofsiap.Reflexao.PolarizacaoPorReflexao;
+import aplicacaofsiap.LightGo;
 import aplicacaofsiap.Simulacao;
 import controller.PReflexaoController;
 import java.awt.BorderLayout;
@@ -63,11 +64,7 @@ public class PReflexaoUI extends JDialog{
      * Guarda lista dos materiais
      */
     private ListaMeiosReflexao listaMeios;
-    
-    /**
-     * Guarda a simulação recebida por parâmetro
-     */
-    private Simulacao s;
+
     
     /**
      * O controller da Polarização por Reflexão
@@ -83,13 +80,12 @@ public class PReflexaoUI extends JDialog{
      * recebendo a janela anterior como parametro
      * @param framePai janela anterior
      */
-    public PReflexaoUI(DefinirPolarizaoUI framePai, Simulacao s, PolarizacaoPorReflexao pr){
+    public PReflexaoUI(DefinirPolarizaoUI framePai, LightGo lg, Simulacao s){
         super(framePai, "LIGHT GO -> Polarização por Reflexão");
         
         this.framePai = framePai;
-        this.s=s;
-        this.pr=pr;
-        this.controller=new PReflexaoController(s, pr);
+        this.pr=s.getPolarizacaoPorReflexao();
+        this.controller=new PReflexaoController(lg, pr);
              
         listaMeios =controller.getListaMeios();
         
@@ -279,15 +275,17 @@ public class PReflexaoUI extends JDialog{
                 MeioReflexao meio2=(MeioReflexao)comboMateriais2.getSelectedItem();
                 controller.setMeioReflexao1(meio1);
                 controller.setMeioReflexao2(meio2);
-                controller.setAngulo(Double.parseDouble(angTxt1.getText()));
-                
-                if(controller.gerarResultado(pr)==true){
-                    angTxt2.setText(String.format("%.2f", pr.getFeixe1()));
-                    angTxt3.setText(String.format("%.2f", pr.getFeixe2())); 
-                    angTxt4.setText(String.format("%.2f", pr.getAnguloBrewster()));
-                }
+                if(angTxt1.getText().isEmpty() || !controller.setAngulo(Double.parseDouble(angTxt1.getText())))
+                  JOptionPane.showMessageDialog(rootPane, "Ângulo inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
                 else{
-                    JOptionPane.showMessageDialog(rootPane, "Não foi possível gerar os resultados.", "Inane error", JOptionPane.ERROR_MESSAGE);
+                    if(controller.gerarResultado(pr)==true){
+                        angTxt2.setText(String.format("%.2f", controller.getFeixeReflexao()));
+                        angTxt3.setText(String.format("%.2f", controller.getFeixeRefracao())); 
+                        angTxt4.setText(String.format("%.2f", controller.getAnguloBrewster()));
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(rootPane, "Não foi possível gerar os resultados.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });

@@ -5,6 +5,11 @@
  */
 package aplicacaofsiap.Absorcao;
 
+import aplicacaofsiap.TipoDPolarizacao;
+import aplicacaofsiap.Simulacao;
+import aplicacaofsiap.FeixeDLuzIncidente;
+import aplicacaofsiap.FeixeDLuzResultante;
+import aplicacaofsiap.FeixeDLuz;
 import java.util.Scanner;
 
 /**
@@ -20,7 +25,7 @@ public class ClasseTesteAbsorcao {
         Simulacao s = new Simulacao(TipoDPolarizacao.ABSORCAO);
         System.out.print("Introduza os seguintes dados:\n-intensidade do feixe de luz incidente: ");        
         double intensidade = ler.nextDouble();        
-        FeixeIncidente f_inc = new FeixeIncidente(FeixeDLuz.TipoDLuz.NAO_POLARIZADA, intensidade, 0);
+        FeixeDLuzIncidente f_inc = new FeixeDLuzIncidente(FeixeDLuz.TipoDLuz.NAO_POLARIZADA, intensidade, 0);
         
         Polarizador polarizador = new Polarizador(0);
         
@@ -28,9 +33,9 @@ public class ClasseTesteAbsorcao {
         double angulo = ler.nextDouble();        
         Analisador analisador = new Analisador(angulo);
         
-        FeixeResultante f_int = new FeixeResultante();
+        FeixeDLuzResultante f_int = new FeixeDLuzResultante();
           
-        FeixeResultante feixe_resultante = new FeixeResultante();
+        FeixeDLuzResultante feixe_resultante = new FeixeDLuzResultante();
                
         PolarizacaoPorAbsorcao pol_por_abs = new PolarizacaoPorAbsorcao(f_inc,
                 polarizador, f_int, analisador, feixe_resultante);

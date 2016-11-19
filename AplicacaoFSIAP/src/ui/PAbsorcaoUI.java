@@ -5,6 +5,7 @@
  */
 package ui;
 
+import aplicacaofsiap.Simulacao;
 import aplicacaofsiap.Absorcao.*;
 import controller.PolarAbsorcaoController;
 

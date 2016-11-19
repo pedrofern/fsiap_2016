@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aplicacaofsiap.Absorcao;
+package aplicacaofsiap;
 
 /**
  *
@@ -68,10 +68,49 @@ public abstract class FeixeDLuz {
     public void setAngulo(double angulo) {
         this.angulo = angulo;
     }
+    
+    /**
+     * Altera a Ã¢ngulo do feixe de luz
+     * @param anguloDeIncidencia the anguloDeIncidencia a alterar
+     * @return true se alterou, false se nÃ£o alterou
+     */
+    public boolean setAnguloValidacao(double anguloDeIncidencia) {
+        if(validaAngulo(anguloDeIncidencia)==true)
+                this.angulo = anguloDeIncidencia;
+        return this.angulo==anguloDeIncidencia;
+    }
+    
+    public boolean validaAngulo(double angulo){
+        return angulo>0 && angulo<=360;       
+    }
+    
+    @Override
+     public boolean equals(Object outroObjeto) {
+        if (this == outroObjeto) {
+            return true;
+        }
+        if (outroObjeto == null || getClass() != outroObjeto.getClass()) {
+            return false;
+        }
+        FeixeDLuzIncidente outroFeixe= (FeixeDLuzIncidente) outroObjeto;
+        
+        return angulo==outroFeixe.getAngulo();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.angulo) ^ (Double.doubleToLongBits(this.angulo) >>> 32));
+        return hash;
+    }
+
+    
 
     @Override
     public String toString() {
         return "FeixeDLuz{" + "tipo=" + tipo + ", intensidade=" + intensidade + ", angulo=" + angulo + '}';
     }
+    
+    
     
 }

@@ -5,6 +5,8 @@
  */
 package aplicacaofsiap;
 
+import aplicacaofsiap.Reflexao.ListaMeiosReflexao;
+import aplicacaofsiap.Reflexao.MeioReflexao;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
