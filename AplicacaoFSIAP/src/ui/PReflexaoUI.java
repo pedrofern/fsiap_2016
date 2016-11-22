@@ -81,7 +81,7 @@ public class PReflexaoUI extends JDialog{
      * @param framePai janela anterior
      */
     public PReflexaoUI(DefinirPolarizaoUI framePai, LightGo lg, Simulacao s){
-        super(framePai, "LIGHT GO -> Polarização por Reflexão");
+        super(framePai, "LIGHT GO -> Polarização por Reflexão", true);
         
         this.framePai = framePai;
         this.pr=s.getPolarizacaoPorReflexao();

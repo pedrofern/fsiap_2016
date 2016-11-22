@@ -72,7 +72,7 @@ public class PAbsorcaoUI extends JDialog {
      * @param framePai janela anterior
      */
     public PAbsorcaoUI(DefinirPolarizaoUI framePai) {
-        super(framePai, "LIGHT GO -> Polarização por Absorção");
+        super(framePai, "LIGHT GO -> Polarização por Absorção", true);
 
         this.framePai = framePai;
         this.controll = new PolarAbsorcaoController(this);
@@ -85,7 +85,6 @@ public class PAbsorcaoUI extends JDialog {
         setResizable(true);
         setLocationRelativeTo(framePai);
         setVisible(true);
-        setModal(true);
     }
 
     /**
