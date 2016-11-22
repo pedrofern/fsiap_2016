@@ -10,6 +10,7 @@ import aplicacaofsiap.Reflexao.MeioReflexao;
 import aplicacaofsiap.Reflexao.PolarizacaoPorReflexao;
 import aplicacaofsiap.LightGo;
 import aplicacaofsiap.Simulacao;
+import controller.CarregarFicheiroController;
 import controller.PReflexaoController;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -64,13 +65,10 @@ public class PReflexaoUI extends JDialog{
      * Guarda lista dos materiais
      */
     private ListaMeiosReflexao listaMeios;
-
-    
     /**
      * O controller da Polarização por Reflexão
      */
     private PReflexaoController controller;
-    
     /**
      * A polarização por reflexão que iremos simular
      */
@@ -86,7 +84,7 @@ public class PReflexaoUI extends JDialog{
         this.framePai = framePai;
         this.pr=s.getPolarizacaoPorReflexao();
         this.controller=new PReflexaoController(lg, pr);
-             
+        
         listaMeios =controller.getListaMeios();
         
         criarComponentes();

@@ -27,7 +27,7 @@ public class CarregarFicheiroController {
     
     private ListaMeiosReflexao lm;
     
-//    private static final String FICHEIRO_MEIOS = "src/ficheiros/meioReflexao.txt";
+    private static final String FICHEIRO_MEIOS = "src/ficheiros/meioReflexao.txt";
     
     public CarregarFicheiroController(LightGo s){
         simulacao=s;
@@ -53,4 +53,22 @@ public class CarregarFicheiroController {
         
     }
     
+    public boolean carregaMeiosAutomaticamente(){
+        try {
+            Scanner fInput = new Scanner(new File(FICHEIRO_MEIOS));
+            while (fInput.hasNextLine()) {
+                String str = fInput.nextLine();
+                if (!str.isEmpty()) {
+                    String[] temp = str.split(",");              
+                    MeioReflexao m = new MeioReflexao(temp[0].trim(), Double.parseDouble(temp[1].trim()));
+                    lm.registaMeio(m);
+                }
+            }
+            fInput.close();
+            return true;
+        } catch (FileNotFoundException ex) {
+            return false;
+        }
+        
+    }
 }

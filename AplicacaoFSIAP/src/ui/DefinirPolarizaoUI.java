@@ -390,16 +390,9 @@ public class DefinirPolarizaoUI extends JFrame{
     /**
      * Método para abrir PolarizacaoPorReflexao 
      */
-    private void reflexao() {
-        if(lg.getListaMeios().getListaMeios().size()<2){
-            JOptionPane.showMessageDialog(rootPane, "Não há meios de reflexão no sistema. Insira por favor.", "Erro", JOptionPane.ERROR_MESSAGE);
-               
-        }else{
+    private void reflexao() {       
             Simulacao s=new Simulacao(TipoDPolarizacao.REFLEXAO);
-            prui = new PReflexaoUI(this,lg,s);
-        }
-
-        
+            prui = new PReflexaoUI(this,lg,s); 
     }
     /**
      * Método para abrir PolarizacaoPorReflexao 

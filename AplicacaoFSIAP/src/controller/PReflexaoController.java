@@ -15,7 +15,10 @@ import aplicacaofsiap.Reflexao.MeioReflexao;
  * @author Diana Silva
  */
 public class PReflexaoController {
-    
+        /**
+     * O controller Carregar Ficheiro (para carregar auto)
+     */
+    private CarregarFicheiroController controlFicheiro;
     
     private static LightGo lg;
     private static PolarizacaoPorReflexao pr;
@@ -28,7 +31,10 @@ public class PReflexaoController {
      */
     public PReflexaoController(LightGo lg, PolarizacaoPorReflexao polarizacaoReflexao){
         this.lg=lg;
+        controlFicheiro = new CarregarFicheiroController(lg);
+        controlFicheiro.carregaMeiosAutomaticamente();
         pr=polarizacaoReflexao;
+        
     }
     
     /**
