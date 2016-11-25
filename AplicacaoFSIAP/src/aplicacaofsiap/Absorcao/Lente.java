@@ -33,8 +33,23 @@ public abstract class Lente {
         }
     }
 
+    public double obterAnguloEquivalente(double angulo) {
+        double ang_reduzido_ao1o_ou4o_Quadrante;
+        if (angulo <= 90 && angulo >= -90) {
+            return angulo;
+        } else {
+            ang_reduzido_ao1o_ou4o_Quadrante = angulo;
+            while (ang_reduzido_ao1o_ou4o_Quadrante > 90
+                    || ang_reduzido_ao1o_ou4o_Quadrante < -90) {
+                ang_reduzido_ao1o_ou4o_Quadrante
+                        = ang_reduzido_ao1o_ou4o_Quadrante - 180;
+            }
+        }
+        return ang_reduzido_ao1o_ou4o_Quadrante;
+    }
+
     public static boolean validaAngulo_emGraus(double angulo_emGraus) {
-        return ( (angulo_emGraus >= 0) && (angulo_emGraus <= 360) );
+        return ((angulo_emGraus >= -360) && (angulo_emGraus <= 360));
     }
 
     @Override

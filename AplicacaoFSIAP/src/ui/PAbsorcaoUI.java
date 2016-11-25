@@ -5,8 +5,9 @@
  */
 package ui;
 
+import aplicacaofsiap.Absorcao.Lente;
+import aplicacaofsiap.FeixeDLuz;
 import aplicacaofsiap.Simulacao;
-import aplicacaofsiap.Absorcao.*;
 import controller.PolarAbsorcaoController;
 
 import java.awt.BorderLayout;
@@ -135,9 +136,9 @@ public class PAbsorcaoUI extends JDialog {
 
         p.setBorder(new TitledBorder("Polarizador"));
 
-        angTxt1 = new JTextField(10);
+        angTxt1 = new JTextField(5);
 
-        p.add(criarPainelLabelTextfield("Angulo", angTxt1));
+        p.add(criarPainelLabelTextfield2("Angulo", angTxt1, "º"));
 
         return p;
     }
@@ -159,9 +160,9 @@ public class PAbsorcaoUI extends JDialog {
 
         p.setBorder(new TitledBorder("Analisador"));
 
-        angTxt2 = new JTextField(10);
+        angTxt2 = new JTextField(5);
 
-        p.add(criarPainelLabelTextfield("Angulo", angTxt2));
+        p.add(criarPainelLabelTextfield2("Angulo", angTxt2, "º"));
 
         return p;
     }
@@ -193,6 +194,22 @@ public class PAbsorcaoUI extends JDialog {
 
         p.add(lb1);
         p.add(texto);
+
+        return p;
+    }
+
+    private JPanel criarPainelLabelTextfield2(String label1, JTextField texto, String label2) {
+        JLabel lb1 = new JLabel(label1, JLabel.RIGHT);
+        lb1.setPreferredSize(LABEL_TAMANHO);
+
+        JLabel lb2 = new JLabel(label2, JLabel.RIGHT);
+        lb1.setPreferredSize(LABEL_TAMANHO);
+
+        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+        p.add(lb1);
+        p.add(texto);
+        p.add(lb2);
 
         return p;
     }
@@ -233,20 +250,21 @@ public class PAbsorcaoUI extends JDialog {
         simular.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (lerIntensidade(intTxt1.getText())
+                        && lerAngulo(angTxt1.getText(), "polarizador")
+                        && lerAngulo(angTxt2.getText(), "analisador")) {
 
-                if (controll.setDadosParaSimularPolarizacao(intTxt1.getText(),
-                        angTxt1.getText(), angTxt2.getText())) {
+                    controll.setDadosParaSimularPolarizacao(intTxt1.getText(),
+                            angTxt1.getText(), angTxt2.getText());
                     controll.calcularResultadosDPolarizacao();
 
                     //colocação de resultados de polarizacao no interface
                     intTxt2.setText(controll.obterIntensidadeDFeixeIntermedio());
                     intTxt3.setText(controll.obterIntensidadeDFeixeResultante());
                 }
-
             }
         }
         );
-
         return simular;
     }
 
@@ -308,4 +326,52 @@ public class PAbsorcaoUI extends JDialog {
 
         return guardar;
     }
+
+    private boolean lerIntensidade(String imput) {
+        boolean bool = false;
+        //verifica valor de intensidade introduzido e despoleta pop-ups se necessário
+        if (imput.isEmpty()) {
+            popUpMensagemDErro("Insira um valor para a intensidade do feixe incidente!");
+        } else {
+            try {
+                double valor_intensidade = Double.parseDouble(imput);
+                if (!FeixeDLuz.validaIntensidade(valor_intensidade)) {
+                    popUpMensagemDErro("A intensidade do feixe incidente deve ser um valor positivo!");
+                } else {
+                    bool = true;
+                    //continua com confirmação dos restantes inputs antes de fazer setDados
+                }
+            } catch (NumberFormatException ex) { //se não foi introduzido um valor numérico
+                popUpMensagemDErro("A intensidade do feixe incidente deve ser um valor numérico!");
+            }
+        }
+        return bool;
+    }
+
+    private boolean lerAngulo(String input, String tipoDLente) {
+        //verifica valor de anguloDLente introduzido e despoleta pop-ups se necessário
+        boolean bool = false;
+        if (input.isEmpty()) {
+            popUpMensagemDErro("Insira o valor do ângulo do " + tipoDLente + "!");
+        } else {
+            try {
+                double valor_intensidade = Double.parseDouble(input);
+                if (!Lente.validaAngulo_emGraus(valor_intensidade)) {
+                    popUpMensagemDErro("Introduza um valor para o ângulo do " + tipoDLente + " no intervalo [(-360) - 360].");
+                } else {
+                    bool = true;
+                    //continua 
+                }
+            } catch (NumberFormatException ex) { //se não foi introduzido um valor numérico
+                popUpMensagemDErro("O ângulo do " + tipoDLente + " deve ser um valor numérico!");
+            }
+        }
+        return bool;
+    }
+
+    private void popUpMensagemDErro(String msg) {
+        JOptionPane.showMessageDialog(this,
+                msg, "Dados da Simulação", JOptionPane.WARNING_MESSAGE);
+    }
+
 }
