@@ -24,6 +24,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 /**
  *
@@ -60,6 +62,8 @@ public class PAbsorcaoUI extends JDialog {
      * Guarda os botoes
      */
     private JButton novaSimulacao, simular, voltar, guardar;
+
+    private JRadioButton naoPolarizadaButton, polarizadaButton;
 
     /**
      * A instancia do controller de polarizacao por absorcao
@@ -101,13 +105,13 @@ public class PAbsorcaoUI extends JDialog {
     private JPanel criarPainelGeral() {
         JPanel painel = new JPanel(new BorderLayout());
 
-        painel.add(criarPainelResultados(), BorderLayout.NORTH);
+        painel.add(criarPainelDadosDEntrada(), BorderLayout.NORTH);
         painel.add(criarPainelBotoes(), BorderLayout.CENTER);
 
         return painel;
     }
 
-    private JPanel criarPainelResultados() {
+    private JPanel criarPainelDadosDEntrada() {
         JPanel p = new JPanel(new GridLayout(1, 5));
 
         p.add(criarPainelFeixeIncidente());
@@ -120,14 +124,27 @@ public class PAbsorcaoUI extends JDialog {
     }
 
     private JPanel criarPainelFeixeIncidente() {
-        JPanel p = new JPanel();
-
+        JPanel p = new JPanel(new BorderLayout());
         p.setBorder(new TitledBorder("Feixe Incidente"));
 
-        intTxt1 = new JTextField(10);
+        intTxt1 = new JTextField(5);
+        p.add(criarPainelLabelTextfield("Intensidade", intTxt1), BorderLayout.NORTH);
 
-        p.add(criarPainelLabelTextfield("Intensidade", intTxt1));
+        JPanel radioButtPanel = new JPanel();
+        radioButtPanel.setBorder(new TitledBorder("Tipo de Luz"));
 
+        naoPolarizadaButton = new JRadioButton("Não Polarizada");
+        naoPolarizadaButton.setSelected(true);
+        polarizadaButton = new JRadioButton("Polarizada");
+
+        ButtonGroup group = new ButtonGroup();
+        group.add(naoPolarizadaButton);
+        group.add(polarizadaButton);
+
+        radioButtPanel.add(naoPolarizadaButton);
+        radioButtPanel.add(polarizadaButton);
+
+        p.add(radioButtPanel, BorderLayout.SOUTH);
         return p;
     }
 
@@ -136,7 +153,7 @@ public class PAbsorcaoUI extends JDialog {
 
         p.setBorder(new TitledBorder("Polarizador"));
 
-        angTxt1 = new JTextField(5);
+        angTxt1 = new JTextField(3);
 
         p.add(criarPainelLabelTextfield2("Angulo", angTxt1, "º"));
 
@@ -148,7 +165,7 @@ public class PAbsorcaoUI extends JDialog {
 
         p.setBorder(new TitledBorder("Feixe Intermedio"));
 
-        intTxt2 = new JTextField(10);
+        intTxt2 = new JTextField(5);
         intTxt2.setEditable(false);
         p.add(criarPainelLabelTextfield("Intensidade", intTxt2));
 
@@ -160,7 +177,7 @@ public class PAbsorcaoUI extends JDialog {
 
         p.setBorder(new TitledBorder("Analisador"));
 
-        angTxt2 = new JTextField(5);
+        angTxt2 = new JTextField(3);
 
         p.add(criarPainelLabelTextfield2("Angulo", angTxt2, "º"));
 
@@ -172,7 +189,7 @@ public class PAbsorcaoUI extends JDialog {
 
         p.setBorder(new TitledBorder("Feixe Resultante"));
 
-        intTxt3 = new JTextField(10);
+        intTxt3 = new JTextField(5);
         intTxt3.setEditable(false);
         p.add(criarPainelLabelTextfield("Intensidade", intTxt3));
 
@@ -250,12 +267,18 @@ public class PAbsorcaoUI extends JDialog {
         simular.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (polarizadaButton.isSelected()) {
+                    controll.setTipoDFeixeIncidente(FeixeDLuz.TipoDLuz.POLARIZADA);
+                } else if (naoPolarizadaButton.isSelected()) {
+                    controll.setTipoDFeixeIncidente(FeixeDLuz.TipoDLuz.NAO_POLARIZADA);
+                }
                 if (lerIntensidade(intTxt1.getText())
                         && lerAngulo(angTxt1.getText(), "polarizador")
                         && lerAngulo(angTxt2.getText(), "analisador")) {
 
                     controll.setDadosParaSimularPolarizacao(intTxt1.getText(),
                             angTxt1.getText(), angTxt2.getText());
+
                     controll.calcularResultadosDPolarizacao();
 
                     //colocação de resultados de polarizacao no interface
@@ -280,6 +303,7 @@ public class PAbsorcaoUI extends JDialog {
         novaSimulacao.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                naoPolarizadaButton.setSelected(true);
                 intTxt1.setText("");
                 intTxt2.setText("");
                 intTxt3.setText("");

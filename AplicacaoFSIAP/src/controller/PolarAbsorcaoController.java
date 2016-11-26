@@ -10,6 +10,7 @@ import aplicacaofsiap.Simulacao;
 import aplicacaofsiap.FeixeDLuz;
 import javax.swing.JOptionPane;
 import aplicacaofsiap.Absorcao.*;
+import aplicacaofsiap.FeixeDLuz.TipoDLuz;
 import ui.PAbsorcaoUI;
 
 /**
@@ -25,6 +26,10 @@ public class PolarAbsorcaoController {
     public PolarAbsorcaoController(PAbsorcaoUI activeWindow) {
         this.ui = activeWindow;
         this.simulacao = new Simulacao(TipoDPolarizacao.ABSORCAO);
+    }
+
+    public void setTipoDFeixeIncidente(TipoDLuz tipo) {
+        this.simulacao.getPolarizacaoPorAbsorcao().getF_incidente().setTipo(tipo);
     }
 
     public boolean setDadosParaSimularPolarizacao(String intens, String ang_pol, String ang_analis) {
@@ -127,11 +132,6 @@ public class PolarAbsorcaoController {
             }
         }
         return bool;
-    }
-
-    public void popUpMensagemDErro(String msg) {
-        JOptionPane.showMessageDialog(ui,
-                msg, "Dados da Simulação", JOptionPane.WARNING_MESSAGE);
     }
 
 }

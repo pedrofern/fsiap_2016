@@ -5,6 +5,7 @@
  */
 package aplicacaofsiap.Absorcao;
 
+import aplicacaofsiap.FeixeDLuz;
 import aplicacaofsiap.Polarizacao;
 import aplicacaofsiap.TipoDPolarizacao;
 import aplicacaofsiap.FeixeDLuzIncidente;
@@ -92,15 +93,31 @@ public class PolarizacaoPorAbsorcao extends Polarizacao {
     }
 
     public double calcularIntensidadeDFeixeIntermedio() {
-        this.feixe_intermedio.setIntensidade(
-                Math.round((this.getF_incidente().getIntensidade() / 2)
-                        * 1000) / 1000.000);
+        double intensidade_incid = this.getF_incidente().getIntensidade();
+        if (this.getF_incidente().getTipo() == FeixeDLuz.TipoDLuz.NAO_POLARIZADA) {
+            this.feixe_intermedio.setIntensidade(
+                    intensObtidaDeFNaoP_para_FPolarizado(intensidade_incid));
+        }
+        if (this.getF_incidente().getTipo() == FeixeDLuz.TipoDLuz.POLARIZADA) {
+            double angDLente = this.getPolarizador().getAngulo_emGraus();
+            this.feixe_intermedio.setIntensidade(
+                    intensObtidaDeFP_para_FPolarizado(intensidade_incid, angDLente));
+        }
         return this.feixe_intermedio.getIntensidade();
+    }
+
+    private double intensObtidaDeFNaoP_para_FPolarizado(double int_incidente) {
+        return Math.round((int_incidente / 2) * 1000) / 1000.000;
+    }
+
+    private double intensObtidaDeFP_para_FPolarizado(double intensidd, double angulo) {
+        return Math.round((intensidd * Math.pow(Math.cos(Math.toRadians(angulo)), 2))
+                * 1000) / 1000.000;
     }
 
     public double obterAnguloEntrePolarizadorEAnalisador() {
         return Math.abs(this.getAnalisador().getAngulo_emGraus()
-                - this.getPolarizador().getAngulo_emGraus() );
+                - this.getPolarizador().getAngulo_emGraus());
     }
 
     public double calcularIntensidadeDFeixeResultante(double anguloEntreLentes) {

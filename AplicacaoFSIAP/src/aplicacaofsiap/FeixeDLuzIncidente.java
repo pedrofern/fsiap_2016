@@ -16,7 +16,7 @@ public class FeixeDLuzIncidente extends FeixeDLuz {
     }
 
     public FeixeDLuzIncidente() {
-        super(TipoDLuz.NAO_POLARIZADA, 0, 0);
+        super();
     }
 
     public FeixeDLuzIncidente(double intensidade) {
