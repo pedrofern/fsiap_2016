@@ -43,11 +43,11 @@ public class PReflexaoUI extends JDialog{
     /**
      * Guarda a largura mínima da janela em píxeis.
      */
-    private static final int JANELA_LARGURA_MINIMO = 900, JANELA_ALTURA_MINIMO = 550; 
+    private static final int JANELA_LARGURA_MINIMO = 1000, JANELA_ALTURA_MINIMO = 700; 
     /**
      * Guarda a dimensão de uma label por omissão
      */
-    private static final Dimension LABEL_TAMANHO = new JLabel("Ângulo entrada (º Graus):").
+    private static final Dimension LABEL_TAMANHO = new JLabel("Ângulo Brewster (º Graus):").
                                                         getPreferredSize();
     /**
      * Guarda o angulo1
@@ -158,13 +158,12 @@ public class PReflexaoUI extends JDialog{
         p.add(criarPainelAngulos(),BorderLayout.NORTH);
         p.add(criarPainelImagem(),BorderLayout.CENTER);
         p.add(criarPainelBotaoUnico(criarBotaoNovaSimulacao()),BorderLayout.SOUTH);
-        novaSimulacao.setEnabled(false);
         
         return p;           
     }
     
     private JPanel criarPainelAngulos(){
-        JPanel p = new JPanel(new GridLayout(2,1));
+        JPanel p = new JPanel(new GridLayout(3,1));
         
         p.setBorder(new TitledBorder("Ângulos:"));
         
@@ -175,13 +174,13 @@ public class PReflexaoUI extends JDialog{
         angTxt3.setEditable(false);
         angTxt4.setEditable(false);
         
-        String label1="Ângulo Reflexão (º Graus):";
-        String label2="Ângulo Refração (º Graus):";
-        String label3="Ângulo Brewster (º Graus):";
+        String l1="Ângulo Reflexão (º Graus):";
+        String l2="Ângulo Refração (º Graus):";
+        String l3="Ângulo Brewster (º Graus):";
         
-        p.add(criarPainelLabelTextfield(label1, angTxt2));
-        p.add(criarPainelLabelTextfield(label2, angTxt3));
-        p.add(criarPainelLabelTextfield(label3, angTxt4));
+        p.add(criarPainelLabelTextfield(l1, angTxt2));
+        p.add(criarPainelLabelTextfield(l2, angTxt3));
+        p.add(criarPainelLabelTextfield(l3, angTxt4));
         
         return p;
         
@@ -189,15 +188,20 @@ public class PReflexaoUI extends JDialog{
     
     /**
      * cria painel para introduzir label1, campo para introdução dados
-     * @param label1 introduzir label1
+     * @param label introduzir label
      * @param texto campo para introdução dados 
      * @return painel para introduzir label1, campo para introdução dados
      */
-    private JPanel criarPainelLabelTextfield(String label1, JTextField texto) {
-        JLabel lb1 = new JLabel(label1, JLabel.RIGHT);
+    private JPanel criarPainelLabelTextfield(String label, JTextField texto) {
+        JLabel lb1 = new JLabel(label, JLabel.RIGHT);
         lb1.setPreferredSize(LABEL_TAMANHO);
         
-        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        FlowLayout l = new FlowLayout(FlowLayout.LEFT);
+
+        l.setHgap(20);
+        l.setVgap(20);
+        
+        JPanel p = new JPanel(l);
 
         p.add(lb1);
         p.add(texto);
@@ -210,7 +214,7 @@ public class PReflexaoUI extends JDialog{
      */
     private JPanel criarPainelImagem() {
 //************************************++  implementar para escolher imagem   *******************************+
-        ImageIcon background = new ImageIcon("src/ficheiros/imagem.jpg");
+        ImageIcon background = new ImageIcon("src/ficheiros/lightGo.png");
 //*************************************************************************************************+++++
 
         JLabel label = new JLabel();
@@ -301,7 +305,11 @@ public class PReflexaoUI extends JDialog{
         novaSimulacao.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //implementar
+                angTxt1.setText("");
+                angTxt2.setText("");
+                angTxt3.setText("");
+                angTxt4.setText("");
+                getRootPane().setDefaultButton(simular);
             }
         });
 

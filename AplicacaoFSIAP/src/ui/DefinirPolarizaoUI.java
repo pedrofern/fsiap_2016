@@ -46,7 +46,7 @@ public class DefinirPolarizaoUI extends JFrame{
     /**
      * Guarda a altura mínima da janela em píxeis.
      */
-    private static final int JANELA_ALTURA_MINIMO = 450;      
+    private static final int JANELA_ALTURA_MINIMO = 550;      
     /**
      * Representa o botão absorcao
      */
@@ -197,7 +197,7 @@ public class DefinirPolarizaoUI extends JFrame{
      * @return painel com uma imagem
      */
     private JPanel criarPainelImagem() {
-        ImageIcon background = new ImageIcon("src/ficheiros/imagem.jpg");
+        ImageIcon background = new ImageIcon("src/ficheiros/lightGo.png");
         JLabel label = new JLabel();
         label.setIcon(background);
 
