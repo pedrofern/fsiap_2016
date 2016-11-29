@@ -19,6 +19,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,6 +28,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
@@ -47,20 +49,22 @@ public class PReflexaoUI extends JDialog{
     /**
      * Guarda a dimensão de uma label por omissão
      */
-    private static final Dimension LABEL_TAMANHO = new JLabel("Ângulo Brewster (º Graus):").
-                                                        getPreferredSize();
+    private static final Dimension LABEL_TAMANHO = new JLabel("Intensidade Reflexão Perpendicular:").
+                                                    getPreferredSize();
+    
     /**
      * Guarda o angulo1
      */
-    private JTextField angTxt1, angTxt2, angTxt3, angTxt4;
+    private JTextField angTxt1, angTxt2, angTxt3, angTxt4, int1,int2,int3,int4;
     /**
      * Guarda o botao nova simulacao
      */
-    private JButton novaSimulacao,simular;
+    private JButton limpar,simular,guardar;
     /**
      * Guarda lista com materiais numa combobox
      */
     private JComboBox comboMateriais1, comboMateriais2;
+    private JRadioButton paralelo, perpendicular;
     /**
      * Guarda lista dos materiais
      */
@@ -104,7 +108,7 @@ public class PReflexaoUI extends JDialog{
         
         JPanel p1 = criarPainelEsquerda();
         JPanel p2 = criarPainelDireita();
-        JPanel p3 = criarPainelBotaoUnico(criarBotaoVoltar());
+        JPanel p3 = criarPainelBotoes();
         
         add(p1, BorderLayout.NORTH);
         add(p2, BorderLayout.CENTER);
@@ -114,7 +118,7 @@ public class PReflexaoUI extends JDialog{
         JPanel p = new JPanel();
         
         p.setBorder(new TitledBorder("Escolher materiais e angulo entrada:"));
-
+        
         p.add(criarPainelMateriaisAngulo(),BorderLayout.CENTER);
         p.add(criarPainelBotaoUnico(criarBotaoSimular()),BorderLayout.SOUTH);
         simular.setEnabled(true);
@@ -124,21 +128,38 @@ public class PReflexaoUI extends JDialog{
     private JPanel criarPainelMateriaisAngulo(){
         JPanel p = new JPanel(new FlowLayout());
         
-        comboMateriais1 = criarComboMateriais(listaMeios);
-        comboMateriais2 = criarComboMateriais(listaMeios);
-        
-        String label="Ângulo entrada (º Graus):";
-        angTxt1 = new JTextField(10);
-
-        
-        p.add(criarPainelComboMateriais("Material 1",comboMateriais1));
-        p.add(criarPainelComboMateriais("Material 2",comboMateriais2));
-        p.add(criarPainelLabelTextfield(label, angTxt1));
+        p.add(criarPainelAnguloIntensidade());
+        p.add(criarPainelMaterias());
         
         return p;
         
     }
-    
+     private JPanel criarPainelAnguloIntensidade(){
+        JPanel p = new JPanel(new GridLayout(2, 1));
+        
+        p.setBorder(new TitledBorder("Angulo e Intensidade"));
+        
+        angTxt1 = new JTextField(10);
+        int1 = new JTextField(10);
+        
+        p.add(criarPainelLabelTextfieldLabel("Intensidade:", int1,""));
+        p.add(criarPainelLabelTextfieldLabel("Ângulo entrada:", angTxt1,"(º Graus)"));
+        
+        return p;
+    }
+    private JPanel criarPainelMaterias(){
+        JPanel p = new JPanel(new GridLayout(2, 1, 30, 30));
+        
+        p.setBorder(new TitledBorder("Materiais"));
+        
+        comboMateriais1 = criarComboMateriais(listaMeios);
+        comboMateriais2 = criarComboMateriais(listaMeios);
+        
+        p.add(criarPainelComboMateriais("Material 1",comboMateriais1));
+        p.add(criarPainelComboMateriais("Material 2",comboMateriais2));
+        
+        return p;
+    }
     private JPanel criarPainelComboMateriais(String material, JComboBox combo){
         JPanel p = new JPanel(new GridLayout(1,1));
         
@@ -157,30 +178,45 @@ public class PReflexaoUI extends JDialog{
         
         p.add(criarPainelAngulos(),BorderLayout.NORTH);
         p.add(criarPainelImagem(),BorderLayout.CENTER);
-        p.add(criarPainelBotaoUnico(criarBotaoNovaSimulacao()),BorderLayout.SOUTH);
+        p.add(criarPainelBotaoUnico(criarBotaoLimpar()),BorderLayout.SOUTH);
         
         return p;           
     }
     
     private JPanel criarPainelAngulos(){
-        JPanel p = new JPanel(new GridLayout(3,1));
+        JPanel p = new JPanel(new GridLayout(6,1));
         
-        p.setBorder(new TitledBorder("Ângulos:"));
+        p.setBorder(new TitledBorder("Ângulos e Intensidades Resultantes:"));
         
         angTxt2 = new JTextField(10);
         angTxt3 = new JTextField(10);
         angTxt4= new JTextField(10);
+        int2= new JTextField(10);
+        int3= new JTextField(10);
+        int4= new JTextField(10);
         angTxt2.setEditable(false);
         angTxt3.setEditable(false);
         angTxt4.setEditable(false);
+        int2.setEditable(false);
+        int3.setEditable(false);
+        int4.setEditable(false);
         
-        String l1="Ângulo Reflexão (º Graus):";
-        String l2="Ângulo Refração (º Graus):";
-        String l3="Ângulo Brewster (º Graus):";
+        String graus = "(º Graus)";
+        String amperes = "(Amperes)";
         
-        p.add(criarPainelLabelTextfield(l1, angTxt2));
-        p.add(criarPainelLabelTextfield(l2, angTxt3));
-        p.add(criarPainelLabelTextfield(l3, angTxt4));
+        String l1="Ângulo Reflexão:";
+        String l2="Ângulo Refração:";
+        String l3="Ângulo Brewster:";
+        String l4="Intensidade Reflexão Paralela:";
+        String l5="Intensidade Reflexão Perpendicular:";
+        String l6="Intensidade Refração:";
+        
+        p.add(criarPainelLabelTextfieldLabel(l1, angTxt2,graus));
+        p.add(criarPainelLabelTextfieldLabel(l2, angTxt3,graus));
+        p.add(criarPainelLabelTextfieldLabel(l3, angTxt4,graus));
+        p.add(criarPainelLabelTextfieldLabel(l4, int2,amperes));
+        p.add(criarPainelLabelTextfieldLabel(l5, int3,amperes));
+        p.add(criarPainelLabelTextfieldLabel(l6, int4,amperes));
         
         return p;
         
@@ -192,8 +228,9 @@ public class PReflexaoUI extends JDialog{
      * @param texto campo para introdução dados 
      * @return painel para introduzir label1, campo para introdução dados
      */
-    private JPanel criarPainelLabelTextfield(String label, JTextField texto) {
+    private JPanel criarPainelLabelTextfieldLabel(String label, JTextField texto, String label2) {
         JLabel lb1 = new JLabel(label, JLabel.RIGHT);
+        JLabel lb2 = new JLabel(label2, JLabel.LEFT);
         lb1.setPreferredSize(LABEL_TAMANHO);
         
         FlowLayout l = new FlowLayout(FlowLayout.LEFT);
@@ -205,6 +242,7 @@ public class PReflexaoUI extends JDialog{
 
         p.add(lb1);
         p.add(texto);
+        p.add(lb2);
 
         return p;
     }
@@ -245,6 +283,24 @@ public class PReflexaoUI extends JDialog{
         return p;
     }
     /**
+     * cria painel botão unico
+     * @return painel botão unico
+     */
+    private JPanel criarPainelBotoes() {
+
+        FlowLayout l = new FlowLayout();
+
+        l.setHgap(20);
+        l.setVgap(20);
+
+        JPanel p = new JPanel(l);
+        
+        p.add(criarBotaoGuardar());
+        p.add(criarBotaoVoltar());
+        
+        return p;
+    }
+    /**
      * criar botão Voltar e volta menu anterior
      * @return botão Voltar e volta menu anterior 
      */
@@ -260,6 +316,24 @@ public class PReflexaoUI extends JDialog{
         });
 
         return botao;
+    }
+    /**
+     * criar botão Guardar
+     *
+     * @return botão Guardar
+     */
+    private JButton criarBotaoGuardar() {
+        guardar = new JButton("Guardar");
+        guardar.setMnemonic(KeyEvent.VK_V);
+        guardar.setToolTipText("Guardar a simulacao");
+        guardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //implementar
+            }
+        });
+
+        return guardar;
     }
     /**
      * criar botão simular 
@@ -298,11 +372,11 @@ public class PReflexaoUI extends JDialog{
      * criar botão nova simulacao
      * @return botão nova simulacao
      */
-    private JButton criarBotaoNovaSimulacao() {
-        novaSimulacao= new JButton("Nova Simulação");
-        novaSimulacao.setMnemonic(KeyEvent.VK_N);
-        novaSimulacao.setToolTipText("Nova Simulacao - polarizacao por reflexão");
-        novaSimulacao.addActionListener(new ActionListener() {
+    private JButton criarBotaoLimpar() {
+        limpar= new JButton("Limpar");
+        limpar.setMnemonic(KeyEvent.VK_L);
+        limpar.setToolTipText("Limpa os dados");
+        limpar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 angTxt1.setText("");
@@ -313,7 +387,7 @@ public class PReflexaoUI extends JDialog{
             }
         });
 
-        return novaSimulacao;
+        return limpar;
     }
 
     public static JComboBox criarComboMateriais(ListaMeiosReflexao lista) {

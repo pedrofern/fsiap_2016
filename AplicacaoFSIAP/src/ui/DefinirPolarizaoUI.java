@@ -12,6 +12,7 @@ import aplicacaofsiap.TipoDPolarizacao;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -19,6 +20,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,6 +33,8 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.BorderUIResource;
 
 /**
  * Constrói a janela principal da aplicação
@@ -42,11 +46,11 @@ public class DefinirPolarizaoUI extends JFrame{
     /**
      * Guarda a largura mínima da janela em píxeis.
      */
-    private static final int JANELA_LARGURA_MINIMO = 800;
+    private static final int JANELA_LARGURA_MINIMO = 820;
     /**
      * Guarda a altura mínima da janela em píxeis.
      */
-    private static final int JANELA_ALTURA_MINIMO = 550;      
+    private static final int JANELA_ALTURA_MINIMO = 800;      
     /**
      * Representa o botão absorcao
      */
@@ -77,16 +81,20 @@ public class DefinirPolarizaoUI extends JFrame{
         JPanel botoes = criarBotoes();
         JPanel imagem = criarPainelImagem();
         
-        add(imagem, BorderLayout.NORTH);
-        add(botoes, BorderLayout.SOUTH);
+        add(imagem, BorderLayout.CENTER);
+        add(botoes, BorderLayout.EAST);
+        JPanel painelBtnSair = new JPanel(new BorderLayout());
+        painelBtnSair.setBorder(new EmptyBorder(10, 30, 20, 30));
+        painelBtnSair.add(criarBotaoSair(), BorderLayout.CENTER);
+        add(painelBtnSair, BorderLayout.SOUTH);
         
         criarBarraMenus();
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(JANELA_LARGURA_MINIMO, JANELA_ALTURA_MINIMO));
-        setLocationRelativeTo(null);
         pack();
+        setLocationRelativeTo(null);      
         setVisible(true);
         
         addWindowListener(new WindowAdapter() {
@@ -102,13 +110,13 @@ public class DefinirPolarizaoUI extends JFrame{
      * @return botões
      */
     private JPanel criarBotoes() {
-        FlowLayout gl = new FlowLayout();
+        GridLayout gl = new GridLayout(3,1);
 
-        gl.setHgap(10);
-        gl.setVgap(10);
+        gl.setHgap(30);
+        gl.setVgap(30);
 
-        final int MARGEM_SUPERIOR = 0, MARGEM_INFERIOR = 10;
-        final int MARGEM_ESQUERDA = 0, MARGEM_DIREITA = 0;
+        final int MARGEM_SUPERIOR = 30, MARGEM_INFERIOR = 30;
+        final int MARGEM_ESQUERDA = 30, MARGEM_DIREITA = 30;
 
         JPanel p = new JPanel(gl);
         p.setBorder(BorderFactory.createEmptyBorder(MARGEM_SUPERIOR,
@@ -116,7 +124,7 @@ public class DefinirPolarizaoUI extends JFrame{
         p.add(criarBotaoAbsorcao());
         p.add(criarBotaoReflexao());
         p.add(criarBotaoCarregaFich());
-        p.add(criarBotaoSair());
+//        p.add(criarBotaoSair());
 
         this.getRootPane().setDefaultButton(botaoAbsorcao);
 
@@ -127,7 +135,10 @@ public class DefinirPolarizaoUI extends JFrame{
      * @return botão absorcao
      */
     private JButton criarBotaoAbsorcao() {
-        botaoAbsorcao = new JButton("Absorção");
+        Icon icone = new ImageIcon( "src/ficheiros/polarização_absorcao.jpg" );
+        botaoAbsorcao = new JButton(" Absorção", icone);
+        botaoAbsorcao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botaoAbsorcao.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         botaoAbsorcao.setMnemonic(KeyEvent.VK_A);
         botaoAbsorcao.setToolTipText("Simula uma Polarização por Absorção");
         botaoAbsorcao.addActionListener(new ActionListener() {
@@ -144,24 +155,30 @@ public class DefinirPolarizaoUI extends JFrame{
      * @return botão carrega
      */
     private JButton criarBotaoCarregaFich() {
-        botaoAbsorcao = new JButton("Carregar Ficheiro");
-        botaoAbsorcao.setMnemonic(KeyEvent.VK_C);
-        botaoAbsorcao.setToolTipText("Carrega os Meios de Reflexao através ficheiro txt");
-        botaoAbsorcao.addActionListener(new ActionListener() {
+        Icon icone = new ImageIcon("src/ficheiros/carregaFich.png");
+        botaoCarrega = new JButton("Carregar Ficheiro", icone);
+        botaoCarrega.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botaoCarrega.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botaoCarrega.setMnemonic(KeyEvent.VK_C);
+        botaoCarrega.setToolTipText("Carrega os Meios de Reflexao através ficheiro txt");
+        botaoCarrega.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 carregaFicheiro();
             }
         });
 
-        return botaoAbsorcao;
+        return botaoCarrega;
     }
     /**
      * cria botão reflexao
      * @return botão reflexao
      */
     private JButton criarBotaoReflexao() {
-        botaoReflexao = new JButton("Reflexão");
+        Icon icone = new ImageIcon( "src/ficheiros/polarização_reflexao.jpg" );
+        botaoReflexao = new JButton(" Reflexão", icone);
+        botaoReflexao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botaoReflexao.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         botaoReflexao.setMnemonic(KeyEvent.VK_R);
         botaoReflexao.setToolTipText("Simula uma Polarização por Reflexão");
                 
@@ -197,12 +214,14 @@ public class DefinirPolarizaoUI extends JFrame{
      * @return painel com uma imagem
      */
     private JPanel criarPainelImagem() {
-        ImageIcon background = new ImageIcon("src/ficheiros/lightGo.png");
+        ImageIcon background = new ImageIcon("src/ficheiros/lightGoExpand.png");
+        
         JLabel label = new JLabel();
         label.setIcon(background);
 
         JPanel panel = new JPanel();
-        panel.add(label);
+        panel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        panel.add(label, BorderLayout.CENTER);
 
         return panel;
     }
