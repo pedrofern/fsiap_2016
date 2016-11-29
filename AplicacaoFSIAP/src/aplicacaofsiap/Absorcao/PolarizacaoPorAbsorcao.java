@@ -12,8 +12,8 @@ import aplicacaofsiap.FeixeDLuzIncidente;
 import aplicacaofsiap.FeixeDLuzResultante;
 
 /**
- *
- * @author Helder
+ * Esta classe é uma subclasse de polarização e representa uma instância de polarização por absorção.
+ * @author Helder, Gonçalo
  */
 public class PolarizacaoPorAbsorcao extends Polarizacao {
 
@@ -24,7 +24,15 @@ public class PolarizacaoPorAbsorcao extends Polarizacao {
     private Analisador analisador;
 
     private FeixeDLuzResultante feixe_intermedio, feixe_resultante;
-
+    
+    /**
+     * Permite a instanciação de uma polarização por absorção
+     * @param f_incidente novo feixe de luz inciddente
+     * @param polarizador novo polarizador
+     * @param f_intermedio novo feixe de luz intermédio
+     * @param analisador novo analisador
+     * @param feixe_resultante novo feixe de luz resultante
+     */
     public PolarizacaoPorAbsorcao(FeixeDLuzIncidente f_incidente, Polarizador polarizador,
             FeixeDLuzResultante f_intermedio, Analisador analisador, FeixeDLuzResultante feixe_resultante) {
         super(f_incidente);
@@ -34,6 +42,11 @@ public class PolarizacaoPorAbsorcao extends Polarizacao {
         this.feixe_resultante = feixe_resultante;
     }
 
+    /**
+     * Construtor vazio que permite a instânciação de uma polarização por absorção, inicializando com um
+     * polarizador, um feixe intermédio, um analisador e um feixe resultante, da instância de
+     * polarização por absorção.
+     */
     public PolarizacaoPorAbsorcao() {
         super();
         this.polarizador = new Polarizador();
@@ -42,42 +55,81 @@ public class PolarizacaoPorAbsorcao extends Polarizacao {
         this.feixe_resultante = new FeixeDLuzResultante();
     }
 
+    /**
+     * Devolve o tipo de polarização da instância de polarização por absorção.
+     * @return o tipo de polarização da instância de polarização por absorção
+     */
     public TipoDPolarizacao getTipoDPolarizacao() {
         return tipoDPolarizacao;
     }
-
+    
+    /**
+     * Devolve o polarizador da instância de polarização por absorção.
+     * @return o polarizador da instância de polarização por absorção
+     */
     public Polarizador getPolarizador() {
         return polarizador;
     }
 
+    /**
+     * Modifica o polarizador da instância de polarização por abosrção.
+     * @param polarizador o novo polarizador da instância de polarização por absorção
+     */
     public void setPolarizador(Polarizador polarizador) {
         this.polarizador = polarizador;
     }
 
+    /**
+     * Devolve o analisador da instância de polarização por absorção.
+     * @return o analisador da instância de polarização por absorção
+     */
     public Analisador getAnalisador() {
         return analisador;
     }
 
+    /**
+     * Modifica o analizador da instância de polarização por absorção.
+     * @param analisador o novo analisador da instância de polarização por absorção
+     */
     public void setAnalisador(Analisador analisador) {
         this.analisador = analisador;
     }
-
+    
+    /**
+     * Devolve o feixe resultante da instância de polarização por absorção.
+     * @return o feixe resultante da instância de polarização por absorção
+     */
     public FeixeDLuzResultante getFeixe_resultante() {
         return feixe_resultante;
     }
 
+    /**
+     * Modifica o feixe resultante da instância de polarização por absorção.
+     * @param feixe_resultante o novo feixe resultante da instância de polarização por absorção
+     */
     public void setFeixe_resultante(FeixeDLuzResultante feixe_resultante) {
         this.feixe_resultante = feixe_resultante;
     }
-
+    
+    /**
+     * Devolve o feixe intermédio da instância de polarização por absorção.
+     * @return o feixe intermédio da instância de polarização por absorção
+     */
     public FeixeDLuzResultante getFeixe_intermedio() {
         return feixe_intermedio;
     }
 
+    /**
+     * Modifica o feixe intermédio da instância de polarização por absorção.
+     * @param feixe_intermedio o novo feixe intermédio da instância de polarização por absorção
+     */
     public void setFeixe_intermedio(FeixeDLuzResultante feixe_intermedio) {
         this.feixe_intermedio = feixe_intermedio;
     }
-
+    /**
+     * Devolve a descrição textual de uma polarização por absorção.
+     * @return a descrição textual de uma polarização por absorção
+     */
     @Override
     public String toString() {
         return "PolarizacaoPorAbsorcao{" + "polarizador=" + polarizador
