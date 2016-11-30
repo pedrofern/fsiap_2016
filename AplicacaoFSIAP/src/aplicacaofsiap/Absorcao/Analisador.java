@@ -1,22 +1,40 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package aplicacaofsiap.Absorcao;
 
 /**
+ * Esta classe representa um analisador. A classe Analisador é uma subclasse da
+ * classe Lente.
  *
  * @author Helder
  */
-public class Analisador extends Lente{
+public class Analisador extends Lente {
 
+    /**
+     * Permite criar uma instância de analisador, passando por parâmetro o
+     * ângulo em relação ao eixo de transmissão vertical.
+     *
+     * @param angulo_emGraus o ângulo em graus em relação ao eixo de transmissão
+     * vertical
+     */
     public Analisador(double angulo_emGraus) {
         super(angulo_emGraus);
     }
-    
-    public Analisador(){
+
+    /**
+     * Construtor vazio que permite criar uma instância de analisador,
+     * atribuindo ao ângulo o valor por omissão de 0 graus.
+     */
+    public Analisador() {
         super();
-    }    
+    }
+
+    /**
+     * Devolve a descrição textual de um analisador.
+     * @return a descrição textual de um analisador
+     */
+        @Override
+    public String toString() {
+        return "Analisador{" + super.toString() + '}';
+    }
     
 }

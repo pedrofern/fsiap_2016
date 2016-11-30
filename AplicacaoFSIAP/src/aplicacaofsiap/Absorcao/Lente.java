@@ -6,7 +6,8 @@
 package aplicacaofsiap.Absorcao;
 
 /**
- * Esta classe permite representar uma Lente
+ * Esta classe permite representar uma Lente.
+ *
  * @author Helder, Gonçalo
  */
 public abstract class Lente {
@@ -23,6 +24,7 @@ public abstract class Lente {
 
     /**
      * Permite a instanciação de uma lente
+     *
      * @param angulo_emGraus novo angulo em graus
      */
     public Lente(double angulo_emGraus) {
@@ -30,7 +32,8 @@ public abstract class Lente {
     }
 
     /**
-     * Construtor vazio que permite a instânciação de uma lente com o ângulo por omissão cujo valor é 0 (zero).
+     * Construtor vazio que permite a instânciação de uma lente com o ângulo por
+     * omissão cujo valor é 0 (zero).
      */
     public Lente() {
         this.angulo_emGraus = ANG_POR_OMISSAO;
@@ -38,6 +41,7 @@ public abstract class Lente {
 
     /**
      * Devolve o angulo em graus da instância de lente.
+     *
      * @return o angulo em graus da instância de lente.
      */
     public double getAngulo_emGraus() {
@@ -45,7 +49,9 @@ public abstract class Lente {
     }
 
     /**
-     * Caso o valor do ângulo esteja em graus, modifica o ângulo em graus da instância de lente.
+     * Caso o valor do ângulo esteja em graus, modifica o ângulo em graus da
+     * instância de lente.
+     *
      * @param angulo_emGraus o novo ângulo em graus da instância de lente
      */
     public void setAngulo_emGraus(double angulo_emGraus) {
@@ -73,6 +79,11 @@ public abstract class Lente {
         return ((angulo_emGraus >= -360) && (angulo_emGraus <= 360));
     }
 
+    /**
+     * Devolve a descrição textual de uma lente.
+     *
+     * @return a descrição textual de uma lente
+     */
     @Override
     public String toString() {
         return "Lente{" + "angulo_emGraus=" + angulo_emGraus + '}';
