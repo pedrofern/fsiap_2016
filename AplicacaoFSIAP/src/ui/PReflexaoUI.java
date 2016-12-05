@@ -142,7 +142,7 @@ public class PReflexaoUI extends JDialog{
         angTxt1 = new JTextField(10);
         int1 = new JTextField(10);
         
-        p.add(criarPainelLabelTextfieldLabel("Intensidade:", int1,""));
+        p.add(criarPainelLabelTextfieldLabel("Intensidade:", int1,"(Amperes)"));
         p.add(criarPainelLabelTextfieldLabel("Ângulo entrada:", angTxt1,"(º Graus)"));
         
         return p;
@@ -383,6 +383,10 @@ public class PReflexaoUI extends JDialog{
                 angTxt2.setText("");
                 angTxt3.setText("");
                 angTxt4.setText("");
+                int1.setText("");
+                int2.setText("");
+                int3.setText("");
+                int4.setText("");
                 getRootPane().setDefaultButton(simular);
             }
         });

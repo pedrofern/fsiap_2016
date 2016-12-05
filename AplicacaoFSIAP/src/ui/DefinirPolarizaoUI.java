@@ -5,13 +5,11 @@
  */
 package ui;
 
-import aplicacaofsiap.Reflexao.PolarizacaoPorReflexao;
 import aplicacaofsiap.LightGo;
 import aplicacaofsiap.Simulacao;
 import aplicacaofsiap.TipoDPolarizacao;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,7 +32,6 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.BorderUIResource;
 
 /**
  * Constrói a janela principal da aplicação
@@ -124,7 +121,6 @@ public class DefinirPolarizaoUI extends JFrame{
         p.add(criarBotaoAbsorcao());
         p.add(criarBotaoReflexao());
         p.add(criarBotaoCarregaFich());
-//        p.add(criarBotaoSair());
 
         this.getRootPane().setDefaultButton(botaoAbsorcao);
 
