@@ -18,6 +18,11 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Formatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -48,8 +53,7 @@ public class PReflexaoUI extends JDialog{
      * Guarda a dimensão de uma label por omissão
      */
     private static final Dimension LABEL_TAMANHO = new JLabel("Intensidade Reflexão Perpendicular:").
-                                                    getPreferredSize();
-    
+                                                    getPreferredSize(); 
     /**
      * Guarda o angulo1
      */
@@ -62,7 +66,6 @@ public class PReflexaoUI extends JDialog{
      * Guarda lista com materiais numa combobox
      */
     private JComboBox comboMateriais1, comboMateriais2;
-    private JRadioButton paralelo, perpendicular;
     /**
      * Guarda lista dos materiais
      */
@@ -324,10 +327,16 @@ public class PReflexaoUI extends JDialog{
         guardar = new JButton("Guardar");
         guardar.setMnemonic(KeyEvent.VK_V);
         guardar.setToolTipText("Guardar a simulacao");
+        guardar.setEnabled(false);
         guardar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //implementar
+                try {
+                    //implementar
+                    guardarDadosSimulacaoReflexao_EmFicheiro();
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(PReflexaoUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
@@ -344,7 +353,7 @@ public class PReflexaoUI extends JDialog{
         simular.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
- 
+                
                 MeioReflexao meio1=(MeioReflexao)comboMateriais1.getSelectedItem();
                 MeioReflexao meio2=(MeioReflexao)comboMateriais2.getSelectedItem();
                 controller.setMeioReflexao1(meio1);
@@ -357,6 +366,7 @@ public class PReflexaoUI extends JDialog{
                         // angTxt2.setText(String.format("%.2f", controller.getFeixeReflexao2()));
                         angTxt3.setText(String.format("%.2f", controller.getFeixeRefracao())); 
                         angTxt4.setText(String.format("%.2f", controller.getAnguloBrewster()));
+                        guardar.setEnabled(true);
                     }
                     else{
                         JOptionPane.showMessageDialog(rootPane, "Não foi possível gerar os resultados.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -404,5 +414,23 @@ public class PReflexaoUI extends JDialog{
         combo.setModel(comb);
 
         return combo;
+    }
+    
+    private void guardarDadosSimulacaoReflexao_EmFicheiro() throws FileNotFoundException {
+        String outputFile = "reflexaoOutputFile.txt"; //basta q ficheiro esteja dentro da pasta principal deste programa
+        Formatter output = new Formatter(new File(outputFile));
+        output.format("%s%s %n%s%s %n%s%s %n%s%s %n%s%s %n%s%s %n%s%s %n%s%s %n%s%s", 
+                "Meio1:", comboMateriais1.getSelectedItem().toString(),
+                "Meio2: ", comboMateriais2.getSelectedItem().toString(),
+                "Intensidade: ", int1.getText(), 
+                "Angulo Entrada: ", angTxt1.getText(),
+                "Angulo Reflexão: ", angTxt2.getText(),
+                "Angulo Brewster: ", angTxt3.getText(),
+                "Intensidade Reflexao Paralela: ", angTxt4.getText(),
+                "Intensidade Reflexao Perpendicular: ", angTxt4.getText(),                
+                "Intensidade Refraccao: ", int3.getText());
+        output.close();
+        JOptionPane.showMessageDialog(this, "Ficheiro guardado com sucesso", "Guardar", JOptionPane.INFORMATION_MESSAGE);
+        guardar.setEnabled(false);
     }
 }

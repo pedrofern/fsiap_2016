@@ -1,0 +1,9 @@
+Meio1:Meio: Ar 
+Meio2: Meio: Ar 
+Intensidade:  
+Ângulo Entrada:  
+Angulo Reflexão:  
+Angulo Brewster:  
+Intensidade Reflexão Paralela:  
+Intensidade Reflexão Perpendicular:  
+Intensidade Refracção: 
