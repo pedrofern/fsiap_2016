@@ -8,7 +8,6 @@ import aplicacaofsiap.FeixeDLuzIncidente;
 import aplicacaofsiap.FeixeDLuzResultante;
 import aplicacaofsiap.Polarizacao;
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * Classe que permite gerir e guardar informações relativas à simulação da  
@@ -25,22 +24,24 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
     /**
      * os feixes luz de resultantes (resultante da reflexão e da refração)
      */
-    private FeixeDLuzResultante feixeReflexao, feixeRefracao;
+    private FeixeDLuzResultante feixeReflexao1, feixeReflexao2, feixeRefracao;
     
     /**
      * ângulo de Brewster
     */
     private double anguloBrewster;
     
+    
     /**
      * Constrói uma instância de PolarizacaoPorReflexao, recebendo o feixe de luz
      * incidentes e os meios de reflexão por parâmetro
      */
-    public PolarizacaoPorReflexao(FeixeDLuzIncidente f_incidente,MeioReflexao meio1, MeioReflexao meio2, FeixeDLuzResultante feixeReflexao, FeixeDLuzResultante feixeRefracao, double angulo){
+    public PolarizacaoPorReflexao(FeixeDLuzIncidente f_incidente,MeioReflexao meio1, MeioReflexao meio2, FeixeDLuzResultante feixeReflexao1, FeixeDLuzResultante feixeReflexao2, FeixeDLuzResultante feixeRefracao, double angulo){
         super(f_incidente);
         this.meio1=meio1;
         this.meio2=meio2;
-        this.feixeReflexao=feixeReflexao;
+        this.feixeReflexao1=feixeReflexao1;
+        this.feixeReflexao2=feixeReflexao2;
         this.feixeRefracao=feixeRefracao;
         this.anguloBrewster=angulo;
     }
@@ -53,10 +54,9 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
         super();
         meio1=new MeioReflexao();
         meio2=new MeioReflexao();
-        feixeReflexao=new FeixeDLuzResultante();
-        feixeReflexao.setTipo(FeixeDLuz.TipoDLuz.NAO_POLARIZADA);
-        feixeRefracao=new FeixeDLuzResultante();
-        feixeRefracao.setTipo(FeixeDLuz.TipoDLuz.NAO_POLARIZADA); 
+        feixeReflexao1=new FeixeDLuzResultante(FeixeDLuz.TipoDLuz.NAO_POLARIZADA);
+        feixeReflexao2=new FeixeDLuzResultante(FeixeDLuz.TipoDLuz.NAO_POLARIZADA);
+        feixeRefracao=new FeixeDLuzResultante(FeixeDLuz.TipoDLuz.NAO_POLARIZADA);
         anguloBrewster=-1;
     }
     
@@ -85,24 +85,32 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
     }
 
     /**
-     * Retorna o Ã¢ngulo da reflexão
-     * @return Ã¢ngulo da reflexão
+     * Retorna o feixe da reflexão (paralela)
+     * @return feixe de reflexão resultante
      */
-    public double getFeixeReflexao(){
-        return feixeReflexao.getAngulo();
+    public FeixeDLuzResultante getFeixeReflexao1(){
+        return feixeReflexao1;
+    }
+    
+     /**
+     * Retorna o feixe da reflexão (perpendicular)
+     * @return feixe de reflexão resultante
+     */
+    public FeixeDLuzResultante getFeixeReflexao2(){
+        return feixeReflexao2;
     }
     
     /**
-     * Retorna o Ã¢ngulo do feixe de refracão
-     * @return Ã¢ngulo do feixe de refraÃcão
+     * Retorna o ângulo do feixe de refracão
+     * @return ângulo do feixe de refraÃcão
      */
-    public double getFeixeRefracao(){
-        return feixeRefracao.getAngulo();
+    public FeixeDLuzResultante getFeixeRefracao(){
+        return feixeRefracao;
     }
     
     /**
-     * Retorna o Ã¢ngulo de Brewster
-     * @return Ã£ngulo de Brewster
+     * Retorna o ângulo de Brewster
+     * @return ângulo de Brewster
      */
     public double getAnguloBrewster(){
         return anguloBrewster;
@@ -143,7 +151,7 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
      * @return true se o ângulo é válido, caso contrário false
      */
     public boolean validaAngulo(){
-        return super.getF_incidente().getAngulo()>0 && super.getF_incidente().getAngulo()<=360;
+        return getFeixeDeLuzIncidente().getAngulo()>0 && getFeixeDeLuzIncidente().getAngulo()<=90;
     }
     
     /**
@@ -152,15 +160,21 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
      */
     public boolean gerarResultado(){
   
-        calcularAnguloReflexaoBrewster(super.getF_incidente().getAngulo(), meio1, meio2);
+        calcularAnguloReflexaoBrewster(getFeixeDeLuzIncidente().getAngulo(), meio1, meio2);
 
-        calcularAnguloRefracao(meio1.getIndiceRefracao(), meio2.getIndiceRefracao(), super.getF_incidente().getAngulo());
+        calcularAnguloRefracao(meio1.getIndiceRefracao(), meio2.getIndiceRefracao(), getFeixeDeLuzIncidente().getAngulo());
         
         calcularAnguloBrewster(meio1.getIndiceRefracao(), meio2.getIndiceRefracao());
         
+        calcularIntensidadeReflexaoPerpendicular(meio1.getIndiceRefracao(), meio2.getIndiceRefracao(), getFeixeDeLuzIncidente().getAngulo(), getFeixeRefracao().getAngulo());
+        calcularIntensidadeReflexaoParalela(meio1.getIndiceRefracao(), meio2.getIndiceRefracao(), getFeixeDeLuzIncidente().getAngulo(), getFeixeRefracao().getAngulo());  
+        
+        calcularIntensidadeRefracao(meio1.getIndiceRefracao(), meio2.getIndiceRefracao(), getFeixeDeLuzIncidente().getAngulo(), getFeixeRefracao().getAngulo());  
+        
+        //Se ângulo de brewster for igual ao ângulo de refração -> Luz Polarizada
         if(anguloBrewster==feixeRefracao.getAngulo()) feixeRefracao.setTipo(FeixeDLuz.TipoDLuz.POLARIZADA);
         
-        return feixeReflexao.getAngulo()!=0 && feixeRefracao.getAngulo()!=0 && anguloBrewster!=-1;
+        return feixeReflexao1.getAngulo()!=0 && feixeRefracao.getAngulo()!=0 && anguloBrewster!=-1;
     }
     
     @Override
@@ -183,10 +197,13 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
      */
     public void calcularAnguloReflexaoBrewster(double anguloIncidencia, MeioReflexao meio1, MeioReflexao meio2) {
         //se forem 2 materiais diferentes
-        if(!meio1.equals(meio2))
-            feixeReflexao.setAngulo(anguloIncidencia);
-        else
-            feixeReflexao.setAngulo(anguloIncidencia+90);
+        if(!meio1.equals(meio2)){
+            feixeReflexao1.setAngulo(anguloIncidencia);
+            feixeReflexao2.setAngulo(anguloIncidencia);
+        }else{
+                feixeReflexao1.setAngulo(anguloIncidencia+90);
+                feixeReflexao2.setAngulo(anguloIncidencia+90);
+        }
     }
 
     /**
@@ -209,8 +226,8 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
     }
 
     public void calcularAnguloRefracao(double n1, double n2, double angReflexao) {
-       //quando incidimos a reflexão no ar, não há refração
-       if(n1!=n2 && n2!=1){
+ 
+       if(n1!=n2){
            //n1senOreflexao=n2sen0refracao   logo 0refracao= (n1.sen0reflexao)/n2              
           //quando Ã© superior a 60 Agua-Vidro da erro
                 feixeRefracao.setAngulo(n1*Math.toDegrees((Math.asin(Math.toRadians(angReflexao))))/n2); 
@@ -218,8 +235,76 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
        //se os 2 materiais forem iguais não há refração
        }else
            feixeRefracao.setAngulo(0);
-       
     }
+    
+    /**
+     * Devolve a intensidade resulante do feixe de reflexão na polarização perpendicular
+     * @param n1 índice de refração do meio de origem
+     * @param n2 índice de refração do meio de incidência
+     * @param angIncidencia ângulo do feixe de incidência
+     * @param angRefracao ângulo do feixe de refração resultante
+     */
+     public void calcularIntensidadeReflexaoPerpendicular(double n1, double n2, double angIncidencia, double angRefracao) {
+      
+        if(n1!=n2){
+          //n1cos(AngIncidencia) - n2cos(angRefratado) / n1cos(AngInc) + n2cos(AngRefratado)
+          double f1=n1*Math.toDegrees(Math.acos(Math.toRadians(angIncidencia)));
+          double f2=n2*Math.toDegrees(Math.acos(Math.toRadians(angRefracao)));
+          double res= (f1-f2)/(f1+f2);
+          feixeRefracao.setIntensidade(res);  
+
+       //se os 2 materiais forem iguais não há refração
+       }else
+           feixeReflexao2.setIntensidade(0);
+    }
+     
+     /**
+     * Devolve a intensidade resulante do feixe de reflexão na polarização paralela
+     * @param n1 índice de refração do meio de origem
+     * @param n2 índice de refração do meio de incidência
+     * @param angIncidencia ângulo do feixe de incidência
+     * @param angRefracao ângulo do feixe de refração resultante
+     */
+     public void calcularIntensidadeReflexaoParalela(double n1, double n2, double angIncidencia, double angRefracao) {
+      
+        if(n1!=n2){
+          //n2cos(AngIncidencia) - n1cos(angRefratado) / n1cos(AngInc) + n2cos(AngRefratado)
+          double f1=n2*Math.toDegrees(Math.acos(Math.toRadians(angIncidencia)));
+          double f2=n1*Math.toDegrees(Math.acos(Math.toRadians(angRefracao)));
+          double f3=n1*Math.toDegrees(Math.acos(Math.toRadians(angIncidencia)));
+          double f4=n2*Math.toDegrees(Math.acos(Math.toRadians(angRefracao)));
+          double res= (f1-f2)/(f3+f4);
+          feixeReflexao1.setIntensidade(res);  
+
+       //se os 2 materiais forem iguais não há refração
+       }else
+           feixeReflexao1.setIntensidade(0);
+    }
+     
+     
+    /**
+     * Devolve a intensidade resulante do feixe de refracao
+     * @param n1 índice de refração do meio de origem
+     * @param n2 índice de refração do meio de incidência
+     * @param angIncidencia ângulo do feixe de incidência
+     * @param angRefracao ângulo do feixe de refração resultante
+     */
+     public void calcularIntensidadeRefracao(double n1, double n2, double angIncidencia, double angRefracao) {
+      
+        if(n1!=n2){
+          //2x n1 x cos(AngIncidencia) / (n1cos(angIncid) + n2cos(AngRef)
+          double f1=2*n1*Math.toDegrees(Math.acos(Math.toRadians(angIncidencia)));
+          double f2=n1*Math.toDegrees(Math.acos(Math.toRadians(angIncidencia)));
+          double f3=n2*Math.toDegrees(Math.acos(Math.toRadians(angRefracao)));
+          double res= f1/(f2+f3);
+          feixeRefracao.setIntensidade(res);  
+
+       //se os 2 materiais forem iguais não há refração
+       }else
+           feixeRefracao.setIntensidade(0);
+    }
+          
+    
      /**
       * Devolve a descrição textual da polarização por reflexão
       * @return descrição textual da polarização por reflexão

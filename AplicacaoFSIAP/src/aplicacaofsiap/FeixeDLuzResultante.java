@@ -5,8 +5,6 @@
  */
 package aplicacaofsiap;
 
-import aplicacaofsiap.FeixeDLuz;
-
 /**
  *
  * @author Helder
@@ -19,6 +17,10 @@ public class FeixeDLuzResultante extends FeixeDLuz {
 
     public FeixeDLuzResultante() {
         super(TipoDLuz.POLARIZADA, 0, 0);
+    }
+    
+        public FeixeDLuzResultante(TipoDLuz tipo) {
+        super(tipo, 0, 0);
     }
 
     public FeixeDLuzResultante(double intensidade) {

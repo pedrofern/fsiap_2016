@@ -80,7 +80,8 @@ public class MeioReflexao implements Serializable{
      * @return 
      */
     public boolean valida(){
-        return !(nome == null || nome.isEmpty() || indice < 0);
+        //o vácuo tem o índice menor que é 1. Todos os outros materiais serão superiores
+        return !(nome == null || nome.isEmpty() || indice <= 1);
     }
     /**
      * metodo para imprimir os atributos dos meio reflexao

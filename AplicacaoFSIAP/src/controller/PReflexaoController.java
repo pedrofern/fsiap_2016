@@ -5,6 +5,7 @@
  */
 package controller;
 
+import aplicacaofsiap.FeixeDLuzResultante;
 import aplicacaofsiap.Reflexao.ListaMeiosReflexao;
 import aplicacaofsiap.LightGo;
 import aplicacaofsiap.Reflexao.PolarizacaoPorReflexao;
@@ -92,11 +93,15 @@ public class PReflexaoController {
         return lg.getEstatistica().addPolarizacaEstatistica(pr);
     }
     
-    public double  getFeixeReflexao() {
-        return pr.getFeixeReflexao();
+    public FeixeDLuzResultante  getFeixeReflexao1() {
+        return pr.getFeixeReflexao1();
+    }
+    
+    public FeixeDLuzResultante  getFeixeReflexao2() {
+        return pr.getFeixeReflexao2();
     }
 
-    public double getFeixeRefracao() {
+    public FeixeDLuzResultante getFeixeRefracao() {
         return pr.getFeixeRefracao();
     }
     

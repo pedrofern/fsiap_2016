@@ -10,7 +10,6 @@ import aplicacaofsiap.Reflexao.MeioReflexao;
 import aplicacaofsiap.Reflexao.PolarizacaoPorReflexao;
 import aplicacaofsiap.LightGo;
 import aplicacaofsiap.Simulacao;
-import controller.CarregarFicheiroController;
 import controller.PReflexaoController;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -19,7 +18,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -355,7 +353,8 @@ public class PReflexaoUI extends JDialog{
                   JOptionPane.showMessageDialog(rootPane, "Ângulo inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
                 else{
                     if(controller.gerarResultado(pr)==true){
-                        angTxt2.setText(String.format("%.2f", controller.getFeixeReflexao()));
+                        angTxt2.setText(String.format("%.2f", controller.getFeixeReflexao1()));
+                        // angTxt2.setText(String.format("%.2f", controller.getFeixeReflexao2()));
                         angTxt3.setText(String.format("%.2f", controller.getFeixeRefracao())); 
                         angTxt4.setText(String.format("%.2f", controller.getAnguloBrewster()));
                     }
