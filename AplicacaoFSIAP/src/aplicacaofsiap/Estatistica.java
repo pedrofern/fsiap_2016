@@ -42,7 +42,11 @@ public class Estatistica {
       return false;      
     }
     
-    
+    /**
+     * 
+     * @param pr
+     * @return 
+     */
     private boolean validaEstatistica(PolarizacaoPorReflexao pr){
         return !listaEstatistica.contains(pr);
     }
