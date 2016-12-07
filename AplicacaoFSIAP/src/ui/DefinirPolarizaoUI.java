@@ -8,6 +8,7 @@ package ui;
 import aplicacaofsiap.LightGo;
 import aplicacaofsiap.Simulacao;
 import aplicacaofsiap.TipoDPolarizacao;
+import controller.CarregarFicheiroController;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -39,7 +40,10 @@ import javax.swing.border.EmptyBorder;
  * @author Pedro Fernandes
  */
 public class DefinirPolarizaoUI extends JFrame{
-    
+            /**
+     * O controller Carregar Ficheiro (para carregar auto)
+     */
+    private CarregarFicheiroController controlFicheiro;    
     /**
      * Guarda a largura mínima da janela em píxeis.
      */
@@ -74,6 +78,9 @@ public class DefinirPolarizaoUI extends JFrame{
         super("LIGHT GO");
         this.lg=lg;
         framePai = DefinirPolarizaoUI.this;
+        
+        controlFicheiro = new CarregarFicheiroController(lg);
+        controlFicheiro.carregaMeiosAutomaticamente();
         
         JPanel botoes = criarBotoes();
         JPanel imagem = criarPainelImagem();

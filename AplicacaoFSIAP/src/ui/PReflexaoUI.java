@@ -433,4 +433,50 @@ public class PReflexaoUI extends JDialog{
         JOptionPane.showMessageDialog(this, "Ficheiro guardado com sucesso", "Guardar", JOptionPane.INFORMATION_MESSAGE);
         guardar.setEnabled(false);
     }
+//    private boolean lerIntensidade(String imput) {
+//        boolean bool = false;
+//        //verifica valor de intensidade introduzido e despoleta pop-ups se necessário
+//        if (imput.isEmpty()) {
+//            popUpMensagemDErro("Insira um valor para a intensidade do feixe incidente!");
+//        } else {
+//            try {
+//                double valor_intensidade = Double.parseDouble(imput);
+//                if (!FeixeDLuz.validaIntensidade(valor_intensidade)) {
+//                    popUpMensagemDErro("A intensidade do feixe incidente deve ser um valor positivo!");
+//                } else {
+//                    bool = true;
+//                    //continua com confirmação dos restantes inputs antes de fazer setDados
+//                }
+//            } catch (NumberFormatException ex) { //se não foi introduzido um valor numérico
+//                popUpMensagemDErro("A intensidade do feixe incidente deve ser um valor numérico!");
+//            }
+//        }
+//        return bool;
+//    }
+//
+//    private boolean lerAngulo(String input, String tipoDLente) {
+//        //verifica valor de anguloDLente introduzido e despoleta pop-ups se necessário
+//        boolean bool = false;
+//        if (input.isEmpty()) {
+//            popUpMensagemDErro("Insira o valor do ângulo de entrada!");
+//        } else {
+//            try {
+//                double valor_intensidade = Double.parseDouble(input);
+//                if (!Lente.validaAngulo_emGraus(valor_intensidade)) {
+//                    popUpMensagemDErro("Introduza um valor para o ângulo do " + tipoDLente + " no intervalo [(-90) ; 90].");
+//                } else {
+//                    bool = true;
+//                    //continua 
+//                }
+//            } catch (NumberFormatException ex) { //se não foi introduzido um valor numérico
+//                popUpMensagemDErro("O ângulo do " + tipoDLente + " deve ser um valor numérico!");
+//            }
+//        }
+//        return bool;
+//    }
+//
+//    private void popUpMensagemDErro(String msg) {
+//        JOptionPane.showMessageDialog(this,
+//                msg, "Dados da Simulação", JOptionPane.WARNING_MESSAGE);
+//    }
 }
