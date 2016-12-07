@@ -140,8 +140,7 @@ public class PAbsorcaoUI extends JDialog {
         p.setBorder(new TitledBorder("Feixe Incidente"));
 
         intTxt1 = new JTextField(5);
-        // p.add(criarPainelLabelTextfield("Intensidade: ", intTxt1), BorderLayout.NORTH);
-        p.add(criarPainelLabelTextfield2("Intensidade: ", intTxt1, "A"), BorderLayout.NORTH);
+        p.add(criarPainelLabelTextfield2("Intensidade: ", intTxt1, "Amperes"), BorderLayout.NORTH);
 
         JPanel radioButtPanel = new JPanel();
         radioButtPanel.setBorder(new TitledBorder("Tipo de Luz"));
@@ -159,24 +158,18 @@ public class PAbsorcaoUI extends JDialog {
 
         p.add(radioButtPanel, BorderLayout.CENTER/* BorderLayout.SOUTH*/);
 
-        JLabel l = new JLabel("Considera-se luz polarizada com direção do eixo vertical");
+        JLabel l = new JLabel("Considera-se luz polarizada com a direção do eixo vertical");
+
+        l.setPreferredSize(LABEL_TAMANHO);
         l.setVisible(false);
         p.add(l, BorderLayout.SOUTH);
-
         polarizadaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (polarizadaButton.isSelected()) {
                     panelPrimeiraLente.setBorder(new TitledBorder("Lente Analisadora"));
-                    String observacao = "Luz polarizada com";// direção do eixo vertical";
+                    //torna visível a observação sobre a direção da luz polarizada
                     l.setVisible(true);
-                    JLabel lb = new JLabel(observacao/*, JLabel.RIGHT*/);
-                    //lb.setPreferredSize(LABEL_TAMANHO);
-                    //JPanel p2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                    //p2.add(lb);
-                    //JLabel lb1 = new JLabel(observacao);
-
-                    p.add(lb, BorderLayout.SOUTH);
                 }
             }
         });
@@ -188,6 +181,16 @@ public class PAbsorcaoUI extends JDialog {
                     panelPrimeiraLente.setBorder(new TitledBorder("Lente Polarizadora"));
                     l.setVisible(false);
                 }
+            }
+        });
+
+        intTxt1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                angTxt1.setText("");
+                intTxt2.setText("");
+                angTxt2.setText("");
+                intTxt3.setText("");
             }
         });
 
@@ -227,7 +230,10 @@ public class PAbsorcaoUI extends JDialog {
             }
         });
 
-        p.add(criarPainelLabelTextfield2("Ângulo: ", angTxt1, "º (graus)"));
+        p.add(criarPainelLabelTextfield2("Ângulo: ", angTxt1, "º (Graus)"));
+
+        JLabel observ = new JLabel("Utilize um intervalo na escala [-90 ; 90].");
+        p.add(observ);
 
         return p;
     }
@@ -240,8 +246,7 @@ public class PAbsorcaoUI extends JDialog {
         intTxt2 = new JTextField(5);
         intTxt2.setEditable(false);
 
-        p.add(criarPainelLabelTextfield2("Intensidade: ", intTxt2, "A"));
-//      p.add(criarPainelLabelTextfield("Intensidade: ", intTxt2));
+        p.add(criarPainelLabelTextfield2("Intensidade: ", intTxt2, "Amperes"));
 
         return p;
     }
@@ -278,7 +283,7 @@ public class PAbsorcaoUI extends JDialog {
                 intTxt3.setText("");
             }
         });
-        p.add(criarPainelLabelTextfield2("Ângulo", angTxt2, "º (graus)"));
+        p.add(criarPainelLabelTextfield2("Ângulo", angTxt2, "º (Graus)"));
 
         JLabel observ = new JLabel("Utilize um intervalo na escala [-90 ; 90].");
         p.add(observ);
@@ -294,8 +299,7 @@ public class PAbsorcaoUI extends JDialog {
         intTxt3 = new JTextField(5);
         intTxt3.setEditable(false);
 
-        p.add(criarPainelLabelTextfield2("Intensidade: ", intTxt3, "A"));
-        //p.add(criarPainelLabelTextfield("Intensidade", intTxt3));
+        p.add(criarPainelLabelTextfield2("Intensidade: ", intTxt3, "Amperes"));
 
         return p;
     }
@@ -389,12 +393,13 @@ public class PAbsorcaoUI extends JDialog {
                     intTxt2.setText(controll.obterIntensidadeDFeixeIntermedio());
                     intTxt3.setText(controll.obterIntensidadeDFeixeResultante());
 
+                    highlighFields();
                 }
             }
         }
         );
-        return simular; 
-   }
+        return simular;
+    }
 
     /**
      * criar botão nova simulacao
@@ -500,7 +505,7 @@ public class PAbsorcaoUI extends JDialog {
             try {
                 double valor_intensidade = Double.parseDouble(input);
                 if (!Lente.validaAngulo_emGraus(valor_intensidade)) {
-                    popUpMensagemDErro("Introduza um valor para o ângulo do " + tipoDLente + " no intervalo [(-360) - 360].");
+                    popUpMensagemDErro("Introduza um valor para o ângulo do " + tipoDLente + " no intervalo [(-90) ; 90].");
                 } else {
                     bool = true;
                     //continua 
@@ -517,6 +522,32 @@ public class PAbsorcaoUI extends JDialog {
                 msg, "Dados da Simulação", JOptionPane.WARNING_MESSAGE);
     }
 
+    public void flashMyField(final JTextField field, Color flashColor,
+            final int timerDelay, int totalTime) {
+        //no de flashs
+        final int totalCount = 1;//totalTime / timerDelay;
+        //inicia no timedelay 50
+        Timer timer = new Timer(50/*timerDelay*/, new ActionListener() {
+                    int count = 0;
 
+                    public void actionPerformed(ActionEvent evt) {
+                        if (count < 15 /*% 2 == 0*/) {
+                            field.setBackground(flashColor);
+                        } else {
+                            field.setBackground(null);
+                            if (count >= 15/*totalCount*/) {
+                                ((Timer) evt.getSource()).stop();
+                            }
+                        }
+                        count++;
+                    }
+                });
+        timer.start();
+    }
+
+    private void highlighFields() {
+        flashMyField(intTxt2, Color.LIGHT_GRAY, 500, 1000);
+        flashMyField(intTxt3, Color.LIGHT_GRAY, 500, 1000);
+    }
 
 }

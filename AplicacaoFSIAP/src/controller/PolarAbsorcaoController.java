@@ -8,21 +8,32 @@ package controller;
 import aplicacaofsiap.TipoDPolarizacao;
 import aplicacaofsiap.Simulacao;
 import aplicacaofsiap.FeixeDLuz;
-import javax.swing.JOptionPane;
 import aplicacaofsiap.Absorcao.*;
 import aplicacaofsiap.FeixeDLuz.TipoDLuz;
 import ui.PAbsorcaoUI;
 
 /**
- *
+ * A Classe PolarAbsorcaoController conreola os valores introduzidos pelo utilizador,
+ * evitando a criação e manipulação de objetos inconsistentes do modelo de dados.
+ * 
  * @author Helder
  */
 public class PolarAbsorcaoController {
 
+    /**
+     * A interface da polarização por absorção. 
+     */
     private PAbsorcaoUI ui;
 
+    /**
+     * A simulação de polarização.
+     */
     private Simulacao simulacao;
 
+    /**
+     * Cria uma instância de PolarAbsorcaoController
+     * @param activeWindow a janela da polarização por absorção
+     */
     public PolarAbsorcaoController(PAbsorcaoUI activeWindow) {
         this.ui = activeWindow;
         this.simulacao = new Simulacao(TipoDPolarizacao.ABSORCAO);
@@ -119,7 +130,7 @@ public class PolarAbsorcaoController {
                     //bool = false;            
                     //é lançada popUpMensagemDErro em PAbsorcaoUI("O ângulo do " + tipoDLente + " deve ser um valor no intervalo [0-360].");
                     System.err.println("O ângulo do " + tipoDLente + " deve ser "
-                            + "um valor no intervalo [0-360]. "
+                            + "um valor no intervalo [(-90) ; 90]. "
                             + "--> Valor introduzido: " + valorIntrodPeloUtil);
                 } else {
                     bool = true;
