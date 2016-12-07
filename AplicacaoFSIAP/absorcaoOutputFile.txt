@@ -1,2 +1,2 @@
 Intensidade de entrada:1 
-Intensidade final: 0.125
+Intensidade final: 0.43

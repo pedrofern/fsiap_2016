@@ -35,6 +35,8 @@ import java.io.FileNotFoundException;
 import java.util.Formatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFormattedTextField;
+import javax.swing.JTextArea;
 import javax.swing.event.*;
 
 /**
@@ -51,7 +53,7 @@ public class PAbsorcaoUI extends JDialog {
     /**
      * Guarda a largura mínima da janela em píxeis.
      */
-    private static final int JANELA_LARGURA_MINIMO = 900, JANELA_ALTURA_MINIMO = 350;
+    private static final int JANELA_LARGURA_MINIMO = 1650, JANELA_ALTURA_MINIMO = 350;
 
     /**
      * Guarda a dimensão de uma label por omissão
@@ -71,7 +73,7 @@ public class PAbsorcaoUI extends JDialog {
     /**
      * Guarda os botoes
      */
-    private JButton novaSimulacao, simular, voltar, guardar;
+    private JButton limpar, simular, voltar, guardar;
 
     private JRadioButton naoPolarizadaButton, polarizadaButton;
 
@@ -96,10 +98,10 @@ public class PAbsorcaoUI extends JDialog {
 
         criarComponentes();
 
-        setMinimumSize(new Dimension(JANELA_LARGURA_MINIMO, JANELA_ALTURA_MINIMO));
-        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         pack();
-        setResizable(true);
+        setResizable(false);
+        setSize(new Dimension(JANELA_LARGURA_MINIMO, JANELA_ALTURA_MINIMO));
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(framePai);
         setVisible(true);
     }
@@ -158,10 +160,12 @@ public class PAbsorcaoUI extends JDialog {
 
         p.add(radioButtPanel, BorderLayout.CENTER/* BorderLayout.SOUTH*/);
 
-        JLabel l = new JLabel("Considera-se luz polarizada com a direção do eixo vertical");
+        JTextArea l = new JTextArea("Considera-se luz polarizada com direção do eixo vertical");
+        l.setRows(2);
+        l.setLineWrap(true);
+        l.setVisible(true);
+        l.setEditable(false);
 
-        l.setPreferredSize(LABEL_TAMANHO);
-        l.setVisible(false);
         p.add(l, BorderLayout.SOUTH);
         polarizadaButton.addActionListener(new ActionListener() {
             @Override
@@ -354,7 +358,7 @@ public class PAbsorcaoUI extends JDialog {
         JPanel p = new JPanel(l);
 
         p.add(criarBotaoSimular());
-        p.add(criarBotaoNovaSimulacao());
+        p.add(criarBotaoLimpar());
         p.add(criarBotaoVoltar());
 
         getRootPane().setDefaultButton(simular);
@@ -394,6 +398,7 @@ public class PAbsorcaoUI extends JDialog {
                     intTxt3.setText(controll.obterIntensidadeDFeixeResultante());
 
                     highlighFields();
+                    guardar.setEnabled(true);
                 }
             }
         }
@@ -406,11 +411,11 @@ public class PAbsorcaoUI extends JDialog {
      *
      * @return botão nova simulacao
      */
-    private JButton criarBotaoNovaSimulacao() {
-        novaSimulacao = new JButton("Nova Simulação");
-        novaSimulacao.setMnemonic(KeyEvent.VK_N);
-        novaSimulacao.setToolTipText("Nova Simulacao - polarização por absorção");
-        novaSimulacao.addActionListener(new ActionListener() {
+    private JButton criarBotaoLimpar() {
+        limpar = new JButton("Limpar");
+        limpar.setMnemonic(KeyEvent.VK_L);
+        limpar.setToolTipText("Limpa todos os dados");
+        limpar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 naoPolarizadaButton.setSelected(true);
@@ -421,7 +426,7 @@ public class PAbsorcaoUI extends JDialog {
                 angTxt2.setText("");
             }
         });
-        return novaSimulacao;
+        return limpar;
     }
 
     /**
@@ -451,6 +456,7 @@ public class PAbsorcaoUI extends JDialog {
         guardar = new JButton("Guardar");
         guardar.setMnemonic(KeyEvent.VK_V);
         guardar.setToolTipText("Guardar a simulação");
+        guardar.setEnabled(false);
         guardar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -473,6 +479,8 @@ public class PAbsorcaoUI extends JDialog {
         output.format("%s%s %n%s%s", "Intensidade de entrada:",
                 intTxt1.getText(), "Intensidade final: ", intTxt3.getText());
         output.close();
+        JOptionPane.showMessageDialog(this, "Ficheiro guardado com sucesso", "Guardar", JOptionPane.INFORMATION_MESSAGE);
+        guardar.setEnabled(false);
     }
 
     private boolean lerIntensidade(String imput) {
