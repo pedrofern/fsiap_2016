@@ -82,18 +82,32 @@ public abstract class FeixeDLuz {
     /**
      * Altera a Ã¢ngulo do feixe de luz
      *
-     * @param anguloDeIncidencia the anguloDeIncidencia a alterar
+     * @param angulo the anguloDeIncidencia a alterar
      * @return true se alterou, false se nÃ£o alterou
      */
-    public boolean setAnguloValidacao(double anguloDeIncidencia) {
-        if (validaAngulo(anguloDeIncidencia) == true) {
-            this.angulo = anguloDeIncidencia;
+    public boolean setAnguloValidacao(double angulo) {
+        if (validaAngulo(angulo) == true) {
+            this.angulo = angulo;
         }
-        return this.angulo == anguloDeIncidencia;
+        return this.angulo == angulo;
+    }
+    
+    
+     /**
+     * Altera a intensidade do feixe de luz
+     *
+     * @param intensidade intensidade do feixe de luz 
+     * @return true se alterou, false se não alterou
+     */
+    public boolean setIntensidadeValidacao(double intensidade) {
+        if (validaIntensidade(intensidade) == true) {
+            this.intensidade=intensidade;
+        }
+        return this.intensidade==intensidade;
     }
 
     public boolean validaAngulo(double angulo) {
-        return angulo > 0 && angulo <= 360;
+        return angulo > 0 && angulo <= 90;
     }
 
     @Override

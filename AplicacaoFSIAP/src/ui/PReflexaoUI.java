@@ -31,13 +31,12 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 /**
  *
- * @author Pedro Fernandes
+ * @author Pedro Fernandes and Diana Silva (controller)
  */
 public class PReflexaoUI extends JDialog{
     
@@ -57,7 +56,7 @@ public class PReflexaoUI extends JDialog{
     /**
      * Guarda o angulo1
      */
-    private JTextField angTxt1, angTxt2, angTxt3, angTxt4, int1,int2,int3,int4;
+    private JTextField angIncidencia, angReflexaoRes, angRefracaoRes, angBrewster, intIncidencia,intReflexaoPar,intReflexaoPerp,intRefracao;
     /**
      * Guarda o botao nova simulacao
      */
@@ -140,11 +139,11 @@ public class PReflexaoUI extends JDialog{
         
         p.setBorder(new TitledBorder("Angulo e Intensidade"));
         
-        angTxt1 = new JTextField(10);
-        int1 = new JTextField(10);
+        angIncidencia = new JTextField(10);
+        intIncidencia = new JTextField(10);
         
-        p.add(criarPainelLabelTextfieldLabel("Intensidade:", int1,"(Amperes)"));
-        p.add(criarPainelLabelTextfieldLabel("Ângulo entrada:", angTxt1,"(º Graus)"));
+        p.add(criarPainelLabelTextfieldLabel("Intensidade:", intIncidencia,"(Amperes)"));
+        p.add(criarPainelLabelTextfieldLabel("Ângulo entrada:", angIncidencia,"(º Graus)"));
         
         return p;
     }
@@ -189,18 +188,18 @@ public class PReflexaoUI extends JDialog{
         
         p.setBorder(new TitledBorder("Ângulos e Intensidades Resultantes:"));
         
-        angTxt2 = new JTextField(10);
-        angTxt3 = new JTextField(10);
-        angTxt4= new JTextField(10);
-        int2= new JTextField(10);
-        int3= new JTextField(10);
-        int4= new JTextField(10);
-        angTxt2.setEditable(false);
-        angTxt3.setEditable(false);
-        angTxt4.setEditable(false);
-        int2.setEditable(false);
-        int3.setEditable(false);
-        int4.setEditable(false);
+        angReflexaoRes = new JTextField(10);
+        angRefracaoRes = new JTextField(10);
+        angBrewster= new JTextField(10);
+        intReflexaoPar= new JTextField(10);
+        intReflexaoPerp= new JTextField(10);
+        intRefracao= new JTextField(10);
+        angReflexaoRes.setEditable(false);
+        angRefracaoRes.setEditable(false);
+        angBrewster.setEditable(false);
+        intReflexaoPar.setEditable(false);
+        intReflexaoPerp.setEditable(false);
+        intRefracao.setEditable(false);
         
         String graus = "(º Graus)";
         String amperes = "(Amperes)";
@@ -212,12 +211,12 @@ public class PReflexaoUI extends JDialog{
         String l5="Intensidade Reflexão Perpendicular:";
         String l6="Intensidade Refração:";
         
-        p.add(criarPainelLabelTextfieldLabel(l1, angTxt2,graus));
-        p.add(criarPainelLabelTextfieldLabel(l2, angTxt3,graus));
-        p.add(criarPainelLabelTextfieldLabel(l3, angTxt4,graus));
-        p.add(criarPainelLabelTextfieldLabel(l4, int2,amperes));
-        p.add(criarPainelLabelTextfieldLabel(l5, int3,amperes));
-        p.add(criarPainelLabelTextfieldLabel(l6, int4,amperes));
+        p.add(criarPainelLabelTextfieldLabel(l1, angReflexaoRes,graus));
+        p.add(criarPainelLabelTextfieldLabel(l2, angRefracaoRes,graus));
+        p.add(criarPainelLabelTextfieldLabel(l3, angBrewster,graus));
+        p.add(criarPainelLabelTextfieldLabel(l4, intReflexaoPar,amperes));
+        p.add(criarPainelLabelTextfieldLabel(l5, intReflexaoPerp,amperes));
+        p.add(criarPainelLabelTextfieldLabel(l6, intRefracao,amperes));
         
         return p;
         
@@ -358,14 +357,22 @@ public class PReflexaoUI extends JDialog{
                 MeioReflexao meio2=(MeioReflexao)comboMateriais2.getSelectedItem();
                 controller.setMeioReflexao1(meio1);
                 controller.setMeioReflexao2(meio2);
-                if(angTxt1.getText().isEmpty() || !controller.setAngulo(Double.parseDouble(angTxt1.getText())))
+                if(angIncidencia.getText().isEmpty() || !controller.setAngulo(Double.parseDouble(angIncidencia.getText())))
                   JOptionPane.showMessageDialog(rootPane, "Ângulo inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
+                if(!controller.setIntensidade(Double.parseDouble(intIncidencia.getText())))
+                    JOptionPane.showMessageDialog(rootPane, "Intensidade inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
                 else{
+                    controller.setAngulo(Double.parseDouble(angIncidencia.getText()));
+                    controller.setIntensidade(Double.parseDouble(intIncidencia.getText()));
                     if(controller.gerarResultado(pr)==true){
-                        angTxt2.setText(String.format("%.2f", controller.getFeixeReflexao1()));
-                        // angTxt2.setText(String.format("%.2f", controller.getFeixeReflexao2()));
-                        angTxt3.setText(String.format("%.2f", controller.getFeixeRefracao())); 
-                        angTxt4.setText(String.format("%.2f", controller.getAnguloBrewster()));
+                        angReflexaoRes.setText(String.format("%.2f", controller.getFeixeReflexao1().getAngulo()));
+                        angRefracaoRes.setText(String.format("%.2f", controller.getFeixeRefracao().getAngulo())); 
+                        angBrewster.setText(String.format("%.2f", controller.getAnguloBrewster()));
+                        
+                        intReflexaoPar.setText(String.format("%.2f", controller.getFeixeReflexao1().getIntensidade()));
+                        intReflexaoPerp.setText(String.format("%.2f", controller.getFeixeReflexao2().getIntensidade()));
+                        intRefracao.setText(String.format("%.2f", controller.getFeixeRefracao().getIntensidade()));
+                        
                         guardar.setEnabled(true);
                     }
                     else{
@@ -388,14 +395,14 @@ public class PReflexaoUI extends JDialog{
         limpar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                angTxt1.setText("");
-                angTxt2.setText("");
-                angTxt3.setText("");
-                angTxt4.setText("");
-                int1.setText("");
-                int2.setText("");
-                int3.setText("");
-                int4.setText("");
+                angIncidencia.setText("");
+                angReflexaoRes.setText("");
+                angRefracaoRes.setText("");
+                angBrewster.setText("");
+                intIncidencia.setText("");
+                intReflexaoPar.setText("");
+                intReflexaoPerp.setText("");
+                intRefracao.setText("");
                 getRootPane().setDefaultButton(simular);
             }
         });
@@ -422,13 +429,13 @@ public class PReflexaoUI extends JDialog{
         output.format("%s%s %n%s%s %n%s%s %n%s%s %n%s%s %n%s%s %n%s%s %n%s%s %n%s%s", 
                 "Meio1:", comboMateriais1.getSelectedItem().toString(),
                 "Meio2: ", comboMateriais2.getSelectedItem().toString(),
-                "Intensidade: ", int1.getText(), 
-                "Angulo Entrada: ", angTxt1.getText(),
-                "Angulo Reflexão: ", angTxt2.getText(),
-                "Angulo Brewster: ", angTxt3.getText(),
-                "Intensidade Reflexao Paralela: ", angTxt4.getText(),
-                "Intensidade Reflexao Perpendicular: ", angTxt4.getText(),                
-                "Intensidade Refraccao: ", int3.getText());
+                "Intensidade: ", intIncidencia.getText(), 
+                "Angulo Entrada: ", angIncidencia.getText(),
+                "Angulo Reflexão: ", angReflexaoRes.getText(),
+                "Angulo Brewster: ", angBrewster.getText(),
+                "Intensidade Reflexao Paralela: ", intReflexaoPar.getText(),
+                "Intensidade Reflexao Perpendicular: ", intReflexaoPerp.getText(),                
+                "Intensidade Refraccao: ", intRefracao.getText());
         output.close();
         JOptionPane.showMessageDialog(this, "Ficheiro guardado com sucesso", "Guardar", JOptionPane.INFORMATION_MESSAGE);
         guardar.setEnabled(false);

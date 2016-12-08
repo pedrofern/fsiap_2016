@@ -68,6 +68,16 @@ public class PReflexaoController {
         return pr.getFeixeDeLuzIncidente().setAnguloValidacao(angulo);
     }
     
+    
+    /**
+     * Altera a intensidade do feixe de luz incidente
+     * @param intensidade intensidade do feixe de luz incidente
+     * @return true se alterou, false se não alterou
+     */
+    public boolean setIntensidade(double intensidade){
+        return pr.getFeixeDeLuzIncidente().setIntensidadeValidacao(intensidade);
+    }
+    
     /**
      * Gera o resultado da simulação da reflexão por reflexão
      * @param pr polarização a simular

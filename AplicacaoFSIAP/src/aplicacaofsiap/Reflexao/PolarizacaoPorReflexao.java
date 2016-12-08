@@ -174,7 +174,9 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
         //Se ângulo de brewster for igual ao ângulo de refração -> Luz Polarizada
         if(anguloBrewster==feixeRefracao.getAngulo()) feixeRefracao.setTipo(FeixeDLuz.TipoDLuz.POLARIZADA);
         
-        return feixeReflexao1.getAngulo()!=0 && feixeRefracao.getAngulo()!=0 && anguloBrewster!=-1;
+        return feixeReflexao1.getAngulo()!=0 && feixeRefracao.getAngulo()!=0 && anguloBrewster!=-1
+                /**&& feixeReflexao1.getIntensidade()!=0 && feixeReflexao2.getIntensidade()!=0
+                && feixeRefracao.getIntensidade()!=0**/;
     }
     
     @Override
@@ -245,17 +247,17 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
      * @param angRefracao ângulo do feixe de refração resultante
      */
      public void calcularIntensidadeReflexaoPerpendicular(double n1, double n2, double angIncidencia, double angRefracao) {
-      
-        if(n1!=n2){
-          //n1cos(AngIncidencia) - n2cos(angRefratado) / n1cos(AngInc) + n2cos(AngRefratado)
-          double f1=n1*Math.toDegrees(Math.acos(Math.toRadians(angIncidencia)));
-          double f2=n2*Math.toDegrees(Math.acos(Math.toRadians(angRefracao)));
-          double res= (f1-f2)/(f1+f2);
-          feixeRefracao.setIntensidade(res);  
-
-       //se os 2 materiais forem iguais não há refração
-       }else
-           feixeReflexao2.setIntensidade(0);
+        //se os 2 materiais forem iguais não há refração
+        if(n1==n2)feixeReflexao2.setIntensidade(0);
+        else {
+            //n1cos(AngIncidencia) - n2cos(angRefratado) / n1cos(AngInc) + n2cos(AngRefratado)
+            double f1=n1*Math.toDegrees(Math.acos(Math.toRadians(angIncidencia)));
+            double f2=n2*Math.toDegrees(Math.acos(Math.toRadians(angRefracao)));
+            double res= (f1-f2)/(f1+f2);
+            feixeReflexao2.setIntensidade(res);
+            
+          
+        }
     }
      
      /**
