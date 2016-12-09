@@ -8,6 +8,7 @@ import aplicacaofsiap.FeixeDLuzIncidente;
 import aplicacaofsiap.FeixeDLuzResultante;
 import aplicacaofsiap.Polarizacao;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * Classe que permite gerir e guardar informações relativas à simulação da  
@@ -227,12 +228,14 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
           anguloBrewster=0;      
     }
 
-    public void calcularAnguloRefracao(double n1, double n2, double angReflexao) {
+    public void calcularAnguloRefracao(double n1, double n2, double angRefracao) {
  
        if(n1!=n2){
-           //n1senOreflexao=n2sen0refracao   logo 0refracao= (n1.sen0reflexao)/n2              
-          //quando Ã© superior a 60 Agua-Vidro da erro
-                feixeRefracao.setAngulo(n1*Math.toDegrees((Math.asin(Math.toRadians(angReflexao))))/n2); 
+           //n1*sen(Oreflexao)=n2*sen(0refracao)   
+           //logo sen(0refracao)= (sen0reflexao)*n1/n2 
+           //logo 0refracao = cos(90 - 0reflexao)* n1/n2 )      
+
+            feixeRefracao.setAngulo(Math.toDegrees(n1/n2*Math.cos(Math.toRadians(90-angRefracao)))); 
         
        //se os 2 materiais forem iguais não há refração
        }else
@@ -244,15 +247,15 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
      * @param n1 índice de refração do meio de origem
      * @param n2 índice de refração do meio de incidência
      * @param angIncidencia ângulo do feixe de incidência
-     * @param angRefracao ângulo do feixe de refração resultante
+     * @param angReflexao ângulo do feixe de refração resultante
      */
-     public void calcularIntensidadeReflexaoPerpendicular(double n1, double n2, double angIncidencia, double angRefracao) {
+     public void calcularIntensidadeReflexaoPerpendicular(double n1, double n2, double angIncidencia, double angReflexao) {
         //se os 2 materiais forem iguais não há refração
         if(n1==n2)feixeReflexao2.setIntensidade(0);
         else {
             //n1cos(AngIncidencia) - n2cos(angRefratado) / n1cos(AngInc) + n2cos(AngRefratado)
-            double f1=n1*Math.toDegrees(Math.acos(Math.toRadians(angIncidencia)));
-            double f2=n2*Math.toDegrees(Math.acos(Math.toRadians(angRefracao)));
+            double f1=n1*Math.toDegrees(Math.cos(Math.toRadians(angIncidencia)));
+            double f2=n2*Math.toDegrees(Math.cos(Math.toRadians(angReflexao)));
             double res= (f1-f2)/(f1+f2);
             feixeReflexao2.setIntensidade(res);
             
@@ -265,16 +268,16 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
      * @param n1 índice de refração do meio de origem
      * @param n2 índice de refração do meio de incidência
      * @param angIncidencia ângulo do feixe de incidência
-     * @param angRefracao ângulo do feixe de refração resultante
+     * @param angReflexao ângulo do feixe de refração resultante
      */
-     public void calcularIntensidadeReflexaoParalela(double n1, double n2, double angIncidencia, double angRefracao) {
+     public void calcularIntensidadeReflexaoParalela(double n1, double n2, double angIncidencia, double angReflexao) {
       
         if(n1!=n2){
           //n2cos(AngIncidencia) - n1cos(angRefratado) / n1cos(AngInc) + n2cos(AngRefratado)
-          double f1=n2*Math.toDegrees(Math.acos(Math.toRadians(angIncidencia)));
-          double f2=n1*Math.toDegrees(Math.acos(Math.toRadians(angRefracao)));
-          double f3=n1*Math.toDegrees(Math.acos(Math.toRadians(angIncidencia)));
-          double f4=n2*Math.toDegrees(Math.acos(Math.toRadians(angRefracao)));
+          double f1=n2*Math.toDegrees(Math.cos(Math.toRadians(angIncidencia)));
+          double f2=n1*Math.toDegrees(Math.cos(Math.toRadians(angReflexao)));
+          double f3=n1*Math.toDegrees(Math.cos(Math.toRadians(angIncidencia)));
+          double f4=n2*Math.toDegrees(Math.cos(Math.toRadians(angReflexao)));
           double res= (f1-f2)/(f3+f4);
           feixeReflexao1.setIntensidade(res);  
 
@@ -295,9 +298,9 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
       
         if(n1!=n2){
           //2x n1 x cos(AngIncidencia) / (n1cos(angIncid) + n2cos(AngRef)
-          double f1=2*n1*Math.toDegrees(Math.acos(Math.toRadians(angIncidencia)));
-          double f2=n1*Math.toDegrees(Math.acos(Math.toRadians(angIncidencia)));
-          double f3=n2*Math.toDegrees(Math.acos(Math.toRadians(angRefracao)));
+          double f1=2*n1*Math.toDegrees(Math.cos(Math.toRadians(angIncidencia)));
+          double f2=n1*Math.toDegrees(Math.cos(Math.toRadians(angIncidencia)));
+          double f3=n2*Math.toDegrees(Math.cos(Math.toRadians(angRefracao)));
           double res= f1/(f2+f3);
           feixeRefracao.setIntensidade(res);  
 

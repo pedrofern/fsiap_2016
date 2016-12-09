@@ -109,6 +109,8 @@ public class PReflexaoUI extends JDialog{
      * Constroi uma janela para simular polarizao por reflexao
      * recebendo a janela anterior como parametro
      * @param framePai janela anterior
+     * @param lg
+     * @param s
      */
     public PReflexaoUI(DefinirPolarizaoUI framePai, LightGo lg, Simulacao s){
         super(framePai, "LIGHT GO -> Polarização por Reflexão", true);
@@ -429,21 +431,26 @@ public class PReflexaoUI extends JDialog{
                             XYSeries serie3 = new XYSeries("EIXO Y");
                             XYSeries serie4 = new XYSeries("EIXO X");
                             
+                            System.out.println(controller.getFeixeReflexao1().getAngulo());
+                            System.out.println(controller.getFeixeRefracao().getAngulo());
+                            System.out.println();
+                                
                             serie0.add(0, 0);
-                            serie0.add(-100.0, (Math.tan(Math.toRadians(angInc)))*100);
+                            serie0.add(-((Math.tan(Math.toRadians(angInc)))), 1.0);
                             
                             serie1.add(0, 0);
-                            serie1.add((Math.tan(Math.toRadians(angRefra))*100), -100.0);
+                            serie1.add((Math.tan(Math.toRadians(angRefra))), -1.0);
 
                             serie2.add(0, 0);
-                            serie2.add(100.0, (Math.tan(Math.toRadians(angRefle)))*100);
+                            serie2.add(((Math.tan(Math.toRadians(angRefle)))), 1.0);
                             
-                            //para manter escala x=100,y=100
-                            serie3.add(0.0, 100.0);
-                            serie3.add(0.0, -100.0);
-                            serie4.add(100.0, 0.0);
-                            serie4.add(-100.0, 0.0);
 
+                            //para manter escala x=1,y=1
+                            serie3.add(0.0, 1.0);
+                            serie3.add(0.0, -1.0);
+                            serie4.add(1.0, 0.0);
+                            serie4.add(-1.0, 0.0);
+      
                             dataset.addSeries(serie0);
                             dataset.addSeries(serie1);
                             dataset.addSeries(serie2);
