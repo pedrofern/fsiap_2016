@@ -172,7 +172,7 @@ public class PReflexaoUI extends JDialog{
         angIncidencia = new JTextField(10);
         intIncidencia = new JTextField(10);
         
-        p.add(criarPainelLabelTextfieldLabel("Intensidade:", intIncidencia,"(Amperes)"));
+        p.add(criarPainelLabelTextfieldLabel("Intensidade:", intIncidencia,"(W/m2)"));
         p.add(criarPainelLabelTextfieldLabel("Ângulo entrada:", angIncidencia,"(º Graus)"));
         
         return p;
@@ -232,7 +232,7 @@ public class PReflexaoUI extends JDialog{
         intRefracao.setEditable(false);
         
         String graus = "(º Graus)";
-        String amperes = "(Amperes)";
+        String amperes = "(%)";
         
         String l1="Ângulo Reflexão:";
         String l2="Ângulo Refração:";
