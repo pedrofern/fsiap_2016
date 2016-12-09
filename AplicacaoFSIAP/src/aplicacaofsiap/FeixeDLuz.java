@@ -46,6 +46,12 @@ public abstract class FeixeDLuz {
      */
     protected final static double ANGULO_POR_OMISSAO = 0;
 
+    /**
+     * 
+     * @param tipo
+     * @param intensidade
+     * @param angulo 
+     */
     public FeixeDLuz(TipoDLuz tipo, double intensidade, double angulo) {
         this.tipo = tipo;
         this.intensidade = intensidade;
