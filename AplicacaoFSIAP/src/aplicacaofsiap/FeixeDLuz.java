@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package aplicacaofsiap;
 
 /**
@@ -47,10 +42,12 @@ public abstract class FeixeDLuz {
     protected final static double ANGULO_POR_OMISSAO = 0;
 
     /**
-     * 
-     * @param tipo
-     * @param intensidade
-     * @param angulo 
+     * Cria uma instância de feixe de luz, com os atributos tipo de luz,
+     * intensidade e ângulo passados por parãmetro.
+     *
+     * @param tipo o tempo de um feixe de luz
+     * @param intensidade a intensidade de um feixe de luz
+     * @param angulo o ângulo de um feixe de luz
      */
     public FeixeDLuz(TipoDLuz tipo, double intensidade, double angulo) {
         this.tipo = tipo;
@@ -58,52 +55,121 @@ public abstract class FeixeDLuz {
         this.angulo = angulo;
     }
 
+    /**
+     * Cria uma instância de feixe de luz, com os atributos tipo de luz não
+     * polarizada, e a intensidade e ângulo passados por parãmetro.
+     *
+     * @param intensidade a intensidade de um feixe de luz
+     * @param angulo o ângulo de um feixe de luz
+     */
     public FeixeDLuz(double intensidade, double angulo) {
         this.tipo = TipoDLuz.NAO_POLARIZADA;
         this.intensidade = intensidade;
         this.angulo = angulo;
     }
 
+    /**
+     * Cria uma instância de feixe de luz, com o tipo de luz passado por
+     * parãmetro e a intensidade e ângulo com os valores por omissão.
+     *
+     * @param tipo o tipo de luz de um feixe de luz
+     */
     public FeixeDLuz(TipoDLuz tipo) {
         this.tipo = tipo;
         this.intensidade = INTENSIDADE_POR_OMISSAO;
         this.angulo = ANGULO_POR_OMISSAO;
     }
 
+    /**
+     * Cria uma instância de feixe de luz com o atributo tipo de luz não
+     * polarizada e intensidade e ângulo com os valores por omissão.
+     */
     public FeixeDLuz() {
         this.tipo = TipoDLuz.NAO_POLARIZADA;
         this.intensidade = INTENSIDADE_POR_OMISSAO;
         this.angulo = ANGULO_POR_OMISSAO;
     }
 
+    /**
+     * Devolve o tipo de luz de um feixe de luz.
+     *
+     * @return o tipo de luz de um feixe de luz
+     */
     public TipoDLuz getTipo() {
         return tipo;
     }
 
+    /**
+     * Modifica o tipo de luz de um feixe de luz.
+     *
+     * @param tipo o novo tipo de luz de um feixe de luz
+     */
     public void setTipo(TipoDLuz tipo) {
         this.tipo = tipo;
     }
 
+    /**
+     * Devolve a intensidade de um feixe de luz.
+     *
+     * @return a intensidade de um feixe de luz
+     */
     public double getIntensidade() {
         return intensidade;
     }
 
+    /**
+     * Modifica a intensidade de um feixe de luz, atribuindo-lhe a intensidade
+     * passada por parâmetro, se a nova intensidade for um valor válido.
+     *
+     * @param intensidade a intensidade de um feixe de luz
+     */
     public void setIntensidade(double intensidade) {
         if (validaIntensidade(intensidade)) {
             this.intensidade = intensidade;
         }
     }
 
+    /**
+     * Valida a intensidade passada por parâmetro, retornando true se for válida
+     * ou false em caso contrário.
+     *
+     * @param intensidade a intensidade de um feixe de luz
+     * @return true se intensidade for válida, caso contrário retorna false
+     */
     public static boolean validaIntensidade(double intensidade) {
         return intensidade >= 0;
     }
 
+    /**
+     * Devolve o ângulo de um feixe de luz.
+     *
+     * @return o ângulo de um feixe de luz
+     */
     public double getAngulo() {
         return angulo;
     }
 
+    /**
+     * Modifica o ângulo de um feixe de luz, caso o ângulo passado por parãmetro
+     * seja válido.
+     *
+     * @param angulo o ângulo de um feixe de luz
+     */
     public void setAngulo(double angulo) {
-        this.angulo = angulo;
+        if (validaAngulo(angulo)) {
+            this.angulo = angulo;
+        }
+    }
+
+    /**
+     * Valida o ângulo de um feixe de luz, devolvendo true se o ângulo for
+     * válido, ou false caso contrário.
+     *
+     * @param angulo o ângulo de um feixe de luz
+     * @return true se ângulo for válido, caso contrário retorna false
+     */
+    public boolean validaAngulo(double angulo) {
+        return angulo >= 0 && angulo <= 90;
     }
 
     /**
@@ -132,10 +198,6 @@ public abstract class FeixeDLuz {
         return this.intensidade == intensidade;
     }
 
-    public boolean validaAngulo(double angulo) {
-        return angulo > 0 && angulo <= 90;
-    }
-
     @Override
     public boolean equals(Object outroObjeto) {
         if (this == outroObjeto) {
@@ -156,6 +218,11 @@ public abstract class FeixeDLuz {
         return hash;
     }
 
+    /**
+     * Devolve a descrição textual de um feixe de luz.
+     *
+     * @return a descrição textual de um feixe de luz
+     */
     @Override
     public String toString() {
         return "FeixeDLuz{" + "tipo=" + tipo + ", intensidade=" + intensidade + ", angulo=" + angulo + '}';
