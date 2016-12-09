@@ -11,7 +11,9 @@ import aplicacaofsiap.Reflexao.PolarizacaoPorReflexao;
 import aplicacaofsiap.LightGo;
 import aplicacaofsiap.Simulacao;
 import controller.PReflexaoController;
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -33,6 +35,22 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.AxisLocation;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.DatasetRenderingOrder;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DatasetGroup;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
 
 /**
  *
@@ -78,6 +96,16 @@ public class PReflexaoUI extends JDialog{
      */
     private PolarizacaoPorReflexao pr;
     /**
+     * dados do grafico
+     */
+    private XYSeriesCollection dataset;
+    /**
+     * painel do grafico
+     */
+    private ChartPanel chartPanel;
+    
+    
+    /**
      * Constroi uma janela para simular polarizao por reflexao
      * recebendo a janela anterior como parametro
      * @param framePai janela anterior
@@ -96,7 +124,7 @@ public class PReflexaoUI extends JDialog{
         setMinimumSize(new Dimension(JANELA_LARGURA_MINIMO, JANELA_ALTURA_MINIMO));
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         pack();
-        setResizable(true);
+        setResizable(false);
         setLocationRelativeTo(framePai);
         setVisible(true);
     }
@@ -177,7 +205,7 @@ public class PReflexaoUI extends JDialog{
         p.setBorder(new TitledBorder("Resultado:"));
         
         p.add(criarPainelAngulos(),BorderLayout.NORTH);
-        p.add(criarPainelImagem(),BorderLayout.CENTER);
+        p.add(criarPainelGrafico(),BorderLayout.CENTER);
         p.add(criarPainelBotaoUnico(criarBotaoLimpar()),BorderLayout.SOUTH);
         
         return p;           
@@ -247,22 +275,40 @@ public class PReflexaoUI extends JDialog{
         return p;
     }
     /**
-     * Cria painel com uma imagem
-     * @return painel com uma imagem
+     * Cria painel com um grafico
+     * @return painel com um grafico
      */
-    private JPanel criarPainelImagem() {
-//************************************++  implementar para escolher imagem   *******************************+
-        ImageIcon background = new ImageIcon("src/ficheiros/lightGo.png");
-//*************************************************************************************************+++++
+    private ChartPanel criarPainelGrafico() {
 
-        JLabel label = new JLabel();
-        label.setIcon(background);
+        dataset = new XYSeriesCollection();
 
-        JPanel panel = new JPanel();
-        panel.add(label);
-
-        return panel;
+        JFreeChart xylineChart = ChartFactory.createXYLineChart(
+         "Angulos",
+         "","",
+         dataset,
+         PlotOrientation.VERTICAL,
+         true,false,false);
+        
+        XYPlot plot = xylineChart.getXYPlot( );
+        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer( );
+        renderer.setSeriesPaint( 0 , Color.RED );
+        renderer.setSeriesPaint( 1 , Color.CYAN);
+        renderer.setSeriesPaint( 2 , Color.BLUE );
+        renderer.setSeriesPaint( 3 , Color.BLACK );
+        renderer.setSeriesPaint( 4 , Color.BLACK );
+        renderer.setBaseShapesVisible(false);
+        renderer.setSeriesStroke( 0 , new BasicStroke( 4.0f ) );
+        renderer.setSeriesStroke( 1 , new BasicStroke( 4.0f ) );
+        renderer.setSeriesStroke( 2 , new BasicStroke( 4.0f ) );
+        renderer.setSeriesStroke( 3 , new BasicStroke( 2.0f ) );
+        renderer.setSeriesStroke( 4 , new BasicStroke( 2.0f ) );
+        plot.setRenderer( renderer ); 
+        
+        chartPanel = new ChartPanel(xylineChart);
+        
+        return chartPanel;
     }
+    
     /**
      * cria painel botão unico
      * @return painel botão unico
@@ -357,28 +403,66 @@ public class PReflexaoUI extends JDialog{
                 MeioReflexao meio2=(MeioReflexao)comboMateriais2.getSelectedItem();
                 controller.setMeioReflexao1(meio1);
                 controller.setMeioReflexao2(meio2);
-                if(angIncidencia.getText().isEmpty() || !controller.setAngulo(Double.parseDouble(angIncidencia.getText())))
-                  JOptionPane.showMessageDialog(rootPane, "Ângulo inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
-                if(!controller.setIntensidade(Double.parseDouble(intIncidencia.getText())))
-                    JOptionPane.showMessageDialog(rootPane, "Intensidade inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
-                else{
+                if(lerAngulo()){
                     controller.setAngulo(Double.parseDouble(angIncidencia.getText()));
-                    controller.setIntensidade(Double.parseDouble(intIncidencia.getText()));
-                    if(controller.gerarResultado(pr)==true){
-                        angReflexaoRes.setText(String.format("%.2f", controller.getFeixeReflexao1().getAngulo()));
-                        angRefracaoRes.setText(String.format("%.2f", controller.getFeixeRefracao().getAngulo())); 
-                        angBrewster.setText(String.format("%.2f", controller.getAnguloBrewster()));
-                        
-                        intReflexaoPar.setText(String.format("%.2f", controller.getFeixeReflexao1().getIntensidade()));
-                        intReflexaoPerp.setText(String.format("%.2f", controller.getFeixeReflexao2().getIntensidade()));
-                        intRefracao.setText(String.format("%.2f", controller.getFeixeRefracao().getIntensidade()));
-                        
-                        guardar.setEnabled(true);
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(rootPane, "Não foi possível gerar os resultados.", "Erro", JOptionPane.ERROR_MESSAGE);
-                    }
+                    if(lerIntensidade()){                        
+                        controller.setIntensidade(Double.parseDouble(intIncidencia.getText()));
+                        if(controller.gerarResultado(pr)==true){
+                            angReflexaoRes.setText(String.format("%.2f", controller.getFeixeReflexao1().getAngulo()));
+                            angRefracaoRes.setText(String.format("%.2f", controller.getFeixeRefracao().getAngulo())); 
+                            angBrewster.setText(String.format("%.2f", controller.getAnguloBrewster()));
+
+                            intReflexaoPar.setText(String.format("%.2f", controller.getFeixeReflexao1().getIntensidade()));
+                            intReflexaoPerp.setText(String.format("%.2f", controller.getFeixeReflexao2().getIntensidade()));
+                            intRefracao.setText(String.format("%.2f", controller.getFeixeRefracao().getIntensidade()));
+                            
+                            // adiciona dados ao grafico
+                            double angInc= Double.parseDouble(angIncidencia.getText());
+                            double angRefra= controller.getFeixeRefracao().getAngulo();
+                            double angRefle= controller.getFeixeReflexao1().getAngulo();
+
+                            dataset.removeAllSeries();
+                            
+                            XYSeries serie0 = new XYSeries("INCIDENCIA");
+                            XYSeries serie1 = new XYSeries("REFRACAO");
+                            XYSeries serie2 = new XYSeries("REFLEXAO");
+                            XYSeries serie3 = new XYSeries("EIXO Y");
+                            XYSeries serie4 = new XYSeries("EIXO X");
+                            
+                            serie0.add(0, 0);
+                            serie0.add(-100.0, (Math.tan(Math.toRadians(angInc)))*100);
+                            
+                            serie1.add(0, 0);
+                            serie1.add((Math.tan(Math.toRadians(angRefra))*100), -100.0);
+
+                            serie2.add(0, 0);
+                            serie2.add(100.0, (Math.tan(Math.toRadians(angRefle)))*100);
+                            
+                            //para manter escala x=100,y=100
+                            serie3.add(0.0, 100.0);
+                            serie3.add(0.0, -100.0);
+                            serie4.add(100.0, 0.0);
+                            serie4.add(-100.0, 0.0);
+
+                            dataset.addSeries(serie0);
+                            dataset.addSeries(serie1);
+                            dataset.addSeries(serie2);
+                            dataset.addSeries(serie3);
+                            dataset.addSeries(serie4);
+                            
+                            chartPanel.revalidate();
+                            chartPanel.repaint();
+                            
+                            // guarda para ficheiro
+                            guardar.setEnabled(true);
+                            
+                        }
+                        else{
+                            popUpMensagemDErro("Não foi possível gerar os resultados!");
+                        }
+                    }   
                 }
+                
             }
         });
 
@@ -427,11 +511,11 @@ public class PReflexaoUI extends JDialog{
         String outputFile = "reflexaoOutputFile.txt"; //basta q ficheiro esteja dentro da pasta principal deste programa
         Formatter output = new Formatter(new File(outputFile));
         output.format("%s%s %n%s%s %n%s%s %n%s%s %n%s%s %n%s%s %n%s%s %n%s%s %n%s%s", 
-                "Meio1:", comboMateriais1.getSelectedItem().toString(),
+                "Meio1: ", comboMateriais1.getSelectedItem().toString(),
                 "Meio2: ", comboMateriais2.getSelectedItem().toString(),
                 "Intensidade: ", intIncidencia.getText(), 
                 "Angulo Entrada: ", angIncidencia.getText(),
-                "Angulo Reflexão: ", angReflexaoRes.getText(),
+                "Angulo Reflexao: ", angReflexaoRes.getText(),
                 "Angulo Brewster: ", angBrewster.getText(),
                 "Intensidade Reflexao Paralela: ", intReflexaoPar.getText(),
                 "Intensidade Reflexao Perpendicular: ", intReflexaoPerp.getText(),                
@@ -440,50 +524,39 @@ public class PReflexaoUI extends JDialog{
         JOptionPane.showMessageDialog(this, "Ficheiro guardado com sucesso", "Guardar", JOptionPane.INFORMATION_MESSAGE);
         guardar.setEnabled(false);
     }
-//    private boolean lerIntensidade(String imput) {
-//        boolean bool = false;
-//        //verifica valor de intensidade introduzido e despoleta pop-ups se necessário
-//        if (imput.isEmpty()) {
-//            popUpMensagemDErro("Insira um valor para a intensidade do feixe incidente!");
-//        } else {
-//            try {
-//                double valor_intensidade = Double.parseDouble(imput);
-//                if (!FeixeDLuz.validaIntensidade(valor_intensidade)) {
-//                    popUpMensagemDErro("A intensidade do feixe incidente deve ser um valor positivo!");
-//                } else {
-//                    bool = true;
-//                    //continua com confirmação dos restantes inputs antes de fazer setDados
-//                }
-//            } catch (NumberFormatException ex) { //se não foi introduzido um valor numérico
-//                popUpMensagemDErro("A intensidade do feixe incidente deve ser um valor numérico!");
-//            }
-//        }
-//        return bool;
-//    }
-//
-//    private boolean lerAngulo(String input, String tipoDLente) {
-//        //verifica valor de anguloDLente introduzido e despoleta pop-ups se necessário
-//        boolean bool = false;
-//        if (input.isEmpty()) {
-//            popUpMensagemDErro("Insira o valor do ângulo de entrada!");
-//        } else {
-//            try {
-//                double valor_intensidade = Double.parseDouble(input);
-//                if (!Lente.validaAngulo_emGraus(valor_intensidade)) {
-//                    popUpMensagemDErro("Introduza um valor para o ângulo do " + tipoDLente + " no intervalo [(-90) ; 90].");
-//                } else {
-//                    bool = true;
-//                    //continua 
-//                }
-//            } catch (NumberFormatException ex) { //se não foi introduzido um valor numérico
-//                popUpMensagemDErro("O ângulo do " + tipoDLente + " deve ser um valor numérico!");
-//            }
-//        }
-//        return bool;
-//    }
-//
-//    private void popUpMensagemDErro(String msg) {
-//        JOptionPane.showMessageDialog(this,
-//                msg, "Dados da Simulação", JOptionPane.WARNING_MESSAGE);
-//    }
+    private boolean lerIntensidade() {
+        boolean bool = false;
+        try {
+        if (intIncidencia.getText().isEmpty() || !controller.setIntensidade(Double.parseDouble(intIncidencia.getText()))) {
+            popUpMensagemDErro("Intensidade inválida!");
+        }else{
+            bool = true;
+        }
+        }catch (NumberFormatException ne){
+               popUpMensagemDErro("Introduza um número entre 0º e 90º no campo Angulo!");
+               return false;
+        }
+        return bool;
+    }
+
+    private boolean lerAngulo() {
+        boolean bool = false;
+        try {
+        if (angIncidencia.getText().isEmpty() || !controller.setAngulo(Double.parseDouble(angIncidencia.getText()))) {
+            popUpMensagemDErro("Angulo Inválido!");
+        }else{
+            bool = true;
+        }
+        }catch (NumberFormatException ne){
+               popUpMensagemDErro("Introduza um número no campo Intensidade!");
+               return false;
+        }
+        return bool;
+    }
+
+    private void popUpMensagemDErro(String msg) {
+        JOptionPane.showMessageDialog(this,
+                msg, "Erro", JOptionPane.ERROR_MESSAGE);
+    }
+    
 }
