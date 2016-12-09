@@ -1,12 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package aplicacaofsiap.Absorcao;
 
 /**
- * Esta classe permite representar uma Lente.
+ * Esta classe permite representar uma Lente. Uma lente tem como atributo um
+ * ângulo de rotação relativamente ao eixo de transmissão que neste contexto se
+ * considera ser o eixo de transmissão vertical.
  *
  * @author Helder, Gonçalo
  */
@@ -16,7 +13,7 @@ public abstract class Lente {
      * O ângulo de rotação da lente relativamente ao eixo de transmissão
      * vertical, em graus.
      */
-    private double angulo_emGraus;
+    private double angulo;
 
     /**
      * O ângulo de rotação da lente relativamente ao eixo de transmissão
@@ -28,10 +25,10 @@ public abstract class Lente {
      * Permite a instanciação de uma lente, passando por parâmetro o ângulo de
      * rotação da lente em graus.
      *
-     * @param angulo_emGraus o ângulo de rotação da lente em graus
+     * @param angulo o ângulo de rotação da lente em graus
      */
-    public Lente(double angulo_emGraus) {
-        this.angulo_emGraus = angulo_emGraus;
+    public Lente(double angulo) {
+        this.angulo = angulo;
     }
 
     /**
@@ -39,7 +36,7 @@ public abstract class Lente {
      * omissão cujo valor é 0 (zero).
      */
     public Lente() {
-        this.angulo_emGraus = ANG_POR_OMISSAO;
+        this.angulo = ANG_POR_OMISSAO;
     }
 
     /**
@@ -48,30 +45,30 @@ public abstract class Lente {
      * @return o angulo em graus da instância de lente.
      */
     public double getAngulo_emGraus() {
-        return angulo_emGraus;
+        return angulo;
     }
 
     /**
      * Modifica o ângulo em graus da instância de lente, caso o seu valor seja
      * válido.
      *
-     * @param angulo_emGraus o novo ângulo em graus da instância de lente
+     * @param angulo o novo ângulo em graus da instância de lente
      */
-    public void setAngulo_emGraus(double angulo_emGraus) {
-        if (validaAngulo_emGraus(angulo_emGraus)) {
-            this.angulo_emGraus = angulo_emGraus;
+    public void setAngulo_emGraus(double angulo) {
+        if (validaAngulo_emGraus(angulo)) {
+            this.angulo = angulo;
         }
     }
-    
-        /**
+
+    /**
      * Valida o angulo em graus. Se o angulo se encontrar no intervalo [-90-90]
      * retorna true, senão retorna false.
      *
-     * @param angulo_emGraus o angulo em graus a validar
+     * @param angulo o angulo em graus a validar
      * @return
      */
-    public static boolean validaAngulo_emGraus(double angulo_emGraus) {
-        return ((angulo_emGraus >= -90) && (angulo_emGraus <= 90));
+    public static boolean validaAngulo_emGraus(double angulo) {
+        return ((angulo >= -90) && (angulo <= 90));
     }
 
     /**
@@ -81,7 +78,7 @@ public abstract class Lente {
      */
     @Override
     public String toString() {
-        return "Lente{" + "angulo_emGraus=" + angulo_emGraus + '}';
+        return "Lente{" + "angulo=" + angulo + '}';
     }
 
 }

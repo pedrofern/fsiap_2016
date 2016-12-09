@@ -6,24 +6,45 @@
 package aplicacaofsiap;
 
 /**
+ * Esta classe representa um feixe de luz com os atributos: tipo de luz,
+ * intendidade e ângulo de incidência.
  *
  * @author Helder
  */
 public abstract class FeixeDLuz {
 
     /**
-     * Tipos de luz
+     * Os tipos de feixe de luz.
      */
     public static enum TipoDLuz {
 
         NAO_POLARIZADA, POLARIZADA
     };
 
+    /**
+     * O tipo de um feixe de luz.
+     */
     private TipoDLuz tipo;
 
+    /**
+     * A intensidade de um feixe de luz (em Amperes).
+     */
     private double intensidade;
 
+    /**
+     * O ângulo de um feixe de luz.
+     */
     private double angulo;
+
+    /**
+     * A intensidade de um feixe de luz por omissão.
+     */
+    protected final static double INTENSIDADE_POR_OMISSAO = 0;
+
+    /**
+     * O ângulo de um feixe de luz por omissão.
+     */
+    protected final static double ANGULO_POR_OMISSAO = 0;
 
     public FeixeDLuz(TipoDLuz tipo, double intensidade, double angulo) {
         this.tipo = tipo;
@@ -39,14 +60,14 @@ public abstract class FeixeDLuz {
 
     public FeixeDLuz(TipoDLuz tipo) {
         this.tipo = tipo;
-        this.intensidade = 0;
-        this.angulo = 0;
+        this.intensidade = INTENSIDADE_POR_OMISSAO;
+        this.angulo = ANGULO_POR_OMISSAO;
     }
 
     public FeixeDLuz() {
         this.tipo = TipoDLuz.NAO_POLARIZADA;
-        this.intensidade = 0;
-        this.angulo = 0;
+        this.intensidade = INTENSIDADE_POR_OMISSAO;
+        this.angulo = ANGULO_POR_OMISSAO;
     }
 
     public TipoDLuz getTipo() {
@@ -91,19 +112,18 @@ public abstract class FeixeDLuz {
         }
         return this.angulo == angulo;
     }
-    
-    
-     /**
+
+    /**
      * Altera a intensidade do feixe de luz
      *
-     * @param intensidade intensidade do feixe de luz 
+     * @param intensidade intensidade do feixe de luz
      * @return true se alterou, false se não alterou
      */
     public boolean setIntensidadeValidacao(double intensidade) {
         if (validaIntensidade(intensidade) == true) {
-            this.intensidade=intensidade;
+            this.intensidade = intensidade;
         }
-        return this.intensidade==intensidade;
+        return this.intensidade == intensidade;
     }
 
     public boolean validaAngulo(double angulo) {

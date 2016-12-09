@@ -36,4 +36,5 @@ public class Polarizador extends Lente {
     public String toString() {
         return "Polarizador{" + super.toString() + '}';
     }
+
 }

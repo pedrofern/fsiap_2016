@@ -12,11 +12,11 @@ public class Analisador extends Lente {
      * Permite criar uma instância de analisador, passando por parâmetro o
      * ângulo em relação ao eixo de transmissão vertical.
      *
-     * @param angulo_emGraus o ângulo em graus em relação ao eixo de transmissão
+     * @param angulo o ângulo em graus em relação ao eixo de transmissão
      * vertical
      */
-    public Analisador(double angulo_emGraus) {
-        super(angulo_emGraus);
+    public Analisador(double angulo) {
+        super(angulo);
     }
 
     /**
