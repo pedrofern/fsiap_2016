@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package aplicacaofsiap.Absorcao;
 
 /**
- * Esta classe é uma subclasse de Lente e representa uma instância de
+ * Esta classe é uma subclasse da Classe Lente e representa uma instância de
  * Polarizador.
  *
  * @author Helder, Gonçalo
@@ -15,9 +10,10 @@ public class Polarizador extends Lente {
 
     /**
      * Construtor permite criar uma instância de polarizador, passando como
-     * parâmetro o ângulo em graus em relacão ao eixo de transmissão.
+     * parâmetro o ângulo em graus em relacão ao eixo de transmissão vertical.
      *
      * @param angulo_emGraus o ângulo em graus em relacão ao eixo de transmissão
+     * vertical
      */
     public Polarizador(double angulo_emGraus) {
         super(angulo_emGraus);

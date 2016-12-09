@@ -1,4 +1,3 @@
-
 package aplicacaofsiap.Absorcao;
 
 /**
@@ -30,11 +29,12 @@ public class Analisador extends Lente {
 
     /**
      * Devolve a descrição textual de um analisador.
+     *
      * @return a descrição textual de um analisador
      */
-        @Override
+    @Override
     public String toString() {
         return "Analisador{" + super.toString() + '}';
     }
-    
+
 }

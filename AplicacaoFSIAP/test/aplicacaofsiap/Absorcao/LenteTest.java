@@ -70,34 +70,6 @@ public class LenteTest {
     }
 
     /**
-     * Test of obterAnguloEquivalente method, of class Lente.
-     */
-    @Test
-    public void testObterAnguloEquivalente() {
-        System.out.println("obterAnguloEquivalente");
-        double angulo = 100.0; //90+10
-        Lente instance = new LenteImpl();
-        double expResult = -80.0;
-        double result = instance.obterAnguloEquivalente(angulo);
-        assertEquals(expResult, result, 0.0);
-
-        double angulo2 = -100.0; //-90-10
-        double expResult2 = 80.0;
-        double result2 = instance.obterAnguloEquivalente(angulo2);
-        assertEquals(expResult2, result2, 0.0);
-
-        double angulo3 = 50.0;
-        double expResult3 = 50.0;
-        double result3 = instance.obterAnguloEquivalente(angulo3);
-        assertEquals(expResult3, result3, 0.0);
-
-        double angulo4 = -50.0;
-        double expResult4 = -50.0;
-        double result4 = instance.obterAnguloEquivalente(angulo4);
-        assertEquals(expResult4, result4, 0.0);
-    }
-
-    /**
      * Test of validaAngulo_emGraus method, of class Lente.
      */
     @Test

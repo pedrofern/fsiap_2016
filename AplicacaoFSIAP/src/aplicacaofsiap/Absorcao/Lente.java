@@ -13,26 +13,29 @@ package aplicacaofsiap.Absorcao;
 public abstract class Lente {
 
     /**
-     * O ângulo em graus relativamente ao eixo de transmissão da lente.
+     * O ângulo de rotação da lente relativamente ao eixo de transmissão
+     * vertical, em graus.
      */
     private double angulo_emGraus;
 
     /**
-     * O ângulo por omissão relaticamente ao eixo de transmissão da lente.
+     * O ângulo de rotação da lente relativamente ao eixo de transmissão
+     * vertical, por omissão (em graus).
      */
     private final static double ANG_POR_OMISSAO = 0;
 
     /**
-     * Permite a instanciação de uma lente
+     * Permite a instanciação de uma lente, passando por parâmetro o ângulo de
+     * rotação da lente em graus.
      *
-     * @param angulo_emGraus novo angulo em graus
+     * @param angulo_emGraus o ângulo de rotação da lente em graus
      */
     public Lente(double angulo_emGraus) {
         this.angulo_emGraus = angulo_emGraus;
     }
 
     /**
-     * Construtor vazio que permite a instânciação de uma lente com o ângulo por
+     * Construtor vazio que permite a instanciação de uma lente com o ângulo por
      * omissão cujo valor é 0 (zero).
      */
     public Lente() {
@@ -49,8 +52,8 @@ public abstract class Lente {
     }
 
     /**
-     * Caso o valor do ângulo esteja em graus, modifica o ângulo em graus da
-     * instância de lente.
+     * Modifica o ângulo em graus da instância de lente, caso o seu valor seja
+     * válido.
      *
      * @param angulo_emGraus o novo ângulo em graus da instância de lente
      */
@@ -59,22 +62,14 @@ public abstract class Lente {
             this.angulo_emGraus = angulo_emGraus;
         }
     }
-
-    public double obterAnguloEquivalente(double angulo) {
-        double ang_reduzido_ao1o_ou4o_Quadrante;
-        if (angulo <= 90 && angulo >= -90) {
-            return angulo;
-        } else {
-            ang_reduzido_ao1o_ou4o_Quadrante = angulo;
-            while (ang_reduzido_ao1o_ou4o_Quadrante > 90
-                    || ang_reduzido_ao1o_ou4o_Quadrante < -90) {
-                ang_reduzido_ao1o_ou4o_Quadrante
-                        = ang_reduzido_ao1o_ou4o_Quadrante - 180;
-            }
-        }
-        return ang_reduzido_ao1o_ou4o_Quadrante;
-    }
-
+    
+        /**
+     * Valida o angulo em graus. Se o angulo se encontrar no intervalo [-90-90]
+     * retorna true, senão retorna false.
+     *
+     * @param angulo_emGraus o angulo em graus a validar
+     * @return
+     */
     public static boolean validaAngulo_emGraus(double angulo_emGraus) {
         return ((angulo_emGraus >= -90) && (angulo_emGraus <= 90));
     }
