@@ -237,9 +237,9 @@ public class PReflexaoUI extends JDialog{
         String l1="Ângulo Reflexão:";
         String l2="Ângulo Refração:";
         String l3="Ângulo Brewster:";
-        String l4="Intensidade Reflexão Paralela:";
-        String l5="Intensidade Reflexão Perpendicular:";
-        String l6="Intensidade Refração:";
+        String l4="Refletância (direção paralela):";
+        String l5="Refletância (direção perpendicular):";
+        String l6="Refratância:";
         
         p.add(criarPainelLabelTextfieldLabel(l1, angReflexaoRes,graus));
         p.add(criarPainelLabelTextfieldLabel(l2, angRefracaoRes,graus));
@@ -418,6 +418,9 @@ public class PReflexaoUI extends JDialog{
                             intReflexaoPerp.setText(String.format("%.2f", controller.getFeixeReflexao2().getIntensidade()));
                             intRefracao.setText(String.format("%.2f", controller.getFeixeRefracao().getIntensidade()));
                             
+                            //adiciona dados da simulação à lista para efeitos de estatística
+                            controller.addListaSimulacoes();
+                            
                             // adiciona dados ao grafico
                             double angInc= Double.parseDouble(angIncidencia.getText());
                             double angRefra= controller.getFeixeRefracao().getAngulo();
@@ -430,11 +433,7 @@ public class PReflexaoUI extends JDialog{
                             XYSeries serie2 = new XYSeries("REFLEXAO");
                             XYSeries serie3 = new XYSeries("EIXO Y");
                             XYSeries serie4 = new XYSeries("EIXO X");
-                                
-                            System.out.println(controller.getFeixeReflexao1().getAngulo());
-                            System.out.println(controller.getFeixeRefracao().getAngulo());
-                            System.out.println();
-                                
+            
                             serie0.add(0, 0);
                             serie0.add(-((Math.tan(Math.toRadians(angInc)))), 1.0);
                             
