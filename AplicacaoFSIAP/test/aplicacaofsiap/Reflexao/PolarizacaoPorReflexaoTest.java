@@ -218,7 +218,7 @@ public class PolarizacaoPorReflexaoTest {
     }
 
     /**
-     * Test of calcularAnguloReflexaoBrewster method, of class PolarizacaoPorReflexao.
+     * Test of calcularAnguloReflexao method, of class PolarizacaoPorReflexao.
      */
     @Test
     public void testCalcularAnguloReflexaoBrewster() {
@@ -227,7 +227,7 @@ public class PolarizacaoPorReflexaoTest {
         MeioReflexao meio1 = null;
         MeioReflexao meio2 = null;
         PolarizacaoPorReflexao instance = new PolarizacaoPorReflexao();
-        instance.calcularAnguloReflexaoBrewster(anguloIncidencia, meio1, meio2);
+        instance.calcularAnguloReflexao(anguloIncidencia, meio1, meio2);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
