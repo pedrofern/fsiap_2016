@@ -51,7 +51,7 @@ public class DefinirPolarizaoUI extends JFrame{
     /**
      * Guarda a altura mínima da janela em píxeis.
      */
-    private static final int JANELA_ALTURA_MINIMO = 800;      
+    private static final int JANELA_ALTURA_MINIMO = 750;      
     /**
      * Representa o botão absorcao
      */
@@ -88,7 +88,7 @@ public class DefinirPolarizaoUI extends JFrame{
         add(imagem, BorderLayout.CENTER);
         add(botoes, BorderLayout.EAST);
         JPanel painelBtnSair = new JPanel(new BorderLayout());
-        painelBtnSair.setBorder(new EmptyBorder(10, 30, 20, 30));
+        painelBtnSair.setBorder(new EmptyBorder(0, 30, 10, 30));
         painelBtnSair.add(criarBotaoSair(), BorderLayout.CENTER);
         add(painelBtnSair, BorderLayout.SOUTH);
         
@@ -119,7 +119,7 @@ public class DefinirPolarizaoUI extends JFrame{
         gl.setHgap(30);
         gl.setVgap(30);
 
-        final int MARGEM_SUPERIOR = 30, MARGEM_INFERIOR = 30;
+        final int MARGEM_SUPERIOR = 10, MARGEM_INFERIOR = 10;
         final int MARGEM_ESQUERDA = 30, MARGEM_DIREITA = 30;
 
         JPanel p = new JPanel(gl);
@@ -223,7 +223,7 @@ public class DefinirPolarizaoUI extends JFrame{
         label.setIcon(background);
 
         JPanel panel = new JPanel();
-        panel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        panel.setBorder(new EmptyBorder(5, 10, 10, 10));
         panel.add(label, BorderLayout.CENTER);
 
         return panel;
