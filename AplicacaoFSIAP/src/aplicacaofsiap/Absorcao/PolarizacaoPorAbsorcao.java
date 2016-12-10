@@ -290,10 +290,13 @@ public class PolarizacaoPorAbsorcao extends Polarizacao {
      * absorção
      */
     public String resultadosCompletosFormatados_toString() {
-        return String.format("%s%s %n%s%s%s %n%s%s%s",
+        return String.format("%s %n%s%s %n%s%s%s %n%s%s%s",
+                "Simulação de Polarização por Absorção:",
                 "Tipo de luz incidente: ", this.getF_incidente().getTipo(),
                 "Intensidade Feixe Incidente: ", this.getF_incidente().getIntensidade(), " A",
                 "Intensidade Feixe Resultante: ", this.getFeixe_resultante().getIntensidade(), " A");
+    
+    
     }
 
 }

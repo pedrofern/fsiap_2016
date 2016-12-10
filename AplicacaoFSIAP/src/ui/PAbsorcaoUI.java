@@ -32,12 +32,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Formatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFormattedTextField;
+import javax.swing.JFileChooser;
 import javax.swing.JTextArea;
 import javax.swing.event.*;
+import java.util.Calendar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -53,7 +58,7 @@ public class PAbsorcaoUI extends JDialog {
     /**
      * Guarda a largura mínima da janela em píxeis.
      */
-    private static final int JANELA_LARGURA_MINIMO = 1650, JANELA_ALTURA_MINIMO = 350;
+    private static final int JANELA_LARGURA_MINIMO = 1200, JANELA_ALTURA_MINIMO = 350;
 
     /**
      * Guarda a dimensão de uma label por omissão
@@ -84,8 +89,10 @@ public class PAbsorcaoUI extends JDialog {
 
     private JPanel panelPrimeiraLente = criarPainelPolarizador("Lente Polarizadora");
 
+    private JFileChooser fileChooser;
+
     /**
-     * Constroi uma janela para simular polarizao por absorção recebendo a
+     * Constrói uma janela para simular polarizao por absorção recebendo a
      * janela anterior como parametro
      *
      * @param framePai janela anterior
@@ -158,19 +165,20 @@ public class PAbsorcaoUI extends JDialog {
         radioButtPanel.add(naoPolarizadaButton);
         radioButtPanel.add(polarizadaButton);
 
-        p.add(radioButtPanel, BorderLayout.CENTER/* BorderLayout.SOUTH*/);
+        p.add(radioButtPanel, BorderLayout.CENTER);
 
-        JTextArea l = new JTextArea("Considera-se luz polarizada com direção do eixo vertical");
+        JTextArea l = new JTextArea("Considera-se luz polarizada com direção do eixo vertical.");
         l.setRows(2);
         l.setLineWrap(true);
-        l.setVisible(true);
+        l.setVisible(false);
         l.setEditable(false);
-
+        l.setBackground(this.getBackground());
         p.add(l, BorderLayout.SOUTH);
         polarizadaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (polarizadaButton.isSelected()) {
+                    limparCampos();
                     panelPrimeiraLente.setBorder(new TitledBorder("Lente Analisadora"));
                     //torna visível a observação sobre a direção da luz polarizada
                     l.setVisible(true);
@@ -182,6 +190,7 @@ public class PAbsorcaoUI extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (naoPolarizadaButton.isSelected()) {
+                    limparCampos();
                     panelPrimeiraLente.setBorder(new TitledBorder("Lente Polarizadora"));
                     l.setVisible(false);
                 }
@@ -191,10 +200,11 @@ public class PAbsorcaoUI extends JDialog {
         intTxt1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                angTxt1.setText("");
+                //angTxt1.setText("");
                 intTxt2.setText("");
-                angTxt2.setText("");
+                //angTxt2.setText("");
                 intTxt3.setText("");
+                guardar.setEnabled(false);
             }
         });
 
@@ -231,6 +241,8 @@ public class PAbsorcaoUI extends JDialog {
             @Override
             public void mouseClicked(MouseEvent e) {
                 intTxt2.setText("");
+                intTxt3.setText("");
+                guardar.setEnabled(false);
             }
         });
 
@@ -267,11 +279,13 @@ public class PAbsorcaoUI extends JDialog {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 intTxt3.setText("");
+                guardar.setEnabled(false);
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
                 intTxt3.setText("");
+                guardar.setEnabled(false);
             }
 
             @Override
@@ -285,6 +299,11 @@ public class PAbsorcaoUI extends JDialog {
             @Override
             public void mouseClicked(MouseEvent e) {
                 intTxt3.setText("");
+                if (naoPolarizadaButton.isSelected()) {
+                    guardar.setEnabled(false);
+                } else if (polarizadaButton.isSelected()) {
+                    guardar.setEnabled(true);
+                }
             }
         });
         p.add(criarPainelLabelTextfield2("Ângulo", angTxt2, "º (Graus)"));
@@ -396,7 +415,6 @@ public class PAbsorcaoUI extends JDialog {
                     //colocação de resultados de polarizacao no interface
                     intTxt2.setText(controll.obterIntensidadeDFeixeIntermedio());
                     intTxt3.setText(controll.obterIntensidadeDFeixeResultante());
-
                     highlighFields();
                     guardar.setEnabled(true);
                 }
@@ -419,12 +437,9 @@ public class PAbsorcaoUI extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 naoPolarizadaButton.setSelected(true);
-                intTxt1.setText("");
-                intTxt2.setText("");
-                intTxt3.setText("");
-                angTxt1.setText("");
-                angTxt2.setText("");
+                limparCampos();
             }
+
         });
         return limpar;
     }
@@ -467,20 +482,97 @@ public class PAbsorcaoUI extends JDialog {
                     Logger.getLogger(PAbsorcaoUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
         });
 
         return guardar;
     }
 
-    private void guardarDadosSimulacao_EmFicheiro() throws FileNotFoundException {
-        String outputFile = "absorcaoOutputFile.txt"; //basta q ficheiro esteja dentro da pasta principal deste programa
-        Formatter output = new Formatter(new File(outputFile));
-        output.format("%s%s %n%s%s", "Intensidade de entrada:",
-                intTxt1.getText(), "Intensidade final: ", intTxt3.getText());
-        output.close();
-        JOptionPane.showMessageDialog(this, "Ficheiro guardado com sucesso", "Guardar", JOptionPane.INFORMATION_MESSAGE);
+    private void limparCampos() {
+        intTxt1.setText("");
+        intTxt2.setText("");
+        intTxt3.setText("");
+        angTxt1.setText("");
+        angTxt2.setText("");
         guardar.setEnabled(false);
+    }
+
+    private void guardarDadosSimulacao_EmFicheiro() throws FileNotFoundException {
+        final DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        System.out.println("data:" + sdf.format(date));
+
+        Calendar cal = Calendar.getInstance();
+        System.out.println("horas:" + sdf.format(cal.getTime()));
+
+//        LocalDateTime now = LocalDateTime.now();
+//        System.out.println(dtf.format(now));
+        fileChooser = new JFileChooser();
+
+        int resposta = fileChooser.showSaveDialog(this);
+        if (resposta == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            if (!file.getName().endsWith(".txt")) {
+                file = new File(file.getPath().trim() + ".txt");
+            }
+            boolean ficheiroGuardado = guardar(file.getPath());
+            if (!ficheiroGuardado) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Impossível gravar o ficheiro: "
+                        + file.getPath() + " !",
+                        "Exportar",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Ficheiro gravado com sucesso.",
+                        "Exportar",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+//        String outputFile = "absorcaoOutputFile.txt"; //basta q ficheiro esteja dentro da pasta principal deste programa
+//        Formatter output = new Formatter(new File(outputFile));
+//        output.format("%s%s %n%s%s", "Intensidade de entrada:",
+//                intTxt1.getText(), "Intensidade final: ", intTxt3.getText());
+//        output.close();
+        //JOptionPane.showMessageDialog(this, "Ficheiro guardado com sucesso", "Guardar", JOptionPane.INFORMATION_MESSAGE);
+//        guardar.setEnabled(false);
+
+    }
+
+    public boolean guardar(String nomeFicheiro) {
+        try {
+            //se ficheiro não existir cria, coloca info e fecha
+            Formatter output = new Formatter(new File(nomeFicheiro));
+
+            final DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            System.out.println("data:" + sdf.format(date));
+
+            output.format("%s %n%s %n%s%s %n%s",
+                    "=======================================",
+                    controll.resultadosPolarizacaoToString(),
+                    //resultadoPAbsorcao_toString(),
+                    "Registo: ", sdf.format(date),
+                    "=======================================");
+            output.close();
+            //fazer else if ficheiro já existir
+//            try {
+//                out.writeObject("escriiiiiiiiita");
+//            } finally {
+//                out.close();
+//            }
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
+
+    private String resultadoPAbsorcao_toString() {
+        return String.format("%s%s %n%s%s%s %n%s%s%s", "Tipo de luz incidente: ", controll.getTipoDFeixeIncidente(),
+                "Intensidade Feixe Incidente: ", intTxt1.getText()," A",
+                "Intensidade Feixe Resultante: ", intTxt3.getText(), " A");
     }
 
     private boolean lerIntensidade(String imput) {

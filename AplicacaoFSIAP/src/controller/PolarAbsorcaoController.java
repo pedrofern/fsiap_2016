@@ -39,10 +39,25 @@ public class PolarAbsorcaoController {
         this.simulacao = new Simulacao(TipoDPolarizacao.ABSORCAO);
     }
 
+    /**
+     * Modifica o tipo de feixe incidente para o tipo passado por parâmetro
+     * @param tipo o novo tipo do feixe incidente
+     */
     public void setTipoDFeixeIncidente(TipoDLuz tipo) {
         this.simulacao.getPolarizacaoPorAbsorcao().getF_incidente().setTipo(tipo);
     }
+    
+        public TipoDLuz getTipoDFeixeIncidente() {
+        return this.simulacao.getPolarizacaoPorAbsorcao().getF_incidente().getTipo();
+    }
 
+    /**
+     * 
+     * @param intens
+     * @param ang_pol
+     * @param ang_analis
+     * @return 
+     */
     public boolean setDadosParaSimularPolarizacao(String intens, String ang_pol, String ang_analis) {
         return setIntensidade_FeixeIncid(intens)
                 && setAngulo_Polarizador(ang_pol)
@@ -143,6 +158,10 @@ public class PolarAbsorcaoController {
             }
         }
         return bool;
+    }
+    
+    public String resultadosPolarizacaoToString(){
+        return this.simulacao.getPolarizacaoPorAbsorcao().resultadosCompletosFormatados_toString();
     }
 
 }
