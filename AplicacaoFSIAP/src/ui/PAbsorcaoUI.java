@@ -9,7 +9,7 @@ import aplicacaofsiap.Absorcao.Lente;
 import aplicacaofsiap.FeixeDLuz;
 import aplicacaofsiap.Simulacao;
 import controller.PolarAbsorcaoController;
-
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -43,6 +43,15 @@ import java.util.Calendar;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.border.EmptyBorder;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -58,7 +67,7 @@ public class PAbsorcaoUI extends JDialog {
     /**
      * Guarda a largura mínima da janela em píxeis.
      */
-    private static final int JANELA_LARGURA_MINIMO = 1200, JANELA_ALTURA_MINIMO = 350;
+    private static final int JANELA_LARGURA_MINIMO = 1200, JANELA_ALTURA_MINIMO =700;
 
     /**
      * Guarda a dimensão de uma label por omissão
@@ -79,6 +88,14 @@ public class PAbsorcaoUI extends JDialog {
      * Guarda os botoes
      */
     private JButton limpar, simular, voltar, guardar;
+    /**
+     * dados dos graficos
+     */
+    private XYSeriesCollection dataset1, dataset2;
+    /**
+     * paineis dos graficos
+     */
+    private ChartPanel chartPanel1, chartPanel2;
 
     private JRadioButton naoPolarizadaButton, polarizadaButton;
 
@@ -119,8 +136,17 @@ public class PAbsorcaoUI extends JDialog {
     private void criarComponentes() {
 
         add(criarPainelGeral(), BorderLayout.NORTH);
-        add(criarBotaoGuardar(), BorderLayout.CENTER);
+        add(criarPainelGraficos(), BorderLayout.CENTER);
+        add(criarPainelBotaoUnico(criarBotaoGuardar()), BorderLayout.SOUTH);
+    }
+    
+    private JPanel criarPainelGraficos() {
+        JPanel painel = new JPanel(new GridLayout(1, 2));
+        
+        painel.add(criarPainelGrafico1());
+        painel.add(criarPainelGrafico2());
 
+        return painel;
     }
 
     private JPanel criarPainelGeral() {
@@ -398,10 +424,11 @@ public class PAbsorcaoUI extends JDialog {
         simular.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try{
                 if (polarizadaButton.isSelected()) {
-                    controll.setTipoDFeixeIncidente(FeixeDLuz.TipoDLuz.POLARIZADA);
-                } else if (naoPolarizadaButton.isSelected()) {
-                    controll.setTipoDFeixeIncidente(FeixeDLuz.TipoDLuz.NAO_POLARIZADA);
+                    controll.setTipoDFeixeIncidente(FeixeDLuz.TipoDLuz.POLARIZADA);  
+                } else if(naoPolarizadaButton.isSelected()) {
+                    controll.setTipoDFeixeIncidente(FeixeDLuz.TipoDLuz.NAO_POLARIZADA);   
                 }
                 if (lerIntensidade(intTxt1.getText())
                         && lerAngulo(angTxt1.getText(), "polarizador")
@@ -417,8 +444,71 @@ public class PAbsorcaoUI extends JDialog {
                     intTxt3.setText(controll.obterIntensidadeDFeixeResultante());
                     highlighFields();
                     guardar.setEnabled(true);
+                    
+// ***********************  dados grafico  **********************************
+                dataset1.removeAllSeries();
+                dataset2.removeAllSeries();
+                            
+                XYSeries serie0 = new XYSeries("Linha Resultados");
+                XYSeries serie1 = new XYSeries("Resultado");
+                XYSeries serie2 = new XYSeries("Linha Resultados");
+                XYSeries serie3 = new XYSeries("Resultado");
+                
+                double intencidadeEntrada = Double.parseDouble(intTxt1.getText());
+                double intencidadeIntermedia = Double.parseDouble(controll.obterIntensidadeDFeixeIntermedio());
+                double intencidadeFinal = Double.parseDouble(controll.obterIntensidadeDFeixeResultante());
+   
+                if (polarizadaButton.isSelected()) {
+                    
+                for(int i=-90; i<= 90; i++){
+                    double a = intencidadeEntrada/intencidadeEntrada * 100 *Math.pow(Math.cos(Math.toRadians(i)), 2);
+                    serie0.add(i, a);       
+                    }
+                    dataset1.addSeries(serie0);
+                   
                 }
+                if(naoPolarizadaButton.isSelected()) {
+                    serie0.add(-90, intencidadeIntermedia/intencidadeEntrada*100); 
+                    serie0.add(90, intencidadeIntermedia/intencidadeEntrada*100);
+                    dataset1.addSeries(serie0);
+                }
+                    
+                double yy = (intencidadeIntermedia/intencidadeEntrada)*100;
+                double xx = (Double.parseDouble(angTxt1.getText()));
+
+                serie1.add(xx, yy);                    
+                serie1.add(xx, 0);                                                                  
+                
+                dataset1.addSeries(serie1);
+                
+                for(int i=-90; i<= 90; i++){
+                double a = 100 * Math.pow(Math.cos(Math.toRadians(i)), 2); 
+                serie2.add(i, a);    
+                }
+                
+                dataset2.addSeries(serie2);
+                
+                double y = (intencidadeFinal/intencidadeIntermedia)*100;
+                double x = (Double.parseDouble(angTxt2.getText())-Double.parseDouble(angTxt1.getText()));
+
+                serie3.add(x,y);
+                serie3.add(x,0);
+                serie3.add(-90, y);
+
+
+
+                
+                dataset2.addSeries(serie3);
+
+                chartPanel1.revalidate();
+                chartPanel1.repaint();
+                chartPanel2.revalidate();
+                chartPanel2.repaint();
+                }
+            } catch (NumberFormatException exc){
+                System.out.println("erro grafico");
             }
+        }
         }
         );
         return simular;
@@ -649,5 +739,82 @@ public class PAbsorcaoUI extends JDialog {
         flashMyField(intTxt2, Color.LIGHT_GRAY, 500, 1000);
         flashMyField(intTxt3, Color.LIGHT_GRAY, 500, 1000);
     }
+    
+    /**
+     * Cria painel com um grafico
+     * @return painel com um grafico
+     */
+    private ChartPanel criarPainelGrafico1() {
 
+        dataset1 = new XYSeriesCollection();
+
+        JFreeChart xylineChart = ChartFactory.createXYLineChart(
+         "",
+         "","",
+         dataset1,
+         PlotOrientation.VERTICAL,
+         true,false,false);
+        
+        XYPlot plot = xylineChart.getXYPlot( );
+        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer( );
+        renderer.setSeriesPaint( 0 , Color.BLACK );
+        renderer.setSeriesPaint( 1 , Color.BLUE);
+        renderer.setBaseShapesVisible(false);
+        renderer.setSeriesStroke( 0 , new BasicStroke( 1.0f ) );
+        renderer.setSeriesStroke( 1 , new BasicStroke( 1.0f ) );
+        plot.setRenderer( renderer ); 
+        
+        chartPanel1 = new ChartPanel(xylineChart);
+        chartPanel1.setBorder(new EmptyBorder(30, 30, 30, 30));
+        return chartPanel1;
+    }
+    
+    /**
+     * Cria painel com um grafico
+     * @return painel com um grafico
+     */
+    private ChartPanel criarPainelGrafico2() {
+
+        dataset2 = new XYSeriesCollection();
+
+        JFreeChart xylineChart = ChartFactory.createXYLineChart(
+         "",
+         "","",
+         dataset2,
+         PlotOrientation.VERTICAL,
+         true,false,false);
+        
+        XYPlot plot = xylineChart.getXYPlot( );
+        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer( );
+        renderer.setSeriesPaint( 0 , Color.BLACK );
+        renderer.setSeriesPaint( 1 , Color.BLUE);
+        renderer.setBaseShapesVisible(false);
+        renderer.setSeriesStroke( 0 , new BasicStroke( 1.0f ) );
+        renderer.setSeriesStroke( 1 , new BasicStroke( 1.0f ) );
+        plot.setRenderer( renderer ); 
+        
+        chartPanel2 = new ChartPanel(xylineChart);
+        chartPanel2.setBorder(new EmptyBorder(30, 30, 30, 30));
+        return chartPanel2;
+    }
+    
+    /**
+     * cria painel botão unico
+     * @return painel botão unico
+     */
+    private JPanel criarPainelBotaoUnico(JButton botao) {
+
+        FlowLayout l = new FlowLayout();
+
+        l.setHgap(20);
+        l.setVgap(20);
+
+        JPanel p = new JPanel(l);
+        
+        getRootPane().setDefaultButton(botao);
+        
+        p.add(botao);
+        
+        return p;
+    }
 }

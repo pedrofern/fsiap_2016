@@ -430,7 +430,7 @@ public class PReflexaoUI extends JDialog{
                             XYSeries serie2 = new XYSeries("REFLEXAO");
                             XYSeries serie3 = new XYSeries("EIXO Y");
                             XYSeries serie4 = new XYSeries("EIXO X");
-                            
+                                
                             System.out.println(controller.getFeixeReflexao1().getAngulo());
                             System.out.println(controller.getFeixeRefracao().getAngulo());
                             System.out.println();
