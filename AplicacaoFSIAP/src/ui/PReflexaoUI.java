@@ -117,7 +117,7 @@ public class PReflexaoUI extends JDialog{
         
         this.framePai = framePai;
         this.pr=s.getPolarizacaoPorReflexao();
-        this.controller=new PReflexaoController(lg, pr);
+        this.controller=new PReflexaoController(lg, s);
         
         listaMeios =controller.getListaMeios();
         
@@ -409,7 +409,7 @@ public class PReflexaoUI extends JDialog{
                     controller.setAngulo(Double.parseDouble(angIncidencia.getText()));
                     if(lerIntensidade()){                        
                         controller.setIntensidade(Double.parseDouble(intIncidencia.getText()));
-                        if(controller.gerarResultado(pr)==true){
+                        if(controller.gerarResultado()==true){
                             angReflexaoRes.setText(String.format("%.2f", controller.getFeixeReflexao1().getAngulo()));
                             angRefracaoRes.setText(String.format("%.2f", controller.getFeixeRefracao().getAngulo())); 
                             angBrewster.setText(String.format("%.2f", controller.getAnguloBrewster()));

@@ -255,8 +255,8 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
             //n1cos(AngIncidencia) - n2cos(angRefratado) / n1cos(AngInc) + n2cos(AngRefratado)
             double f1=n1*Math.toDegrees(Math.cos(Math.toRadians(angIncidencia)));
             double f2=n2*Math.toDegrees(Math.cos(Math.toRadians(angRefracao)));
-            double res= (f1-f2)/(f1+f2);
-            feixeReflexao2.setIntensidade(res);
+            double res=Math.abs((f1-f2)/(f1+f2));
+            feixeReflexao2.setIntensidade(res*100);
             
           
         }
@@ -277,7 +277,7 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable{
           double f2=n1*Math.toDegrees(Math.cos(Math.toRadians(angRefracao)));
           double f3=n1*Math.toDegrees(Math.cos(Math.toRadians(angIncidencia)));
           double f4=n2*Math.toDegrees(Math.cos(Math.toRadians(angRefracao)));
-          double res= (f1-f2)/(f3+f4);
+          double res= Math.abs((f1-f2)/(f3+f4));
           feixeReflexao1.setIntensidade(res*100);  
 
        //se os 2 materiais forem iguais não há refração

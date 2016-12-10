@@ -26,16 +26,12 @@ public class LightGo implements Serializable{
      * Lista para guardar a informação necessária para a geração de estatísticas
      */
     Estatistica estatistica;
-    
-//    /**
-//     * Lista para guardar as simulações relativas à polarização de Brewster
-//     */
-//    ListaPReflexao listaPReflexao;
+
 //    
 //    /**
-//     * Lista para guardar as simulações relativas à polarização de Mallus
+//     * Lista para guardar as simulações das polarizações
 //     */
-//    ListaPAbsorcao listaPAbsorcao;
+    ListaPolarizacoes listaSimulacoes;
     
     /**
      *  Constrói uma instância de Simulacao criando as listas necessárias para
@@ -64,28 +60,12 @@ public class LightGo implements Serializable{
         return estatistica;
     }
     
-//    /**
-//     * Devolve a lista de polarizações por absorção
-//     * @return lista de polarização Mallus
-//     */
-//    public ListaPAbsorcao getListaPAbsorcao(){
-//        return listaPAbsorcao;
-//    }
-//    
-//    /**
-//     * Devolve a lista de polarizações por reflexão
-//     * @return lista de polarização Brewster
-//     */
-//    public ListaPReflexao getListaPReflexao(){
-//        return listaPReflexao;
-//    }
-    
     /**
-     * Gera output com imagem ilustrativa da polarização simulada
+     * Devolve a lista de simulações
+     * @return lista de polarização 
      */
-    public boolean gerarImagem(PolarizacaoPorReflexao pr) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+    public ListaPolarizacoes getListaSimulacoes(){
+        return listaSimulacoes;
+    }    
     
 }

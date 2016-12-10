@@ -8,8 +8,10 @@ package controller;
 import aplicacaofsiap.FeixeDLuzResultante;
 import aplicacaofsiap.Reflexao.ListaMeiosReflexao;
 import aplicacaofsiap.LightGo;
+import aplicacaofsiap.ListaPolarizacoes;
 import aplicacaofsiap.Reflexao.PolarizacaoPorReflexao;
 import aplicacaofsiap.Reflexao.MeioReflexao;
+import aplicacaofsiap.Simulacao;
 
 /**
  * Classe que coordena as operações relacionadas com a simulação da Polarização por Reflexão (Brewster)
@@ -18,19 +20,19 @@ import aplicacaofsiap.Reflexao.MeioReflexao;
 public class PReflexaoController {
     
     private static LightGo lg;
-    private static PolarizacaoPorReflexao pr;
+    private PolarizacaoPorReflexao pr;
+    private  Simulacao s;
     
     /**
      *  Constrói uma instância do controller com a simulacao e polarizacao reflexao passados 
      * como parâmetros
      * @param lg os dados da aplicação
-     * @param polarizacaoReflexao a polarização a simular
+     * @param simulacao simulacao
      */
-    public PReflexaoController(LightGo lg, PolarizacaoPorReflexao polarizacaoReflexao){
+    public PReflexaoController(LightGo lg, Simulacao simulacao){
         this.lg=lg;
-
-        pr=polarizacaoReflexao;
-        
+        this.s=simulacao;
+        pr=s.getPolarizacaoPorReflexao();
     }
     
     /**
@@ -41,6 +43,36 @@ public class PReflexaoController {
         return lg.getListaMeios();
     }
     
+    /**
+     * Devolve o ângulo do feixe de luz incidente
+     * @return ângulo do feixe de luz incidente
+     */
+    public double getAnguloIncidente(){
+        return pr.getF_incidente().getAngulo();
+    }
+    
+    
+    
+     public FeixeDLuzResultante  getFeixeReflexao1() {
+        return pr.getFeixeReflexao1();
+    }
+    
+    public FeixeDLuzResultante  getFeixeReflexao2() {
+        return pr.getFeixeReflexao2();
+    }
+
+    public FeixeDLuzResultante getFeixeRefracao() {
+        return pr.getFeixeRefracao();
+    }
+    
+    public double getAnguloBrewster() {
+        return pr.getAnguloBrewster();
+    }
+
+    public Simulacao getSimulacao() {
+        return s;
+    }
+
     /**
      * Altera o meio de reflexão de onde é projetado o feixe de luz
      * @param meio1 meio de reflexão onde está o feixe de luz projetado inicialmente
@@ -80,10 +112,9 @@ public class PReflexaoController {
     
     /**
      * Gera o resultado da simulação da reflexão por reflexão
-     * @param pr polarização a simular
      * @return true se gerou resultado, false se não gerou
      */
-    public boolean gerarResultado(PolarizacaoPorReflexao pr){
+    public boolean gerarResultado(){
         //s.gerarImagem(pr);
         return pr.gerarResultado();
                 
@@ -91,27 +122,13 @@ public class PReflexaoController {
     
     /**
      * Adiciona os resultados obtidos na simualação à Estatistica para fins de estatística
-     * @param pr polarização por reflexão simulada
+     * @param s simulação criada
      * @return true se adicionou resultado à lista, caso contrário false
      */
-    public boolean addEstatisticaALista(PolarizacaoPorReflexao pr){
-        return lg.getEstatistica().addPolarizacaEstatistica(pr);
+    public boolean addListaSimulacoes(){
+        return lg.getListaSimulacoes().adicionarSimulacao(s);
     }
     
-    public FeixeDLuzResultante  getFeixeReflexao1() {
-        return pr.getFeixeReflexao1();
-    }
-    
-    public FeixeDLuzResultante  getFeixeReflexao2() {
-        return pr.getFeixeReflexao2();
-    }
-
-    public FeixeDLuzResultante getFeixeRefracao() {
-        return pr.getFeixeRefracao();
-    }
-    
-    public double getAnguloBrewster() {
-        return pr.getAnguloBrewster();
-    }
+   
             
 }
