@@ -27,10 +27,10 @@ public class LightGo implements Serializable{
      */
     Estatistica estatistica;
 
-//    
-//    /**
-//     * Lista para guardar as simulações das polarizações
-//     */
+    
+    /**
+     * Lista para guardar as simulações das polarizações
+     */
     ListaSimulacoes listaSimulacoes;
     
     /**
