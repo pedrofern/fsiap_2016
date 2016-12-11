@@ -5,13 +5,16 @@
  */
 package aplicacaofsiap;
 
+import aplicacaofsiap.Reflexao.PolarizacaoPorReflexao;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Classe que permite armazenar as simulações efetuadas pelo utilizador/ficheiro
  * @author DianaSilva
  */
-public class ListaPolarizacoes {
+public class ListaSimulacoes {
     /**
      * Lista que armazena as polarizações simuladas
      */
@@ -20,7 +23,7 @@ public class ListaPolarizacoes {
     /**
      * Cria uma instãncia de listaPolarizacoes
      */
-    public ListaPolarizacoes(){
+    public ListaSimulacoes(){
         listaSimulacoes=new HashSet<>();
     }
     
@@ -41,6 +44,19 @@ public class ListaPolarizacoes {
         return listaSimulacoes.add(simulacao);
     }
     
+    /**
+     * Devolve a lista das simulações da polarização por reflexão
+     * @return lista de polarizações por reflexão simuladas
+     */
+    public List<PolarizacaoPorReflexao> getListaPolarizacoesReflexao() {
+        ArrayList<PolarizacaoPorReflexao> listaPR= new ArrayList<>();
+        for(Simulacao s: listaSimulacoes){
+            if (s.getTipoDPolarizacao() == TipoDPolarizacao.REFLEXAO)
+                listaPR.add(s.getPolarizacaoPorReflexao());
+        }
+        return listaPR;
+    }
+    
     @Override
     public String toString(){
         String descricao="Lista de Simulações\n";
@@ -49,4 +65,5 @@ public class ListaPolarizacoes {
         }
         return descricao;
     } 
+
 }

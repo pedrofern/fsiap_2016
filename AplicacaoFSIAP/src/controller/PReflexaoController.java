@@ -8,7 +8,6 @@ package controller;
 import aplicacaofsiap.FeixeDLuzResultante;
 import aplicacaofsiap.Reflexao.ListaMeiosReflexao;
 import aplicacaofsiap.LightGo;
-import aplicacaofsiap.ListaPolarizacoes;
 import aplicacaofsiap.Reflexao.PolarizacaoPorReflexao;
 import aplicacaofsiap.Reflexao.MeioReflexao;
 import aplicacaofsiap.Simulacao;
@@ -122,13 +121,9 @@ public class PReflexaoController {
     
     /**
      * Adiciona os resultados obtidos na simualação à Estatistica para fins de estatística
-     * @param s simulação criada
      * @return true se adicionou resultado à lista, caso contrário false
      */
     public boolean addListaSimulacoes(){
         return lg.getListaSimulacoes().adicionarSimulacao(s);
-    }
-    
-   
-            
+    }            
 }

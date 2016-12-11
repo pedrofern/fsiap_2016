@@ -31,7 +31,7 @@ public class LightGo implements Serializable{
 //    /**
 //     * Lista para guardar as simulações das polarizações
 //     */
-    ListaPolarizacoes listaSimulacoes;
+    ListaSimulacoes listaSimulacoes;
     
     /**
      *  Constrói uma instância de Simulacao criando as listas necessárias para
@@ -40,8 +40,7 @@ public class LightGo implements Serializable{
     public LightGo(){
         listaMeiosReflexao=new ListaMeiosReflexao();
         estatistica=new Estatistica();
-//        listaPAbsorcao=new ListaPAbsorcao();
-//        listaPReflexao=new ListaPReflexao();
+        listaSimulacoes=new ListaSimulacoes();
     }
     
     /**
@@ -64,7 +63,7 @@ public class LightGo implements Serializable{
      * Devolve a lista de simulações
      * @return lista de polarização 
      */
-    public ListaPolarizacoes getListaSimulacoes(){
+    public ListaSimulacoes getListaSimulacoes(){
         return listaSimulacoes;
     }    
     

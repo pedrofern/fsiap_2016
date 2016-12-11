@@ -70,6 +70,7 @@ public class DefinirPolarizaoUI extends JFrame{
     private DefinirPolarizaoUI framePai;
     private PReflexaoUI prui;
     private PAbsorcaoUI paui;
+    private EstatisticaUI peui;
     private CarregarFicheiroUI cfui;
     
     private LightGo lg;
@@ -128,6 +129,7 @@ public class DefinirPolarizaoUI extends JFrame{
         p.add(criarBotaoAbsorcao());
         p.add(criarBotaoReflexao());
         p.add(criarBotaoCarregaFich());
+        p.add(criarBotaoEstatistica());
 
         this.getRootPane().setDefaultButton(botaoAbsorcao);
 
@@ -194,6 +196,30 @@ public class DefinirPolarizaoUI extends JFrame{
 
         return botaoReflexao;
     }
+    
+     /**
+     * cria botão reflexao
+     * @return botão reflexao
+     */
+    private JButton criarBotaoEstatistica() {
+        Icon icone = new ImageIcon( "src/ficheiros/polarização_reflexao.jpg" );
+        botaoReflexao = new JButton(" Estatística", icone);
+        botaoReflexao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botaoReflexao.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botaoReflexao.setMnemonic(KeyEvent.VK_E);
+        botaoReflexao.setToolTipText("Gera a estatística de polarização por reflexão");
+                
+        botaoReflexao.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                estatistica();
+            }
+        });
+
+        return botaoReflexao;
+    }
+    
+    
     /**
      * cria botão Sair
      * @return botão Sair
@@ -254,6 +280,7 @@ public class DefinirPolarizaoUI extends JFrame{
         menu.addSeparator();
         menu.add(criarItemAbsorcao());
         menu.add(criarItemReflexao());
+        menu.add(criarItemEstatistica());
         menu.addSeparator();
         menu.add(criarItemSair());
 
@@ -388,9 +415,10 @@ public class DefinirPolarizaoUI extends JFrame{
         });
         return item;
     }
+    
     /**
-     * cria MenuItem absorcao
-     * @return MenuItem absorcao
+     * cria MenuItem reflexao
+     * @return MenuItem reflexao
      */
     private JMenuItem criarItemReflexao() {
         JMenuItem item = new JMenuItem("Reflexão", KeyEvent.VK_R);
@@ -403,6 +431,24 @@ public class DefinirPolarizaoUI extends JFrame{
         });
         return item;
     }
+    
+    
+     /**
+     * cria MenuItem estatistica
+     * @return MenuItem estatistica
+     */
+    private JMenuItem criarItemEstatistica() {
+        JMenuItem item = new JMenuItem("Estatística", KeyEvent.VK_E);
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.ALT_MASK));
+        item.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                estatistica();
+            }
+        });
+        return item;
+    }
+    
     /**
      * Método para abrir PolarizacaoPorAbsorcao
      */
@@ -416,6 +462,14 @@ public class DefinirPolarizaoUI extends JFrame{
             Simulacao s=new Simulacao(TipoDPolarizacao.REFLEXAO);
             prui = new PReflexaoUI(this,lg,s); 
     }
+    
+    /**
+     * Método para gerar estatísticas
+     */
+    private void estatistica() {
+        peui = new EstatisticaUI(this,lg);
+    }
+    
     /**
      * Método para abrir PolarizacaoPorReflexao 
      */

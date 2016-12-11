@@ -1,9 +1,9 @@
-Meio1:Meio: Ar 
-Meio2: Meio: Ar 
-Intensidade:  
-Ângulo Entrada:  
-Angulo Reflexão:  
-Angulo Brewster:  
-Intensidade Reflexão Paralela:  
-Intensidade Reflexão Perpendicular:  
-Intensidade Refracção: 
+Meio1: Meio: Vacuo 
+Meio2: Meio: Agua 
+Intensidade: 20 
+Angulo Entrada: 10 
+Angulo Reflexao: 10,00 
+Angulo Brewster: 53,06 
+Intensidade Reflexao Paralela: 13,82 
+Intensidade Reflexao Perpendicular: 14,49 
+Intensidade Refraccao: 85,51
