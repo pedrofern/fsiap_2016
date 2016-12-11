@@ -7,6 +7,7 @@ package controller;
 
 import aplicacaofsiap.LightGo;
 import aplicacaofsiap.Reflexao.PolarizacaoPorReflexao;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,5 +31,10 @@ public class GerarEstatisticaController {
 
     public List<PolarizacaoPorReflexao> getListaPolarizacoesReflexao() {
         return lg.getListaSimulacoes().getListaPolarizacoesReflexao();
+    }
+    
+    public void ordenar(){
+        Collections.sort(getListaPolarizacoesReflexao());
+        
     }
 }

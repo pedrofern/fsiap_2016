@@ -2,8 +2,14 @@ Vacuo,1.00000
 Ar,1.00029
 Agua,1.33
 AlcoolEtilico,1.36
+Glicerina,1.47
+Acrilico, 1.49
 VidroComum,1.52
+Sal Cozinha, 1.54
+Quartzo, 1.54
 Poliestireno,1.55
+Bissulfeto Carbono, 1.64
 Cristal,1.65
 Safira,1.77
 Diamante,2.42
+Zicrónio, 1.92

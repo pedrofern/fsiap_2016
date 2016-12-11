@@ -11,7 +11,6 @@ import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory;
 import controller.GerarEstatisticaController;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.Collections;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -53,7 +52,7 @@ public class EstatisticaUI extends JDialog{
     /**
      * Painel da tabela de estatísticas
      */
-    private JPanel painelTabela;
+    private JPanel painelTabela, painelGraficos;
     
 /**
  * Constrói uma janela para gerar estatísticas das simulações da polarização por 
@@ -86,7 +85,7 @@ public class EstatisticaUI extends JDialog{
         painelTabela.setLayout(new BorderLayout());
         painelTabela.setBorder(new TitledBorder("Estatística (Polarização por reflexão):"));
         painelTabela.add(criarTabela(), BorderLayout.NORTH);
-        painelTabela.add(criarGrafico(), BorderLayout.CENTER);
+        painelTabela.add(criarGraficos(), BorderLayout.CENTER);
         return painelTabela;    
     
     } 
@@ -95,7 +94,7 @@ public class EstatisticaUI extends JDialog{
         JTable table = new JTable(modeloEstatistica);
          
        // modeloEstatistica.addColumn("Col1");
-        String[] colunas = {"Meio1(n)","Meio2(n)","Ângulo Incidência", "Ângulo Brewster",};
+        String[] colunas = {"Meio1(n)","Meio2(n)","Coeficiente Refração", "Ângulo Brewster"};
     
         for (String coluna : colunas) {
                modeloEstatistica.addColumn(coluna);
@@ -115,7 +114,7 @@ public class EstatisticaUI extends JDialog{
         if(controller.getListaPolarizacoesReflexao()!=null || !controller.getListaPolarizacoesReflexao().isEmpty()){
             
             /**para uma melhor leitura, os dados estão ordenados pelo ângulo de brewster obtido)**/
-            Collections.sort(controller.getListaPolarizacoesReflexao());
+            controller.ordenar();
             for(PolarizacaoPorReflexao polarizacaoRef:controller.getListaPolarizacoesReflexao()){
                      modeloEstatistica.addRow(polarizacaoRef.toStringEstatistica());
             }
@@ -124,9 +123,19 @@ public class EstatisticaUI extends JDialog{
         return table;
     } 
     
-    private JLabel criarGrafico(){
-        Icon icone = new ImageIcon( "src/ficheiros/polarização_reflexao.jpg" );
-        JLabel label=new JLabel(icone);
-        return label;
+    private JPanel criarGraficos(){
+        painelGraficos=new JPanel();   
+        painelGraficos.setLayout(new BorderLayout());
+        painelGraficos.setBorder(new TitledBorder("Estatística Geral (vácuo):"));
+        Icon imagem1 = new ImageIcon( "src/ficheiros/Brewster.JPG" );
+        
+        JLabel grafico1=new JLabel(imagem1);
+        Icon imagem2 = new ImageIcon( "src/ficheiros/Brewster2.JPG" );
+        JLabel grafico2=new JLabel(imagem2);
+        
+        painelGraficos.add(grafico1, BorderLayout.WEST);
+        painelGraficos.add(grafico2, BorderLayout.EAST);
+       
+        return painelGraficos;
     }
 }

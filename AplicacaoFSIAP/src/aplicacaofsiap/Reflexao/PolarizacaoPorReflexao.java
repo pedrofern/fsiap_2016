@@ -307,7 +307,7 @@ public class PolarizacaoPorReflexao extends Polarizacao implements Serializable,
     }
      
       public String[] toStringEstatistica(){
-          String[] data={String.format("%.2f", getMeioPolarizacao1().getIndiceRefracao()), String.format("%.2f", getMeioPolarizacao2().getIndiceRefracao()), String.format("%.2f", getMeioPolarizacao1().getIndiceRefracao()/getMeioPolarizacao2().getIndiceRefracao()), String.format("%.2f", getFeixeDeLuzIncidente().getAngulo()), String.format("%.2f", getAnguloBrewster())};
+          String[] data={String.format("%.2f", getMeioPolarizacao1().getIndiceRefracao()), String.format("%.2f", getMeioPolarizacao2().getIndiceRefracao()), String.format("%.2f", getMeioPolarizacao1().getIndiceRefracao()/getMeioPolarizacao2().getIndiceRefracao()),String.format("%.2f", getAnguloBrewster())};
           return data;
       }
     

@@ -410,6 +410,9 @@ public class PReflexaoUI extends JDialog{
                     if(lerIntensidade()){                        
                         controller.setIntensidade(Double.parseDouble(intIncidencia.getText()));
                         if(controller.gerarResultado()==true){
+                            //adiciona dados da simulação à lista para efeitos de estatística
+                            controller.addListaSimulacoes();
+                            
                             angReflexaoRes.setText(String.format("%.2f", controller.getFeixeReflexao1().getAngulo()));
                             angRefracaoRes.setText(String.format("%.2f", controller.getFeixeRefracao().getAngulo())); 
                             angBrewster.setText(String.format("%.2f", controller.getAnguloBrewster()));
@@ -418,8 +421,7 @@ public class PReflexaoUI extends JDialog{
                             intReflexaoPerp.setText(String.format("%.2f", controller.getFeixeReflexao2().getIntensidade()));
                             intRefracao.setText(String.format("%.2f", controller.getFeixeRefracao().getIntensidade()));
                             
-                            //adiciona dados da simulação à lista para efeitos de estatística
-                            controller.addListaSimulacoes();
+                            
                             
                             // adiciona dados ao grafico
                             double angInc= Double.parseDouble(angIncidencia.getText());

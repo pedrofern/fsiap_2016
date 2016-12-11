@@ -467,6 +467,10 @@ public class DefinirPolarizaoUI extends JFrame{
      * Método para gerar estatísticas
      */
     private void estatistica() {
+        if(lg.getListaSimulacoes().getListaPolarizacoesReflexao().isEmpty())
+           JOptionPane.showMessageDialog(this,
+                "Não há simulações criadas", "Erro", JOptionPane.ERROR_MESSAGE);
+        else
         peui = new EstatisticaUI(this,lg);
     }
     
