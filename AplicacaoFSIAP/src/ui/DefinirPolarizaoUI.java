@@ -83,11 +83,13 @@ public class DefinirPolarizaoUI extends JFrame{
         controlFicheiro = new CarregarFicheiroController(lg);
         controlFicheiro.carregaMeiosAutomaticamente();
         
-        JPanel botoes = criarBotoes();
+        JPanel botoes1 = criarBotoes1();
+        JPanel botoes2 = criarBotoes2();
         JPanel imagem = criarPainelImagem();
         
         add(imagem, BorderLayout.CENTER);
-        add(botoes, BorderLayout.EAST);
+        add(botoes1, BorderLayout.WEST);
+        add(botoes2, BorderLayout.EAST);
         JPanel painelBtnSair = new JPanel(new BorderLayout());
         painelBtnSair.setBorder(new EmptyBorder(0, 30, 10, 30));
         painelBtnSair.add(criarBotaoSair(), BorderLayout.CENTER);
@@ -114,24 +116,41 @@ public class DefinirPolarizaoUI extends JFrame{
      * cria botões
      * @return botões
      */
-    private JPanel criarBotoes() {
-        GridLayout gl = new GridLayout(3,1);
+    private JPanel criarBotoes1() {
+        GridLayout gl = new GridLayout(2,1);
 
-        gl.setHgap(30);
-        gl.setVgap(30);
+        gl.setHgap(50);
+        gl.setVgap(50);
 
-        final int MARGEM_SUPERIOR = 10, MARGEM_INFERIOR = 10;
+        final int MARGEM_SUPERIOR = 30, MARGEM_INFERIOR = 30;
         final int MARGEM_ESQUERDA = 30, MARGEM_DIREITA = 30;
 
         JPanel p = new JPanel(gl);
         p.setBorder(BorderFactory.createEmptyBorder(MARGEM_SUPERIOR,
                 MARGEM_ESQUERDA, MARGEM_INFERIOR, MARGEM_DIREITA));
         p.add(criarBotaoAbsorcao());
-        p.add(criarBotaoReflexao());
         p.add(criarBotaoCarregaFich());
-        p.add(criarBotaoEstatistica());
 
-        this.getRootPane().setDefaultButton(botaoAbsorcao);
+        return p;
+    }
+    /**
+     * cria botões
+     * @return botões
+     */
+    private JPanel criarBotoes2() {
+        GridLayout gl = new GridLayout(2,1);
+
+        gl.setHgap(50);
+        gl.setVgap(50);
+
+        final int MARGEM_SUPERIOR = 30, MARGEM_INFERIOR = 30;
+        final int MARGEM_ESQUERDA = 30, MARGEM_DIREITA = 30;
+
+        JPanel p = new JPanel(gl);
+        p.setBorder(BorderFactory.createEmptyBorder(MARGEM_SUPERIOR,
+                MARGEM_ESQUERDA, MARGEM_INFERIOR, MARGEM_DIREITA));
+        p.add(criarBotaoReflexao());
+        p.add(criarBotaoEstatistica());
 
         return p;
     }
@@ -202,7 +221,7 @@ public class DefinirPolarizaoUI extends JFrame{
      * @return botão reflexao
      */
     private JButton criarBotaoEstatistica() {
-        Icon icone = new ImageIcon( "src/ficheiros/polarização_reflexao.jpg" );
+        Icon icone = new ImageIcon( "src/ficheiros/estatistica.jpg" );
         botaoReflexao = new JButton(" Estatística", icone);
         botaoReflexao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         botaoReflexao.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);

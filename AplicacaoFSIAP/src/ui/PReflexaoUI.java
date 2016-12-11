@@ -420,9 +420,7 @@ public class PReflexaoUI extends JDialog{
                             intReflexaoPar.setText(String.format("%.2f", controller.getFeixeReflexao1().getIntensidade()));
                             intReflexaoPerp.setText(String.format("%.2f", controller.getFeixeReflexao2().getIntensidade()));
                             intRefracao.setText(String.format("%.2f", controller.getFeixeRefracao().getIntensidade()));
-                            
-                            
-                            
+    
                             // adiciona dados ao grafico
                             double angInc= Double.parseDouble(angIncidencia.getText());
                             double angRefra= controller.getFeixeRefracao().getAngulo();
@@ -435,16 +433,30 @@ public class PReflexaoUI extends JDialog{
                             XYSeries serie2 = new XYSeries("REFLEXAO");
                             XYSeries serie3 = new XYSeries("EIXO Y");
                             XYSeries serie4 = new XYSeries("EIXO X");
-            
-                            serie0.add(0, 0);
-                            serie0.add(-((Math.tan(Math.toRadians(angInc)))), 1.0);
                             
-                            serie1.add(0, 0);
-                            serie1.add((Math.tan(Math.toRadians(angRefra))), -1.0);
+                            if(meio1==meio2){
+                                serie0.add(-((Math.tan(Math.toRadians(angInc)))), 1.0);
+                                serie0.add(0, 0);                                
+                                serie0.add(((Math.tan(Math.toRadians(angInc)))), -1.0);
 
-                            serie2.add(0, 0);
-                            serie2.add(((Math.tan(Math.toRadians(angRefle)))), 1.0);
-                            
+                            }else{
+                                if(angInc==90){
+                                    serie0.add(0, 0);
+                                    serie0.add(0, 1.0);
+                                    
+                                    serie1.add(0, 0);
+                                    serie1.add(0, -1.0);
+                                }else{
+                                serie0.add(0, 0);
+                                serie0.add(-((Math.tan(Math.toRadians(angInc)))), 1.0);
+
+                                serie1.add(0, 0);
+                                serie1.add((Math.tan(Math.toRadians(angRefra))), -1.0);
+
+                                serie2.add(0, 0);
+                                serie2.add(((Math.tan(Math.toRadians(angRefle)))), 1.0);
+                                }
+                            }
 
                             //para manter escala x=1,y=1
                             serie3.add(0.0, 1.0);
