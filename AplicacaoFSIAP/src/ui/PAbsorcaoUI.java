@@ -175,7 +175,7 @@ public class PAbsorcaoUI extends JDialog {
         p.setBorder(new TitledBorder("Feixe Incidente"));
 
         intTxt1 = new JTextField(5);
-        p.add(criarPainelLabelTextfield2("Intensidade: ", intTxt1, "Amperes"), BorderLayout.NORTH);
+        p.add(criarPainelLabelTextfield2("Intensidade: ", intTxt1, "W/m2"), BorderLayout.NORTH);
 
         JPanel radioButtPanel = new JPanel();
         radioButtPanel.setBorder(new TitledBorder("Tipo de Luz"));
@@ -288,7 +288,7 @@ public class PAbsorcaoUI extends JDialog {
         intTxt2 = new JTextField(5);
         intTxt2.setEditable(false);
 
-        p.add(criarPainelLabelTextfield2("Intensidade: ", intTxt2, "Amperes"));
+        p.add(criarPainelLabelTextfield2("Intensidade: ", intTxt2, "W/m2"));
 
         return p;
     }
@@ -348,7 +348,7 @@ public class PAbsorcaoUI extends JDialog {
         intTxt3 = new JTextField(5);
         intTxt3.setEditable(false);
 
-        p.add(criarPainelLabelTextfield2("Intensidade: ", intTxt3, "Amperes"));
+        p.add(criarPainelLabelTextfield2("Intensidade: ", intTxt3, "W/m2"));
 
         return p;
     }
@@ -588,11 +588,11 @@ public class PAbsorcaoUI extends JDialog {
 
     private void guardarDadosSimulacao_EmFicheiro() throws FileNotFoundException {
         final DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-        System.out.println("data:" + sdf.format(date));
-
-        Calendar cal = Calendar.getInstance();
-        System.out.println("horas:" + sdf.format(cal.getTime()));
+//        Date date = new Date();
+//        System.out.println("data:" + sdf.format(date));
+//
+//        Calendar cal = Calendar.getInstance();
+//        System.out.println("horas:" + sdf.format(cal.getTime()));
 
 //        LocalDateTime now = LocalDateTime.now();
 //        System.out.println(dtf.format(now));
@@ -638,7 +638,7 @@ public class PAbsorcaoUI extends JDialog {
 
             final DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
-            System.out.println("data:" + sdf.format(date));
+//            System.out.println("data:" + sdf.format(date));
 
             output.format("%s %n%s %n%s%s %n%s",
                     "=======================================",
